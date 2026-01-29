@@ -16,4 +16,11 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
+
+  public static class SHOOTER_SUBSYSTEM_CONSTANTS{
+    public static final int MainShooterMotor = 14;
+    public static final int FollowShooterMotor1 = 15;
+    public static final int ReverseFollowShooterMotor2 = 16;
+    public static final int ReverseFollowShooterMotor3 = 17;
+  }
 }
