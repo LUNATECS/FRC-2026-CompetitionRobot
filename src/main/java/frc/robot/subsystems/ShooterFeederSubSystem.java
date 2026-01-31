@@ -5,10 +5,23 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+
+import com.ctre.phoenix6.hardware.TalonFX;
 
 public class ShooterFeederSubSystem extends SubsystemBase {
+  
+  private TalonFX shooterFeeder;
+  
   /** Creates a new ShooterFeederSubSystem. */
-  public ShooterFeederSubSystem() {}
+  public ShooterFeederSubSystem() {
+    shooterFeeder = new TalonFX(Constants.Shooter_Feeder_SubSystem_Constants.CAN_ID_SHOOTER_FEEDER);
+  }
+
+public void setSpeed(double speed){
+  shooterFeeder.set(speed);
+  //spins counterclockwise
+}
 
   @Override
   public void periodic() {
