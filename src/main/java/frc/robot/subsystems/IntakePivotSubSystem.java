@@ -4,11 +4,23 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.hardware.TalonFX;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class IntakePivotSubSystem extends SubsystemBase {
+  
+  private TalonFX intakePivotMotor;
+
   /** Creates a new IntakePivotSubSystem. */
-  public IntakePivotSubSystem() {}
+  public IntakePivotSubSystem() {
+    intakePivotMotor = new TalonFX(Constants.Intake_Pivot_SubSystem_Constants.CAN_ID_INTAKE_PIVOT);
+  }
+
+  public void setSpeed(double speed){
+    intakePivotMotor.set(speed);
+  }
 
   @Override
   public void periodic() {
