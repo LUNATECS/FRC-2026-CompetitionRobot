@@ -17,10 +17,38 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
-  public static class SHOOTER_SUBSYSTEM_CONSTANTS{
-    public static final int MainShooterMotor = 14;
-    public static final int FollowShooterMotor1 = 15;
-    public static final int ReverseFollowShooterMotor2 = 16;
-    public static final int ReverseFollowShooterMotor3 = 17;
+  public static class Intake_Pivot_SubSystem_Constants{
+    public static final int CAN_ID_INTAKE_PIVOT = 9;
+  }
+
+  public static class Intake_SubSystem_Constants{
+    public static final int CAN_ID_INTAKE = 10;
+  }
+
+  public static class Hopper_SubSystem_Constants{
+    public static final int CAN_ID_HOPPER = 11;
+  }
+
+  public static class Hopper_Feeder_SubSystem_Constants{
+    public static final int CAN_ID_FEEDER_BELTS = 12;
+  }
+
+  public static class Shooter_Feeder_SubSystem_Constants{
+    public static final int CAN_ID_SHOOTER_FEEDER = 13;
+  }
+
+  public static class Shooter_SubSystem_Constants{
+    public static final int CAN_ID_SHOOTER1 = 14;
+    public static final int CAN_ID_SHOOTER2 = 15;
+    public static final int CAN_ID_SHOOTER3 = 16;
+    public static final int CAN_ID_SHOOTER4 = 17;
+  }
+
+  public static class Hood_SubSystem_Constants{
+    public static final int CAN_ID_HOOD = 18;
+  }
+
+  public static class Climber_SubSystem_Constants{
+    public static final int CAN_ID_CLIMBER = 19;
   }
 }
