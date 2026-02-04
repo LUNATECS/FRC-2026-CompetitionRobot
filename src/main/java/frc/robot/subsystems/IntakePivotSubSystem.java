@@ -21,7 +21,7 @@ public class IntakePivotSubSystem extends SubsystemBase {
     intakePivotMotor = new TalonFX(Constants.Intake_Pivot_SubSystem_Constants.CAN_ID_INTAKE_PIVOT);
 
     var motorOutputConfigs = new MotorOutputConfigs();
-    motorOutputConfigs.NeutralMode = NeutralModeValue.Coast;
+    motorOutputConfigs.NeutralMode = NeutralModeValue.Brake;
     motorOutputConfigs.Inverted = InvertedValue.Clockwise_Positive;
 
     intakePivotMotor.getConfigurator().apply(motorOutputConfigs);
