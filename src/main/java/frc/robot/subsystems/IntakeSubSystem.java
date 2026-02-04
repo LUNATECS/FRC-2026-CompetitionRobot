@@ -4,7 +4,13 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
+
 import com.ctre.phoenix6.hardware.TalonFX;
+
+import com.ctre.phoenix6.signals.InvertedValue;
+
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -16,6 +22,13 @@ public class IntakeSubSystem extends SubsystemBase {
   /** Creates a new IntakeSubSystem. */
   public IntakeSubSystem() {
     intakeMotor = new TalonFX(Constants.Intake_SubSystem_Constants.CAN_ID_INTAKE);
+
+    var motorOutputConfigs = new MotorOutputConfigs();
+    motorOutputConfigs.NeutralMode = NeutralModeValue.Brake;
+    motorOutputConfigs.Inverted = InvertedValue.CounterClockwise_Positive;
+
+    intakeMotor.getConfigurator().apply(motorOutputConfigs);
+
   }
 
   public void setSpeed(double speed){
