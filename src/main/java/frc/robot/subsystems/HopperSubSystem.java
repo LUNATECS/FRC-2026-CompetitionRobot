@@ -4,11 +4,34 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class HopperSubSystem extends SubsystemBase {
+
+  private TalonFX hopperMotor;
+
   /** Creates a new HopperRackSubSystem. */
-  public HopperSubSystem() {}
+  public HopperSubSystem() {
+
+    hopperMotor = new TalonFX(Constants.Hopper_SubSystem_Constants.CAN_ID_HOPPER);
+
+    var motorOutputConfigs = new MotorOutputConfigs();
+    motorOutputConfigs.NeutralMode = NeutralModeValue.Brake;
+    motorOutputConfigs.Inverted = InvertedValue.CounterClockwise_Positive;
+
+    hopperMotor.getConfigurator().apply(motorOutputConfigs);
+  }
+
+  public void setSpeed(double speed){
+    hopperMotor.set(speed);
+  }
+
 
   @Override
   public void periodic() {
