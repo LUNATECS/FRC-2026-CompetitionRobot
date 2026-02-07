@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -15,6 +16,7 @@ import frc.robot.Constants;
 public class IntakePivotSubSystem extends SubsystemBase {
   
   private TalonFX intakePivotMotor;
+  private final double gearRatio = 96;
 
   /** Creates a new IntakePivotSubSystem. */
   public IntakePivotSubSystem() {
@@ -24,12 +26,22 @@ public class IntakePivotSubSystem extends SubsystemBase {
     motorOutputConfigs.NeutralMode = NeutralModeValue.Brake;
     motorOutputConfigs.Inverted = InvertedValue.Clockwise_Positive;
 
+    var feedbackConfigs = new FeedbackConfigs();
+    feedbackConfigs.SensorToMechanismRatio = gearRatio;
+    
+
     intakePivotMotor.getConfigurator().apply(motorOutputConfigs);
+    intakePivotMotor.getConfigurator().apply(feedbackConfigs);
+
 
   }
 
   public void setSpeed(double speed){
     intakePivotMotor.set(speed);
+  }
+
+  public double getDegreesOfPivot() {
+    return intakePivotMotor.getPosition().getValueAsDouble()*360;
   }
 
   @Override

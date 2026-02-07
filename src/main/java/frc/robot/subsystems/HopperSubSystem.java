@@ -15,7 +15,7 @@ import frc.robot.Constants;
 public class HopperSubSystem extends SubsystemBase {
 
   private TalonFX hopperMotor;
-
+  
   /** Creates a new HopperRackSubSystem. */
   public HopperSubSystem() {
 
