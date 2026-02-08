@@ -8,13 +8,28 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 
+import java.time.Instant;
+
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.trajectory.PathPlannerTrajectory;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.IntakePivotCommand;
+import frc.robot.commands.ShooterBangBangControlCommand;
+import frc.robot.commands.ShooterVelocityCommand;
+import frc.robot.subsystems.ClimberSubSystem;
+import frc.robot.subsystems.HoodSubSystem;
+import frc.robot.subsystems.HopperFeederSubSystem;
+import frc.robot.subsystems.HopperSubSystem;
+import frc.robot.subsystems.IntakePivotSubSystem;
+import frc.robot.subsystems.IntakeSubSystem;
+import frc.robot.subsystems.ShooterFeederSubSystem;
+import frc.robot.subsystems.ShooterSubSystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -25,9 +40,18 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final ShooterSubSystem shooter = new ShooterSubSystem();
+  private final ShooterFeederSubSystem shooterFeeder = new ShooterFeederSubSystem();
+  private final IntakeSubSystem intake = new IntakeSubSystem();
+  private final IntakePivotSubSystem intakePivot = new IntakePivotSubSystem();
+  private final HopperSubSystem hopper = new HopperSubSystem();
+  private final HopperFeederSubSystem hopperFeeder = new HopperFeederSubSystem();
+  private final HoodSubSystem hood = new HoodSubSystem();
+  private final ClimberSubSystem climber = new ClimberSubSystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandPS5Controller driver = new CommandPS5Controller(Constants.DriverConstants.DRIVER_CONTROLLER_PORT);
+  private final CommandPS5Controller tester = new CommandPS5Controller(2);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -47,11 +71,57 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new Trigger(m_exampleSubsystem::exampleCondition)
-        .onTrue(new ExampleCommand(m_exampleSubsystem));
+    //new Trigger(m_exampleSubsystem::exampleCondition)
+    //  .onTrue(new ExampleCommand(m_exampleSubsystem));
+
+    //TESTING SUBSYSTEMS WITH TESTER CONTROLLER
+    tester.square().onTrue(new InstantCommand(() -> {
+    hopperFeeder.setSpeed(1);
+    intake.setSpeed(1);
+    shooterFeeder.setSpeed(1);
+  }))
+    .onFalse(new InstantCommand(()->{
+      hopperFeeder.setSpeed(0);
+      intake.setSpeed(0);
+      shooterFeeder.setSpeed(0);
+  }));
+
+  tester.triangle().onTrue(new InstantCommand(() -> {
+    hopperFeeder.setSpeed(-1);
+    intake.setSpeed(-1);
+    shooterFeeder.setSpeed(-1);
+  }))
+    .onFalse(new InstantCommand(()->{
+      hopperFeeder.setSpeed(0);
+      intake.setSpeed(0);
+      shooterFeeder.setSpeed(0);
+  }));
+
+  //shooter testing
+  tester.povUp().onTrue(new InstantCommand(()->{shooter.setSpeed(0.5);}))
+  .onFalse(new InstantCommand(()->{shooter.setSpeed(0);}));
+
+  tester.povLeft().onTrue(new InstantCommand(()->{shooter.setSpeed(1);}))
+  .onFalse(new InstantCommand(()->{shooter.setSpeed(0);}));
+
+  tester.povDown().onTrue(new InstantCommand(()->{shooter.setSpeed(-0.5);}))
+  .onFalse(new InstantCommand(()->{shooter.setSpeed(0);}));
+  tester.povRight().onTrue(new InstantCommand(()->{shooter.setSpeed(-1);}))
+  .onFalse(new InstantCommand(()->{shooter.setSpeed(0);}));
+
+
+  //Hood Testing
+  tester.R1().onTrue(new InstantCommand(()->{hood.setSpeed(0.5);}))
+    .onFalse(new InstantCommand(()->{hood.setSpeed(0);}));
+
+  tester.L1().onTrue(new InstantCommand(()->{hood.setSpeed(-0.5);}))
+    .onFalse(new InstantCommand(()->{hood.setSpeed(0);}));
+
+  //shooter commands testing
+  tester.cross().onTrue(new ShooterVelocityCommand(shooter, 1000));
+  tester.circle().onTrue(new ShooterBangBangControlCommand(shooter, 1000));
 
   }
-
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
