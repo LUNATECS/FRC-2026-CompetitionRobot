@@ -5,13 +5,48 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+
+import com.ctre.phoenix6.configs.FeedbackConfigs;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 public class ClimberSubSystem extends SubsystemBase {
-  /** Creates a new ClimberSubSystem. */
-  public ClimberSubSystem() {}
+  
+  private TalonFX climberMotor;
+  private final double gearRatio = 400;
 
-  @Override
+  
+  /** Creates a new ShooterFeederSubSystem. */
+  public ClimberSubSystem() {
+    climberMotor = new TalonFX(Constants.Climber_SubSystem_Constants.CAN_ID_CLIMBER);
+
+    var motorOutputConfigs = new MotorOutputConfigs();
+    motorOutputConfigs.NeutralMode = NeutralModeValue.Brake;
+    motorOutputConfigs.Inverted = InvertedValue.Clockwise_Positive;
+
+    climberMotor.getConfigurator().apply(motorOutputConfigs);
+    var feedbackConfigs = new FeedbackConfigs();
+    feedbackConfigs.SensorToMechanismRatio = gearRatio;
+    
+
+    climberMotor.getConfigurator().apply(motorOutputConfigs);
+    climberMotor.getConfigurator().apply(feedbackConfigs);
+  }
+
+  public void setSpeed(double speed){
+    climberMotor.set(speed);
+
+  }
+  
+  public double getDegreesOfPivot() {
+    return climberMotor.getPosition().getValueAsDouble()*360;
+  }
+    @Override
   public void periodic() {
     // This method will be called once per scheduler run
   }
+
 }

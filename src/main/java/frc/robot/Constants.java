@@ -46,6 +46,7 @@ public final class Constants {
 
   public static class Hood_SubSystem_Constants{
     public static final int CAN_ID_HOOD = 18;
+    public static final int CAN_ID_HOOD_ENCODER = 24;
   }
 
   public static class Climber_SubSystem_Constants{

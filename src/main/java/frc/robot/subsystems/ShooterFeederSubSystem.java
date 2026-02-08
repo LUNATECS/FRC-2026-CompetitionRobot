@@ -7,7 +7,10 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 public class ShooterFeederSubSystem extends SubsystemBase {
   
@@ -16,6 +19,13 @@ public class ShooterFeederSubSystem extends SubsystemBase {
   /** Creates a new ShooterFeederSubSystem. */
   public ShooterFeederSubSystem() {
     shooterFeeder = new TalonFX(Constants.Shooter_Feeder_SubSystem_Constants.CAN_ID_SHOOTER_FEEDER);
+
+    var motorOutputConfigs = new MotorOutputConfigs();
+    motorOutputConfigs.NeutralMode = NeutralModeValue.Brake;
+    motorOutputConfigs.Inverted = InvertedValue.CounterClockwise_Positive;
+
+    shooterFeeder.getConfigurator().apply(motorOutputConfigs);
+
   }
 
 public void setSpeed(double speed){
