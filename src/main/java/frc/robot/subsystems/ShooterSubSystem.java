@@ -25,6 +25,7 @@ public class ShooterSubSystem extends SubsystemBase {
   private TalonFX shooterMotor2;
   private TalonFX shooterMotor3;
   private TalonFX shooterMotor4;
+  public double shooterTargetRPM = 0;
 
   private final double gearRatio = 1.25;
 
@@ -48,10 +49,13 @@ public class ShooterSubSystem extends SubsystemBase {
     motorOutputConfigs.Inverted = InvertedValue.CounterClockwise_Positive;
 
     var slot0Configs = new Slot0Configs();
-    slot0Configs.kV = 0;
-    slot0Configs.kP = 0;
+    //Slot configs untested but are good base values
+    slot0Configs.kV = 0.28;
+    slot0Configs.kP = 0.12;
     slot0Configs.kI = 0;
     slot0Configs.kD = 0;
+    //FOR ADJUSTING, FIRST SET PID VALUES TO 0, AND SEE IF kV is reaching setpoint consistenly across all ranges, then
+    //test recovery by increasing/decreasing the P value. 
 
     shooterMotor1.getConfigurator().apply(slot0Configs);
     shooterMotor1.getConfigurator().apply(feedbackConfigs);
@@ -65,6 +69,7 @@ public class ShooterSubSystem extends SubsystemBase {
   }
 
   public void setRPM(double rpm){
+    shooterTargetRPM = rpm;
     shooterMotor1.setControl(motorVelocity.withVelocity(rpm/60));
   }
 
@@ -72,8 +77,20 @@ public class ShooterSubSystem extends SubsystemBase {
     shooterMotor1.set(speed);
   }
 
+  public void setVoltage (double volts){
+    shooterMotor1.setVoltage(volts);
+  }
+
+
+  public boolean atSpeed() {
+  return Math.abs(getRPM() - shooterTargetRPM) < 50;
+  // TO ADD FOR LATER: Check Recovery time/Consistentcy
+  }
+
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("Shooter Target RPM", shooterTargetRPM);
+    SmartDashboard.putBoolean("Shooter At Speed", atSpeed());
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("shooter RPM", getRPM());
   }
