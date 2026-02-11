@@ -93,5 +93,6 @@ public class ShooterSubSystem extends SubsystemBase {
     SmartDashboard.putBoolean("Shooter At Speed", atSpeed());
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("shooter RPM", getRPM());
+    SmartDashboard.putNumber("Shooter motor voltage", shooterMotor1.getMotorVoltage().getValueAsDouble());
   }
 }

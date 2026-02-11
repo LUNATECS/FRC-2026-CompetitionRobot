@@ -93,16 +93,16 @@ public class RobotContainer {
   }));
 
   //shooter testing
-  tester.povUp().onTrue(new InstantCommand(()->{shooter.setSpeed(0.5);}))
-  .onFalse(new InstantCommand(()->{shooter.setSpeed(0);}));
+  tester.povUp().onTrue(new InstantCommand(()->{shooter.setSpeed(0.5);}, shooter))
+  .onFalse(new InstantCommand(()->{shooter.setSpeed(0);}, shooter));
 
-  tester.povLeft().onTrue(new InstantCommand(()->{shooter.setSpeed(1);}))
-  .onFalse(new InstantCommand(()->{shooter.setSpeed(0);}));
+  tester.povLeft().onTrue(new InstantCommand(()->{shooter.setSpeed(1);}, shooter))
+  .onFalse(new InstantCommand(()->{shooter.setSpeed(0);}, shooter));
 
-  tester.povDown().onTrue(new InstantCommand(()->{shooter.setSpeed(-0.5);}))
-  .onFalse(new InstantCommand(()->{shooter.setSpeed(0);}));
-  tester.povRight().onTrue(new InstantCommand(()->{shooter.setSpeed(-1);}))
-  .onFalse(new InstantCommand(()->{shooter.setSpeed(0);}));
+  tester.povDown().onTrue(new InstantCommand(()->{shooter.setSpeed(-0.5);}, shooter))
+  .onFalse(new InstantCommand(()->{shooter.setSpeed(0);}, shooter));
+  tester.povRight().onTrue(new InstantCommand(()->{shooter.setSpeed(-1);}, shooter))
+  .onFalse(new InstantCommand(()->{shooter.setSpeed(0);}, shooter));
 
 
   //Hood Testing
