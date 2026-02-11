@@ -36,7 +36,17 @@ public class IntakePivotCommand extends Command {
   @Override
   public void execute() {
     double speed = pController.calculate(intakePivotSubSystem.getDegreesOfPivot());
-    intakePivotSubSystem.setSpeed(speed);
+    if(speed >= 0.5){
+      intakePivotSubSystem.setSpeed(0.5);
+    } 
+    if(speed <= -0.5){
+      intakePivotSubSystem.setSpeed(-0.5);
+    }
+    if(speed < 0.5 && speed > -0.5){
+      intakePivotSubSystem.setSpeed(speed);
+    }
+
+    //intakePivotSubSystem.setSpeed(speed);
 
   }
 
