@@ -7,25 +7,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "1 Cycle Climb Collect"
+            "pathName": "Right 1 Cycle Climb Collect"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "1 Cycle Climb Get Ball"
+            "pathName": "Right 1 Cycle Climb Get Ball"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "1 Cycle Climb Return"
+            "pathName": "Right 1 Cycle Climb Return"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "1 Cycle Climb Shoot"
+            "pathName": "Right 1 Cycle Climb Shoot"
           }
         }
       ]
