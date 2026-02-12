@@ -486,6 +486,46 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 return robotToTarget.getAngle();
         }
 
+        public static double calculateProjectileSpeed(double wheelRPM) {
+          //this whole method may need to be redone
+            double wheelRadius = 4.0625 / 2.0; 
+            double omegaRadPerSec = 2 * Math.PI * wheelRPM / 60.0; // convert RPM to rad/
+            return omegaRadPerSec * wheelRadius * 0.95; //adjust slip factor depending on tuning
+        }
+
+        public Translation2d getFieldAcceleration() {
+          double ax = getPigeon2().getAccelerationX().getValueAsDouble() * 9.80665;
+          double ay = getPigeon2().getAccelerationY().getValueAsDouble() * 9.80665;
+
+          Rotation2d rot = getPose().getRotation();
+
+          return new Translation2d(ax, ay).rotateBy(rot);
+      }
+
+      public double computeFlightTime(double v, double deltaX, double deltaY, double launchAngleRad) {
+        double g = 9.81;
+        double vy = v * Math.sin(launchAngleRad);
+        double discriminant = vy*vy - 2 * g * deltaY;
+        if(discriminant < 0) return deltaX / (v * Math.cos(launchAngleRad)); // fallback
+        double t1 = (vy + Math.sqrt(discriminant)) / g;
+        double t2 = (vy - Math.sqrt(discriminant)) / g;
+        return Math.max(t1, t2);
+    }
+
+      public Translation2d getFieldVelocity() {
+        var speeds = getState().Speeds; // vx, vy in robot frame (m/s)
+        Rotation2d heading = getPigeon2().getRotation2d();
+
+        // Rotate robot-relative velocity into field coordinates
+        double vxField = speeds.vxMetersPerSecond * heading.getCos() - speeds.vyMetersPerSecond * heading.getSin();
+        double vyField = speeds.vxMetersPerSecond * heading.getSin() + speeds.vyMetersPerSecond * heading.getCos();
+
+        return new Translation2d(vxField, vyField);
+      }
+
+
+
+
          
          public void resetGyro(double angle) {
            getPigeon2().setYaw(angle);
