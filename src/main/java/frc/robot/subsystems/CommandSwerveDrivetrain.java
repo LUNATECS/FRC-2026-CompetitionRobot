@@ -15,7 +15,6 @@ import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
 import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -62,8 +61,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
    /* Keep track if we've ever applied the operator perspective before or not */
    private boolean m_hasAppliedOperatorPerspective = false;
    private boolean isAligning = false;
-   NetworkTable limelightFront = NetworkTableInstance.getDefault().getTable("limelight-front");
-   NetworkTable limelightBack = NetworkTableInstance.getDefault().getTable("limelight-back");
+   NetworkTable limelightShooter = NetworkTableInstance.getDefault().getTable("limelight-shooter");
+   NetworkTable limelightHopper = NetworkTableInstance.getDefault().getTable("limelight-hopper");
 
    private final SwerveRequest.ApplyRobotSpeeds m_ApplyRobotSpeeds = new SwerveRequest.ApplyRobotSpeeds();
    private boolean needsVisionReset = false;
@@ -277,15 +276,15 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         double robotPitch = getPigeon2().getPitch().getValueAsDouble();
         double robotRoll = getPigeon2().getRoll().getValueAsDouble();
         //Double Limelight Orientations
-        LimelightHelpers.SetRobotOrientation("limelight-front", robotYaw, robotPitch, robotRoll, 0, 0, 0);
-        LimelightHelpers.SetRobotOrientation("limelight-back", robotYaw, robotPitch, robotRoll, 0, 0, 0);
+        LimelightHelpers.SetRobotOrientation("limelight-shooter", robotYaw, robotPitch, robotRoll, 0, 0, 0);
+        LimelightHelpers.SetRobotOrientation("limelight-hopper", robotYaw, robotPitch, robotRoll, 0, 0, 0);
 
         //update odometry
         pose.update(getPigeon2().getRotation2d(), getModulePositions());
 
         //getting LL measurements
-        LimelightHelpers.PoseEstimate frontMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-front");
-        LimelightHelpers.PoseEstimate backMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-back");
+        LimelightHelpers.PoseEstimate frontMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-shooter");
+        LimelightHelpers.PoseEstimate backMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-hopper");
 
         boolean useFront = false;
         boolean useBack = false;
@@ -316,17 +315,20 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
         //apply vision measurements
         if (useFront) {
-        pose.addVisionMeasurement(
-            frontMeasurement.pose,
-            frontMeasurement.timestampSeconds,
-            VecBuilder.fill(0.7, 0.7, 9999999) // adjust confidence weights if needed
-        );
+          pose.addVisionMeasurement(frontMeasurement.pose, frontMeasurement.timestampSeconds);
+        //pose.addVisionMeasurement(
+          //  frontMeasurement.pose,
+          //  frontMeasurement.timestampSeconds,
+          //  VecBuilder.fill(0.7, 0.7, 9999999) // adjust confidence weights if needed
+        //);
         } else if (useBack) {
-            pose.addVisionMeasurement(
-                backMeasurement.pose,
-                backMeasurement.timestampSeconds,
-                VecBuilder.fill(0.7, 0.7, 9999999)
-            );
+            pose.addVisionMeasurement(backMeasurement.pose, backMeasurement.timestampSeconds);
+
+            //pose.addVisionMeasurement(
+              //  backMeasurement.pose,
+              //  backMeasurement.timestampSeconds,
+              //  VecBuilder.fill(0.7, 0.7, 9999999)
+            //);
         }
         //ABOVE IS FOR ONLY USING ONE LIMELIGHT APPROACH
 
@@ -539,27 +541,27 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
          public boolean getAutoScoreVal() {
            return autoScore;
          }
-         public double getTXFront() {
-           return limelightFront.getEntry("tx").getDouble(0.);
+         public double getTXShooter() {
+           return limelightShooter.getEntry("tx").getDouble(0.);
          }
-         public double getTXBack() {
-           return limelightBack.getEntry("tx").getDouble(0.);
+         public double getTXHopper() {
+           return limelightHopper.getEntry("tx").getDouble(0.);
          }
 
-         public double getTYFront() {
-           return limelightFront.getEntry("ty").getDouble(0.);
+         public double getTYShooter() {
+           return limelightShooter.getEntry("ty").getDouble(0.);
          }
-         public double getTYBack() {
-           return limelightBack.getEntry("ty").getDouble(0.);
+         public double getTYHopper() {
+           return limelightHopper.getEntry("ty").getDouble(0.);
          }
-         public void resetPoseBasedOnFrontLL() {
-           var llMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-front");
+         public void resetPoseBasedOnShooterLL() {
+           var llMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-shooter");
            if (llMeasurement != null && llMeasurement.tagCount > 0) {
              pose.resetPose(llMeasurement.pose);
            }
          }
-         public void resetPoseBasedOnBackLL() {
-           var llMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-back");
+         public void resetPoseBasedOnHopperLL() {
+           var llMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-hopper");
            if (llMeasurement != null && llMeasurement.tagCount > 0) {
              pose.resetPose(llMeasurement.pose);
            }
@@ -594,15 +596,15 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
    //     // table.getEntry("RobotPose").setDoubleArray(poseArray);
    //     // SmartDashboard.putNumberArray("Raw Pose", result);
    //   }
-     public Pose2d getFrontLLPose() {
-       var array = limelightFront.getEntry("botpose_wpiblue").getDoubleArray(new double[]{0,0,0,0,0,0});
+     public Pose2d getShooterLLPose() {
+       var array = limelightShooter.getEntry("botpose_wpiblue").getDoubleArray(new double[]{0,0,0,0,0,0});
        double[] result = {array[0], array[1], array[5]};
        Pose2d pose = new Pose2d(result[0], result[1], new Rotation2d(result[2]));
        // return pose;
        return pose;
      }
-     public Pose2d getBackLLPose() {
-       var array = limelightBack.getEntry("botpose_wpiblue").getDoubleArray(new double[]{0,0,0,0,0,0});
+     public Pose2d getHopperLLPose() {
+       var array = limelightHopper.getEntry("botpose_wpiblue").getDoubleArray(new double[]{0,0,0,0,0,0});
        double[] result = {array[0], array[1], array[5]};
        Pose2d pose = new Pose2d(result[0], result[1], new Rotation2d(result[2]));
        // return pose;
