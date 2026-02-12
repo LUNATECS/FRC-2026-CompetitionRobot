@@ -79,6 +79,21 @@ public class AutoFactory {
         }
     }
 
+        public static Command pathFindThenFollowPathForAlliance(String name) {
+            Alliance alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
+            try {
+                PathPlannerPath path = PathPlannerPath.fromPathFile(name);
+                if(alliance == Alliance.Red) {
+                    path.flipPath();   // X-axis flip
+                    path.mirrorPath(); // Y-axis flip if needed
+                }
+                return AutoBuilder.pathfindThenFollowPath(path, constraints);
+            } catch(Exception e) {
+                e.printStackTrace();
+                return Commands.none();
+            }
+        }
+
 
         public static Command followPath(String name) {
             try {

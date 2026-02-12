@@ -27,6 +27,9 @@ public class OneCycleNoClimbAuto {
             AutoFactory.followPathForAlliance("1 Cycle Climb Return"),
             //Then we would need to have another dead reckoning over bump
             AutoFactory.followPathForAlliance("1 Cycle Climb Shoot")
+            //OR
+            AutoFactory.pathFindThenFollowPathForAlliance("1 Cycle Climb Shoot");
+            //BECAUSE we can pathfind over the bump!!! W/ Lydia
             //then shoot or something like that
             
         );
