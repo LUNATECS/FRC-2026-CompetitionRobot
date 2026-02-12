@@ -272,9 +272,115 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
   
        @Override
        public void periodic() {
+        //Setting Rotations
+        double robotYaw = getPigeon2().getYaw().getValueAsDouble();
+        double robotPitch = getPigeon2().getPitch().getValueAsDouble();
+        double robotRoll = getPigeon2().getRoll().getValueAsDouble();
+        //Double Limelight Orientations
+        LimelightHelpers.SetRobotOrientation("limelight-front", robotYaw, robotPitch, robotRoll, 0, 0, 0);
+        LimelightHelpers.SetRobotOrientation("limelight-back", robotYaw, robotPitch, robotRoll, 0, 0, 0);
+
+        //update odometry
+        pose.update(getPigeon2().getRotation2d(), getModulePositions());
+
+        //getting LL measurements
+        LimelightHelpers.PoseEstimate frontMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-front");
+        LimelightHelpers.PoseEstimate backMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-back");
+
+        boolean useFront = false;
+        boolean useBack = false;
+
+        //only use camera if it sees atleast one tag
+        if (frontMeasurement != null && frontMeasurement.tagCount > 0) {
+        useFront = true;
+        }
+        if (backMeasurement != null && backMeasurement.tagCount > 0) {
+            useBack = true;
+        }
+
+        //pick the one with more tags
+        if (useFront && useBack) {
+            if (frontMeasurement.tagCount >= backMeasurement.tagCount) {
+                useBack = false; // prefer front
+            } else {
+                useFront = false; // prefer back
+            }
+        }
+        //reject spinning too fast
+        double angularVelocityZ = getPigeon2().getAngularVelocityZWorld().getValueAsDouble();
+        if (Math.abs(angularVelocityZ) > 720) {
+            useFront = false;
+            useBack = false;
+        }
+
+
+        //apply vision measurements
+        if (useFront) {
+        pose.addVisionMeasurement(
+            frontMeasurement.pose,
+            frontMeasurement.timestampSeconds,
+            VecBuilder.fill(0.7, 0.7, 9999999) // adjust confidence weights if needed
+        );
+        } else if (useBack) {
+            pose.addVisionMeasurement(
+                backMeasurement.pose,
+                backMeasurement.timestampSeconds,
+                VecBuilder.fill(0.7, 0.7, 9999999)
+            );
+        }
+        //ABOVE IS FOR ONLY USING ONE LIMELIGHT APPROACH
+
+        //BELOW IS FUSING BOTH, but it's commented out for now :(
+        // Reject vision updates if spinning too fast
+        /* 
+        double angularVelocityZ = getPigeon2().getAngularVelocityZWorld().getValueAsDouble();
+        boolean rejectVision = Math.abs(angularVelocityZ) > 720;
+
+        if (!rejectVision) {
+            // Default standard deviations
+            double frontWeight = 0.7; // smaller = more confidence and more integrated
+            double backWeight = 0.7;
+
+            // Increase confidence if one camera sees more tags than the other
+            if (frontMeasurement != null && backMeasurement != null) {
+                if (frontMeasurement.tagCount > backMeasurement.tagCount) {
+                    frontWeight = 0.4; // more trusted
+                    backWeight = 1.0;  // less trusted
+                } else if (backMeasurement.tagCount > frontMeasurement.tagCount) {
+                    backWeight = 0.4;  // more trusted
+                    frontWeight = 1.0; // less trusted
+                }
+                // if equal, keep default
+            }
+
+            // Fuse front Limelight
+            if (frontMeasurement != null && frontMeasurement.tagCount > 0) {
+                pose.addVisionMeasurement(
+                    frontMeasurement.pose,
+                    frontMeasurement.timestampSeconds,
+                    VecBuilder.fill(frontWeight, frontWeight, 9999999)
+                );
+            }
+
+            // Fuse back Limelight
+            if (backMeasurement != null && backMeasurement.tagCount > 0) {
+                pose.addVisionMeasurement(
+                    backMeasurement.pose,
+                    backMeasurement.timestampSeconds,
+                    VecBuilder.fill(backWeight, backWeight, 9999999)
+                );
+            }
+        }
+        */
+
+
+
+        //OLD VERSION-Single Limelight
+        /* 
          double robotYaw = getPigeon2().getYaw().getValueAsDouble();
          double robotPitch = getPigeon2().getPitch().getValueAsDouble();
          double robotRoll = getPigeon2().getRoll().getValueAsDouble();
+         
          //Use roll and pitch values if we want to actually see if we're over the bump or not
          LimelightHelpers.SetRobotOrientation("limelight-front", robotYaw, 0, 0, 0, 0, 0);
 
