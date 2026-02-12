@@ -15,15 +15,15 @@ import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autos.PracticeAuto;
-import frc.robot.commands.IntakePivotCommand;
+//import frc.robot.commands.IntakePivotCommand;
 import frc.robot.commands.ShooterBangBangControlCommand;
 import frc.robot.commands.ShooterVelocityCommand;
 import frc.robot.subsystems.ClimberSubSystem;
 import frc.robot.subsystems.HoodSubSystem;
 import frc.robot.subsystems.HopperFeederSubSystem;
 import frc.robot.subsystems.HopperSubSystem;
-import frc.robot.subsystems.IntakePivotSubSystem;
-import frc.robot.subsystems.IntakeSubSystem;
+//import frc.robot.subsystems.IntakePivotSubSystem;
+//import frc.robot.subsystems.IntakeSubSystem;
 import frc.robot.subsystems.ShooterFeederSubSystem;
 import frc.robot.subsystems.ShooterSubSystem;
 
@@ -37,8 +37,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ShooterSubSystem shooter = new ShooterSubSystem();
   private final ShooterFeederSubSystem shooterFeeder = new ShooterFeederSubSystem();
-  private final IntakeSubSystem intake = new IntakeSubSystem();
-  private final IntakePivotSubSystem intakePivot = new IntakePivotSubSystem();
+  //private final IntakeSubSystem intake = new IntakeSubSystem();
+  //private final IntakePivotSubSystem intakePivot = new IntakePivotSubSystem();
   private final HopperSubSystem hopper = new HopperSubSystem();
   private final HopperFeederSubSystem hopperFeeder = new HopperFeederSubSystem();
   private final HoodSubSystem hood = new HoodSubSystem();
@@ -46,7 +46,7 @@ public class RobotContainer {
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandPS5Controller driver = new CommandPS5Controller(Constants.DriverConstants.DRIVER_CONTROLLER_PORT);
-  private final CommandPS5Controller tester = new CommandPS5Controller(2);
+  private final CommandPS5Controller tester = new CommandPS5Controller(1);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -71,33 +71,33 @@ public class RobotContainer {
 
     //TESTING SUBSYSTEMS WITH TESTER CONTROLLER
     tester.square().onTrue(new InstantCommand(() -> {
-    hopperFeeder.setSpeed(1);
-    intake.setSpeed(1);
-    shooterFeeder.setSpeed(1);
-  }))
-    .onFalse(new InstantCommand(()->{
-      hopperFeeder.setSpeed(0);
-      intake.setSpeed(0);
-      shooterFeeder.setSpeed(0);
-  }));
-
-  tester.triangle().onTrue(new InstantCommand(() -> {
-    hopperFeeder.setSpeed(-1);
-    intake.setSpeed(-1);
+    hopperFeeder.setSpeed(1.5);
+    //intake.setSpeed(1);
     shooterFeeder.setSpeed(-1);
   }))
     .onFalse(new InstantCommand(()->{
       hopperFeeder.setSpeed(0);
-      intake.setSpeed(0);
+      //intake.setSpeed(0);
+      shooterFeeder.setSpeed(0);
+  }));
+
+  tester.triangle().onTrue(new InstantCommand(() -> {
+    hopperFeeder.setSpeed(-1.5);
+    //intake.setSpeed(-1);
+    shooterFeeder.setSpeed(1);
+  }))
+    .onFalse(new InstantCommand(()->{
+      hopperFeeder.setSpeed(0);
+      //intake.setSpeed(0);
       shooterFeeder.setSpeed(0);
   }));
 
   //shooter testing
-  tester.povUp().onTrue(new InstantCommand(()->{shooter.setSpeed(0.5);}))
-  .onFalse(new InstantCommand(()->{shooter.setSpeed(0);}));
+  tester.povUp().onTrue(new InstantCommand(()->{shooter.setSpeed(0.25);}, shooter))
+  .onFalse(new InstantCommand(()->{shooter.setSpeed(0);}, shooter));
 
-  tester.povLeft().onTrue(new InstantCommand(()->{shooter.setSpeed(1);}))
-  .onFalse(new InstantCommand(()->{shooter.setSpeed(0);}));
+  tester.povLeft().onTrue(new InstantCommand(()->{shooter.setSpeed(1);}, shooter))
+  .onFalse(new InstantCommand(()->{shooter.setSpeed(0);}, shooter));
 
   tester.povDown().onTrue(new InstantCommand(()->{shooter.setSpeed(-0.5);}))
   .onFalse(new InstantCommand(()->{shooter.setSpeed(0);}));
@@ -106,11 +106,19 @@ public class RobotContainer {
 
 
   //Hood Testing
-  tester.R1().onTrue(new InstantCommand(()->{hood.setSpeed(0.5);}))
+  tester.R1().onTrue(new InstantCommand(()->{hood.setSpeed(0.15);}))
     .onFalse(new InstantCommand(()->{hood.setSpeed(0);}));
 
-  tester.L1().onTrue(new InstantCommand(()->{hood.setSpeed(-0.5);}))
+  tester.L1().onTrue(new InstantCommand(()->{hood.setSpeed(-0.15);}))
     .onFalse(new InstantCommand(()->{hood.setSpeed(0);}));
+
+
+
+  tester.R2().onTrue(new InstantCommand(()->{hopper.setSpeed(0.5);}))
+    .onFalse(new InstantCommand(()->{hopper.setSpeed(0);}));
+
+  tester.L2().onTrue(new InstantCommand(()->{hopper.setSpeed(-0.5);}))
+    .onFalse(new InstantCommand(()->{hopper.setSpeed(0);}));  
 
   //shooter commands testing
   tester.cross().onTrue(new ShooterVelocityCommand(shooter, 1000));

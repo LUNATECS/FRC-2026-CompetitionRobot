@@ -18,7 +18,7 @@ public class ShooterFeederSubSystem extends SubsystemBase {
   
   /** Creates a new ShooterFeederSubSystem. */
   public ShooterFeederSubSystem() {
-    shooterFeeder = new TalonFX(Constants.Shooter_Feeder_SubSystem_Constants.CAN_ID_SHOOTER_FEEDER);
+    shooterFeeder = new TalonFX(Constants.Shooter_Feeder_SubSystem_Constants.CAN_ID_SHOOTER_FEEDER, "canivore");
 
     var motorOutputConfigs = new MotorOutputConfigs();
     motorOutputConfigs.NeutralMode = NeutralModeValue.Brake;

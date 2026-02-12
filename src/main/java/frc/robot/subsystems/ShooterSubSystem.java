@@ -32,10 +32,10 @@ public class ShooterSubSystem extends SubsystemBase {
   private final VelocityVoltage motorVelocity = new VelocityVoltage(0);
 
   public ShooterSubSystem() {
-    shooterMotor1 = new TalonFX(Constants.Shooter_SubSystem_Constants.CAN_ID_SHOOTER1);
-    shooterMotor2 = new TalonFX(Constants.Shooter_SubSystem_Constants.CAN_ID_SHOOTER2);
-    shooterMotor3 = new TalonFX(Constants.Shooter_SubSystem_Constants.CAN_ID_SHOOTER3);
-    shooterMotor4 = new TalonFX(Constants.Shooter_SubSystem_Constants.CAN_ID_SHOOTER4);
+    shooterMotor1 = new TalonFX(Constants.Shooter_SubSystem_Constants.CAN_ID_SHOOTER1 , "canivore");
+    shooterMotor2 = new TalonFX(Constants.Shooter_SubSystem_Constants.CAN_ID_SHOOTER2, "canivore");
+    shooterMotor3 = new TalonFX(Constants.Shooter_SubSystem_Constants.CAN_ID_SHOOTER3 , "canivore");
+    shooterMotor4 = new TalonFX(Constants.Shooter_SubSystem_Constants.CAN_ID_SHOOTER4, "canivore");
 
     shooterMotor2.setControl(new Follower(Constants.Shooter_SubSystem_Constants.CAN_ID_SHOOTER1, MotorAlignmentValue.Aligned));
     shooterMotor3.setControl(new Follower(Constants.Shooter_SubSystem_Constants.CAN_ID_SHOOTER1, MotorAlignmentValue.Opposed));

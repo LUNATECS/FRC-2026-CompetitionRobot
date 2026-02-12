@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems;
+/*package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 
@@ -19,7 +19,7 @@ public class IntakeSubSystem extends SubsystemBase {
   
   private TalonFX intakeMotor;
 
-  /** Creates a new IntakeSubSystem. */
+  /** Creates a new IntakeSubSystem. *//* 
   public IntakeSubSystem() {
     intakeMotor = new TalonFX(Constants.Intake_SubSystem_Constants.CAN_ID_INTAKE);
 
@@ -39,4 +39,4 @@ public class IntakeSubSystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
-}
+}*/

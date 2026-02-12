@@ -1,7 +1,7 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-
+/* 
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.FeedbackConfigs;
@@ -18,7 +18,7 @@ public class IntakePivotSubSystem extends SubsystemBase {
   private TalonFX intakePivotMotor;
   private final double gearRatio = 96;
 
-  /** Creates a new IntakePivotSubSystem. */
+  /** Creates a new IntakePivotSubSystem. *//* 
   public IntakePivotSubSystem() {
     intakePivotMotor = new TalonFX(Constants.Intake_Pivot_SubSystem_Constants.CAN_ID_INTAKE_PIVOT);
 
@@ -48,4 +48,4 @@ public class IntakePivotSubSystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
-}
+}*/
