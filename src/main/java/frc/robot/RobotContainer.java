@@ -5,44 +5,31 @@
 package frc.robot;
 
 
-import com.ctre.phoenix6.swerve.SwerveRequest;
-import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.trajectory.PathPlannerTrajectory;
-
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.autos.PracticeAuto;
-//import frc.robot.commands.IntakePivotCommand;
-import frc.robot.commands.ShooterBangBangControlCommand;
-import frc.robot.commands.ShooterVelocityCommand;
-import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.ClimberSubSystem;
-import frc.robot.subsystems.HoodSubSystem;
-import frc.robot.subsystems.HopperFeederSubSystem;
-import frc.robot.subsystems.HopperSubSystem;
-//import frc.robot.subsystems.IntakePivotSubSystem;
-//import frc.robot.subsystems.IntakeSubSystem;
-import frc.robot.subsystems.ShooterFeederSubSystem;
-import frc.robot.subsystems.ShooterSubSystem;
-import static edu.wpi.first.units.Units.*;
-
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import static edu.wpi.first.units.Units.MetersPerSecond;
+import static edu.wpi.first.units.Units.RadiansPerSecond;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-
+import frc.robot.autos.PracticeAuto;
+import frc.robot.commands.ShooterBangBangControlCommand;
+import frc.robot.commands.ShooterVelocityCommand;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.ClimberSubSystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.HoodSubSystem;
+import frc.robot.subsystems.HopperFeederSubSystem;
+import frc.robot.subsystems.HopperSubSystem;
+import frc.robot.subsystems.ShooterFeederSubSystem;
+import frc.robot.subsystems.ShooterSubSystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -127,7 +114,8 @@ public class RobotContainer {
         driver.povDown().whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
         // Reset the field-centric heading on left bumper press.
-        driver.circle().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
+        driver.circle().onTrue(drivetrain.runOnce(() -> drivetrain.resetRotation(Rotation2d.fromDegrees(0))));
+
 
         drivetrain.registerTelemetry(logger::telemeterize);
 
