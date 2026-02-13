@@ -4,7 +4,6 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -13,26 +12,38 @@ public class DriveOverBumpCommand extends Command {
 
     private final CommandSwerveDrivetrain drivetrain;
     private final SwerveRequest.FieldCentric driveRequest;
-
-    // CONFIGURABLE VALUES FROM INPUTS
-    private final double distanceMeters;
-    private final double driveSpeed;
     private final Rotation2d targetHeading;
-
-    private Pose2d startPose;
 
     private final PIDController headingPID;
 
+    //climb states
+    private enum State {
+        APPROACH,
+        CLIMB,
+        DESCEND,
+        FLAT_CONFIRM,
+        DONE
+    }
+
+    private State currentState;
+
+    private double flatStartTime = -1;
+
+    // Speed values for states
+    private final double approachSpeed = 0.5;
+    private final double climbSpeed = 1.5;
+    private final double descendSpeed = 1;
+    private final double flatSpeed = 0.5;
+
+    private final double climbThreshold = 7.0;
+    private final double flatThreshold = 3.0;
+
     public DriveOverBumpCommand(
         CommandSwerveDrivetrain drivetrain,
-        double distanceMeters,
-        double driveSpeedMetersPerSec,
         Rotation2d targetHeading,
         SwerveRequest.FieldCentric driveRequest
     ) {
         this.drivetrain = drivetrain;
-        this.distanceMeters = distanceMeters;
-        this.driveSpeed = driveSpeedMetersPerSec;
         this.targetHeading = targetHeading;
         this.driveRequest = driveRequest;
         
@@ -46,20 +57,69 @@ public class DriveOverBumpCommand extends Command {
 
     @Override
     public void initialize() {
-        startPose = drivetrain.getPose();
+        currentState = State.APPROACH;
+        flatStartTime = -1;
+        headingPID.reset();
     }
 
     @Override
     public void execute() {
-        Pose2d currentPose = drivetrain.getPose();
+        double pitch = drivetrain.getPigeon2().getPitch().getValueAsDouble();
+        double roll  = drivetrain.getPigeon2().getRoll().getValueAsDouble();
+        //TOTAL tILD
+        double totalTilt = Math.sqrt(pitch * pitch + roll * roll);
 
-        double traveled =
-            currentPose.getTranslation()
-                       .getDistance(startPose.getTranslation());
+        double driveSpeed = 0;
 
+        switch (currentState) {
+
+            case APPROACH:
+                driveSpeed = approachSpeed;
+                if (totalTilt > climbThreshold) {
+                    currentState = State.CLIMB;
+                }
+                break;
+
+            case CLIMB:
+                driveSpeed = climbSpeed;
+                if (totalTilt < climbThreshold) {
+                    currentState = State.DESCEND;
+                }
+                break;
+
+            case DESCEND:
+                driveSpeed = descendSpeed;
+                if (totalTilt < flatThreshold) {
+                    currentState = State.FLAT_CONFIRM;
+                    flatStartTime = edu.wpi.first.wpilibj.Timer.getFPGATimestamp();
+                }
+                break;
+
+            case FLAT_CONFIRM:
+                driveSpeed = flatSpeed;
+
+                if (totalTilt > flatThreshold) {
+                    // bounced back up, reset
+                    currentState = State.DESCEND;
+                } else {
+                    double timeStayedFlat =
+                        edu.wpi.first.wpilibj.Timer.getFPGATimestamp() - flatStartTime;
+
+                    if (timeStayedFlat > 0.25) {
+                        currentState = State.DONE;
+                    }
+                }
+                break;
+
+            case DONE:
+                driveSpeed = 0;
+                break;
+        }
+
+        // --- Heading PID ---
         double omega =
             headingPID.calculate(
-                currentPose.getRotation().getRadians(),
+                drivetrain.getPose().getRotation().getRadians(),
                 targetHeading.getRadians()
             );
 
@@ -75,9 +135,7 @@ public class DriveOverBumpCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        Pose2d currentPose = drivetrain.getPose();
-        return currentPose.getTranslation()
-            .getDistance(startPose.getTranslation()) >= distanceMeters;
+        return currentState == State.DONE;    
     }
 
     @Override
