@@ -38,14 +38,19 @@ public class DriveOverBumpCommand extends Command {
     private final double climbThreshold = 7.0;
     private final double flatThreshold = 3.0;
 
+    //HAD TO BE 1 or -1, OTHERWISE IT WON'T WORK
+    private final double direction;
+
     public DriveOverBumpCommand(
         CommandSwerveDrivetrain drivetrain,
         Rotation2d targetHeading,
-        SwerveRequest.FieldCentric driveRequest
+        SwerveRequest.FieldCentric driveRequest,
+        double direction
     ) {
         this.drivetrain = drivetrain;
         this.targetHeading = targetHeading;
         this.driveRequest = driveRequest;
+        this.direction=direction;
         
         headingPID = new PIDController(4.0, 0.0, 0.15);
 
@@ -127,7 +132,7 @@ public class DriveOverBumpCommand extends Command {
 
         drivetrain.setControl(
             driveRequest
-                .withVelocityX(driveSpeed)
+                .withVelocityX(driveSpeed*direction)
                 .withVelocityY(0.0)
                 .withRotationalRate(omega)
         );
