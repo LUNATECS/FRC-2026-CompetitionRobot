@@ -66,7 +66,7 @@ public class DriveOverBumpCommand extends Command {
     public void execute() {
         double pitch = drivetrain.getPigeon2().getPitch().getValueAsDouble();
         double roll  = drivetrain.getPigeon2().getRoll().getValueAsDouble();
-        //TOTAL tILD
+        //TOTAL TILT
         double totalTilt = Math.sqrt(pitch * pitch + roll * roll);
 
         double driveSpeed = 0;
@@ -116,7 +116,7 @@ public class DriveOverBumpCommand extends Command {
                 break;
         }
 
-        // --- Heading PID ---
+        // Heading PID 
         double omega =
             headingPID.calculate(
                 drivetrain.getPose().getRotation().getRadians(),
