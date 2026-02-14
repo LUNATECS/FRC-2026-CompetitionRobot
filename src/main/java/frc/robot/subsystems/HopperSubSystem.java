@@ -19,7 +19,7 @@ public class HopperSubSystem extends SubsystemBase {
   /** Creates a new HopperRackSubSystem. */
   public HopperSubSystem() {
 
-    hopperMotor = new TalonFX(Constants.Hopper_SubSystem_Constants.CAN_ID_HOPPER, "canivore");
+    hopperMotor = new TalonFX(Constants.Hopper_SubSystem_Constants.CAN_ID_HOPPER, Constants.CANBUS_Constants.CANIVORE);
 
     var motorOutputConfigs = new MotorOutputConfigs();
     motorOutputConfigs.NeutralMode = NeutralModeValue.Brake;

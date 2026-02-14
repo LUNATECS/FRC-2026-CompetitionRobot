@@ -4,14 +4,14 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-
 import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class ClimberSubSystem extends SubsystemBase {
   
@@ -21,7 +21,7 @@ public class ClimberSubSystem extends SubsystemBase {
   
   /** Creates a new ShooterFeederSubSystem. */
   public ClimberSubSystem() {
-    climberMotor = new TalonFX(Constants.Climber_SubSystem_Constants.CAN_ID_CLIMBER);
+    climberMotor = new TalonFX(Constants.Climber_SubSystem_Constants.CAN_ID_CLIMBER, Constants.CANBUS_Constants.CANIVORE);
 
     var motorOutputConfigs = new MotorOutputConfigs();
     motorOutputConfigs.NeutralMode = NeutralModeValue.Brake;
