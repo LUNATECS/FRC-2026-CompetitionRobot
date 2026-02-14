@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 1.570296583105017,
-        "y": 3.0793605544478804
+        "x": 0.5480365617540153,
+        "y": 2.642969013355397
       },
       "prevControl": {
-        "x": 2.5914669428469153,
-        "y": 3.160377695635516
+        "x": 1.5692069214959132,
+        "y": 2.7239861545430326
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Right 1 Cycle To Climb End"
     }
   ],
   "rotationTargets": [],
@@ -52,7 +52,7 @@
       },
       "rotationOffset": 5.0,
       "minWaypointRelativePos": 0.16315974745639536,
-      "maxWaypointRelativePos": 0.75,
+      "maxWaypointRelativePos": 0.8484745148689516,
       "name": "Point Towards Zone"
     }
   ],
@@ -67,7 +67,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -178.9539408143328
+    "rotation": 0.5485149325497232
   },
   "reversed": false,
   "folder": "Right 1 Cycle Auto Climb",
