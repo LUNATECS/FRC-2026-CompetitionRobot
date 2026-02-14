@@ -6,10 +6,9 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
-
 import com.ctre.phoenix6.signals.InvertedValue;
-
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,6 +18,7 @@ import frc.robot.Constants;
 public class IntakeSubSystem extends SubsystemBase {
   
   private TalonFX intakeMotor;
+    private final VelocityVoltage motorVelocity = new VelocityVoltage(0);
 
   /** Creates a new IntakeSubSystem. */ 
   public IntakeSubSystem() {
@@ -36,6 +36,7 @@ public class IntakeSubSystem extends SubsystemBase {
 
     intakeMotor.getConfigurator().apply(motorOutputConfigs);
     intakeMotor.getConfigurator().apply(slot0Configs);
+    motorVelocity.Slot = 0;
 
   }
 
@@ -44,7 +45,7 @@ public class IntakeSubSystem extends SubsystemBase {
   }
 
   public void setRPM(double rpm){
-    intakeMotor.set(rpm);
+    intakeMotor.setControl(motorVelocity.withVelocity(rpm/60));
   }
 
   public void setSpeed(double speed){
