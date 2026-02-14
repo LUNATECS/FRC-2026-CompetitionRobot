@@ -25,12 +25,12 @@ public class ShooterBangBangControlCommand extends Command {
     this.targetRPM = targetRPM;
     bangController = new BangBangController(50);
     //WE WILL CHANGE THIS VALUE AFTER TESTING
-    voltageLimiter = new SlewRateLimiter(50);
+    voltageLimiter = new SlewRateLimiter(100);
     //TUNE THIS DEPENDING ON HOW FAST YOU WANT IT TO RAMP UP. 
     //Basically, this is saying that it takes about 0.25 seconds to go to max voltage
 
     //FEEDFORWARD VALUES COMPUTED BY RECALC, except kS, which is completely new.
-    feedforward = new SimpleMotorFeedforward(0.35, 0.28, 1.41);
+    feedforward = new SimpleMotorFeedforward(0.35, 0.17, 1.41);
     addRequirements(shooter);
 
     //FOR TUNING,START WITH FEEDFORWARD ONLY,

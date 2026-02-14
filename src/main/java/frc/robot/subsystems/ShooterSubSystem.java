@@ -51,8 +51,8 @@ public class ShooterSubSystem extends SubsystemBase {
 
     var slot0Configs = new Slot0Configs();
     //Slot configs untested but are good base values
-    slot0Configs.kV = 0.28;
-    slot0Configs.kP = 0.12;
+    slot0Configs.kV = 0.18;
+    slot0Configs.kP = 0.29;
     slot0Configs.kI = 0;
     slot0Configs.kD = 0;
     //FOR ADJUSTING, FIRST SET PID VALUES TO 0, AND SEE IF kV is reaching setpoint consistenly across all ranges, then
