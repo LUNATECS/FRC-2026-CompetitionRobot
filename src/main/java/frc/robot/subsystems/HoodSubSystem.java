@@ -25,7 +25,7 @@ public class HoodSubSystem extends SubsystemBase {
   private final double offset = 0;
 
   public HoodSubSystem() {
-    hoodMotor = new TalonFX(Constants.Hood_SubSystem_Constants.CAN_ID_HOOD, "canivore");
+    hoodMotor = new TalonFX(Constants.Hood_SubSystem_Constants.CAN_ID_HOOD, Constants.CANBUS_Constants.CANIVORE);
     //It is a throughbore encoder, we just have to make sure it is still a CANCoder
     hoodEncoder = new CANcoder(Constants.Hood_SubSystem_Constants.CAN_ID_HOOD_ENCODER);
 
