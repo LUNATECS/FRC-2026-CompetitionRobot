@@ -8,6 +8,7 @@ package frc.robot;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
@@ -20,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.autos.PracticeAuto;
+import frc.robot.commands.FullShootSequence;
 import frc.robot.commands.ShooterBangBangControlCommand;
 import frc.robot.commands.ShooterVelocityCommand;
 import frc.robot.generated.TunerConstants;
@@ -30,6 +32,7 @@ import frc.robot.subsystems.HopperFeederSubSystem;
 import frc.robot.subsystems.HopperSubSystem;
 import frc.robot.subsystems.ShooterFeederSubSystem;
 import frc.robot.subsystems.ShooterSubSystem;
+import frc.robot.util.ShotCalc;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -64,6 +67,11 @@ public class RobotContainer {
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+
+    //shooting configs/targets
+    private Pose2d targetPose = new Pose2d(4, 3, new Rotation2d(0)); // Example target pose on the field
+
+
 
 
 
@@ -101,10 +109,35 @@ public class RobotContainer {
             drivetrain.applyRequest(() -> idle).ignoringDisable(true)
         );
 
-        driver.R1().whileTrue(drivetrain.applyRequest(() -> brake));
-        driver.R2().whileTrue(drivetrain.applyRequest(() ->
+        driver.L2().whileTrue(drivetrain.applyRequest(() -> brake));
+        driver.L1().whileTrue(drivetrain.applyRequest(() ->
             point.withModuleDirection(new Rotation2d(-driver.getLeftY(), -driver.getLeftX()))
         ));
+
+        driver.R1().whileTrue(
+            new FullShootSequence(
+                drivetrain,
+                shooter,
+                hood,
+                hopperFeeder,
+                shooterFeeder,
+                // Robot position
+                () -> drivetrain.getState().Pose.getTranslation(),
+                // Target position
+                () -> targetPose.getTranslation(),
+                drive,
+                // Fire button
+                () -> driver.R2().getAsBoolean(),
+                // Shooter RPM supplier
+                () -> ShotCalc.getShot(
+                        drivetrain.getState().Pose.getTranslation()
+                                .getDistance(targetPose.getTranslation())).rpm,
+                // Hood angle supplier
+                () -> ShotCalc.getShot(
+                        drivetrain.getState().Pose.getTranslation()
+                                .getDistance(targetPose.getTranslation())).hoodDeg
+            )
+        );
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.

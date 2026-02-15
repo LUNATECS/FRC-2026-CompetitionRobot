@@ -39,6 +39,11 @@ public class FaceFieldPointCommand extends Command {
     }
 
     @Override
+    public void initialize() {
+        thetaController.reset();
+    }
+
+    @Override
     public void execute() {
         Rotation2d desiredHeading =
             drivetrain.getRotationToFacePoint(targetSupplier.get());
@@ -60,9 +65,20 @@ public class FaceFieldPointCommand extends Command {
                 .withRotationalRate(omega)
         );
     }
+    public boolean isAligned() {
+        return thetaController.atSetpoint();
+    }
 
     @Override
     public void end(boolean interrupted) {
+        // Stop rotation when interrupted or finished
+        Translation2d translation = translationSupplier.get();
+        drivetrain.setControl(
+            driveRequest
+                .withVelocityX(translation.getX())
+                .withVelocityY(translation.getY())
+                .withRotationalRate(0.0) // stops de rotation
+        );
         thetaController.reset();
     }
 }

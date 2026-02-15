@@ -15,6 +15,7 @@ public class ShooterVelocityCommand extends Command {
   public ShooterVelocityCommand(ShooterSubSystem shooter, double targetRPM) {
     this.shooter = shooter;
     this.targetRPM = targetRPM;
+    shooter.shooterTargetRPM = targetRPM;
     addRequirements(shooter);
 
     // Use addRequirements() here to declare subsystem dependencies.

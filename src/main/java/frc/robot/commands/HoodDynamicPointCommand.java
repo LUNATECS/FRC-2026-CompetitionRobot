@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.HoodSubSystem;
@@ -15,12 +17,12 @@ import frc.robot.util.ShotConfigs;
 public class HoodDynamicPointCommand extends Command {
   private final PIDController pid;
   private final HoodSubSystem hood;
-  private final double distancefromTarget;
+  private final Supplier<Double> distanceFromTarget;
 
   /** Creates a new HoodDynamicPointCommand. */
-  public HoodDynamicPointCommand(HoodSubSystem hood, double distanceFromTarget) {
+  public HoodDynamicPointCommand(HoodSubSystem hood, Supplier<Double> distanceFromTarget) {
     this.hood=hood;
-    this.distancefromTarget = distanceFromTarget;
+    this.distanceFromTarget = distanceFromTarget;
     pid = new PIDController(0.00125, 0, 0);
     pid.setTolerance(0.25);
     //COMPLETELY UNTUNED
@@ -37,7 +39,7 @@ public class HoodDynamicPointCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    ShotConfigs shot = ShotCalc.getShot(distancefromTarget);
+    ShotConfigs shot = ShotCalc.getShot(distanceFromTarget.get());
     pid.setSetpoint(shot.hoodDeg);
     
     double output = pid.calculate(hood.getHoodDegrees());
@@ -46,6 +48,10 @@ public class HoodDynamicPointCommand extends Command {
 
     hood.setSpeed(output);
   }
+
+  public boolean atSetpoint() {
+        return pid.atSetpoint();
+    }
 
   // Called once the command ends or is interrupted.
   @Override

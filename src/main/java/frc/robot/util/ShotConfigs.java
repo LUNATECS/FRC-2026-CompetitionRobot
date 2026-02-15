@@ -9,10 +9,13 @@ package frc.robot.util;
 public class ShotConfigs {
 
 public final double hoodDeg;
-private final double rpm;
+public final double rpm;
 
     public ShotConfigs(double hoodDeg, double rpm) {
         this.hoodDeg = hoodDeg;
         this.rpm = rpm;
+    }
+    public double getRPM() {
+        return rpm;
     }
 }

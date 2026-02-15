@@ -70,6 +70,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
    private boolean isSpinning = false;
    private boolean doRejectUpdate = false;
    private boolean autoScore = false;
+   private boolean isAligned = false;
    /* Swerve requests to apply during SysId characterization */
    private final SwerveRequest.SysIdSwerveTranslation m_translationCharacterization = new SwerveRequest.SysIdSwerveTranslation();
    private final SwerveRequest.SysIdSwerveSteerGains m_steerCharacterization = new SwerveRequest.SysIdSwerveSteerGains();
