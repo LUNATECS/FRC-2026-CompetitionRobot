@@ -15,6 +15,7 @@ import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
 import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -78,6 +79,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
    private final SwerveDrivePoseEstimator pose = new SwerveDrivePoseEstimator(getKinematics(), getPigeon2().getRotation2d(), getModulePositions(), new Pose2d());
    /* SysId routine for characterizing translation. This is used to find PID gains for the drive motors. */
    private final NetworkTable robotPoseTable = NetworkTableInstance.getDefault().getTable("RobotPoseDashboard");
+   private Pose2d targetPose = new Pose2d(4.625, 4.04, new Rotation2d(0)); // Example target pose on the field
+   //targetPose ONLY for blue
+
 
    private final SysIdRoutine m_sysIdRoutineTranslation = new SysIdRoutine(
        new SysIdRoutine.Config(
@@ -274,26 +278,31 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
   
        @Override
        public void periodic() {
+
+        SmartDashboard.putNumber("drictrain distance to target", pose.getEstimatedPosition().getTranslation()
+                                .getDistance(targetPose.getTranslation()));
         //Setting Rotations
         double robotYaw = getPigeon2().getYaw().getValueAsDouble();
         double robotPitch = getPigeon2().getPitch().getValueAsDouble();
         double robotRoll = getPigeon2().getRoll().getValueAsDouble();
+        SmartDashboard.putNumber("pidgeon2 reading", robotYaw);
         //Double Limelight Orientations
-        LimelightHelpers.SetRobotOrientation("limelight-shooter", robotYaw, robotPitch, robotRoll, 0, 0, 0);
-        LimelightHelpers.SetRobotOrientation("limelight-hopper", robotYaw, robotPitch, robotRoll, 0, 0, 0);
+        LimelightHelpers.SetRobotOrientation("limelight-shooter", robotYaw, 0, 0, 0, 0, 0);
+        LimelightHelpers.SetRobotOrientation("limelight-hopper", robotYaw, 0, 0, 0, 0, 0);
 
         //update odometry
-        pose.update(getPigeon2().getRotation2d(), getModulePositions());
+        Rotation2d pidgeonRotation2d = new Rotation2d(getPigeon2().getYaw().getValueAsDouble());
+        pose.update(pidgeonRotation2d, getModulePositions());
 
         //getting LL measurements
         LimelightHelpers.PoseEstimate frontMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-shooter");
         LimelightHelpers.PoseEstimate backMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-hopper");
 
-        boolean useFront = false;
-        boolean useBack = false;
+        //boolean useFront = false;
+        //boolean useBack = false;
 
         //only use camera if it sees atleast one tag
-        if (frontMeasurement != null && frontMeasurement.tagCount > 0) {
+        /*if (frontMeasurement != null && frontMeasurement.tagCount > 0) {
         useFront = true;
         }
         if (backMeasurement != null && backMeasurement.tagCount > 0) {
@@ -333,11 +342,12 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
               //  VecBuilder.fill(0.7, 0.7, 9999999)
             //);
         }
+            */
         //ABOVE IS FOR ONLY USING ONE LIMELIGHT APPROACH
 
         //BELOW IS FUSING BOTH, but it's commented out for now :(
         // Reject vision updates if spinning too fast
-        /* 
+         
         double angularVelocityZ = getPigeon2().getAngularVelocityZWorld().getValueAsDouble();
         boolean rejectVision = Math.abs(angularVelocityZ) > 720;
 
@@ -376,7 +386,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 );
             }
         }
-        */
+        
 
 
 
@@ -454,9 +464,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
            " Y:" + getPose().getY() +
           " R:" + getPose().getRotation().getDegrees());
           Pose2d currentPose = getPose();
-            robotPoseTable.getEntry("x").setDouble(currentPose.getX());
-            robotPoseTable.getEntry("y").setDouble(currentPose.getY());
-            robotPoseTable.getEntry("rotation").setDouble(currentPose.getRotation().getDegrees());
+            
        }
   
        private void startSimThread() {
@@ -492,7 +500,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 Pose2d robotPose = getPose(); // already fused pose estimator
                 Translation2d robotToTarget =
                     fieldTarget.minus(robotPose.getTranslation());
-                return robotToTarget.getAngle();
+                //double Angle = robotToTarget.getAngle().getDegrees() - 180;
+                //Rotation2d finalRotateAngle = new Rotation2d(Angle);
+                return robotToTarget.getAngle().plus(Rotation2d.fromDegrees(180));
         }
 
         public static double calculateProjectileSpeed(double wheelRPM) {

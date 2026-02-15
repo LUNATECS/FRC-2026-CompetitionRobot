@@ -4,8 +4,11 @@
 
 package frc.robot.commands;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.HoodSubSystem;
 
@@ -14,12 +17,14 @@ public class HoodHoldCommand extends Command {
   private final PIDController pid;
   private final HoodSubSystem hood;
   private double setpoint;
-  public HoodHoldCommand(HoodSubSystem hood, double setpoint) {
+    private DoubleSupplier setpointSupplier;
+
+  public HoodHoldCommand(HoodSubSystem hood, DoubleSupplier setpointSupplier) {
     this.hood = hood;
-    this.setpoint = setpoint;
-    pid = new PIDController(0.00125, 0, 0);
-    pid.setSetpoint(setpoint);
-    pid.setTolerance(0.5);
+    this.setpointSupplier = setpointSupplier;
+    pid = new PIDController(0.125, 0, 0); //0.2125
+    pid.setTolerance(0.25);
+    SmartDashboard.putNumber("INPUT hood setpoint", 0);
     //SETPOINT should be in degrees
   }
 
@@ -32,6 +37,8 @@ public class HoodHoldCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    double inputSetpoint = setpointSupplier.getAsDouble();
+    pid.setSetpoint(inputSetpoint);
     double output = pid.calculate(hood.getHoodDegrees());
     //cURRENTLY CLAMPED TO LESS THAN MAX SPEED
     output = MathUtil.clamp(output, -0.5, 0.5);

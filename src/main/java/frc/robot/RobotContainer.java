@@ -10,6 +10,9 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
@@ -21,7 +24,9 @@ import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.autos.PracticeAuto;
+import frc.robot.commands.FaceFieldPointCommand;
 import frc.robot.commands.FullShootSequence;
+import frc.robot.commands.HoodHoldCommand;
 import frc.robot.commands.ShooterBangBangControlCommand;
 import frc.robot.commands.ShooterVelocityCommand;
 import frc.robot.generated.TunerConstants;
@@ -69,7 +74,7 @@ public class RobotContainer {
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
     //shooting configs/targets
-    private Pose2d targetPose = new Pose2d(4, 3, new Rotation2d(0)); // Example target pose on the field
+    private Pose2d targetPose = new Pose2d(4.625, 4.04, new Rotation2d(0)); // Example target pose on the field
 
 
 
@@ -77,6 +82,8 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    SmartDashboard.putNumber("shooterRPMInput", 0);
+    SmartDashboard.putNumber("hoodInputAngle", 0);
     // Configure the trigger bindings
     configureBindings();
   }
@@ -130,11 +137,11 @@ public class RobotContainer {
                 () -> driver.R2().getAsBoolean(),
                 // Shooter RPM supplier
                 () -> ShotCalc.getShot(
-                        drivetrain.getState().Pose.getTranslation()
+                        drivetrain.getPose().getTranslation()
                                 .getDistance(targetPose.getTranslation())).rpm,
                 // Hood angle supplier
                 () -> ShotCalc.getShot(
-                        drivetrain.getState().Pose.getTranslation()
+                        drivetrain.getPose().getTranslation()
                                 .getDistance(targetPose.getTranslation())).hoodDeg
             )
         );
@@ -147,11 +154,22 @@ public class RobotContainer {
         driver.povDown().whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
         // Reset the field-centric heading on left bumper press.
-        driver.circle().onTrue(drivetrain.runOnce(() -> drivetrain.resetRotation(Rotation2d.fromDegrees(0))));
-
+        //driver.circle().onTrue(drivetrain.runOnce(() -> drivetrain.resetRotation(Rotation2d.fromDegrees(0))));
+        driver.circle().onTrue(drivetrain.runOnce(()->{drivetrain.getPigeon2().reset();}));
 
         drivetrain.registerTelemetry(logger::telemeterize);
 
+        driver.touchpad().whileTrue(
+            new FaceFieldPointCommand(
+                drivetrain,
+                () -> new Translation2d(
+                    -driver.getLeftY() * MaxSpeed,
+                    -driver.getLeftX() * MaxSpeed
+                ),
+                () -> targetPose.getTranslation(),
+                drive
+            )
+        );
 
     //TESTER CONTROLS:
 
@@ -161,9 +179,9 @@ public class RobotContainer {
 
     //TESTING SUBSYSTEMS WITH TESTER CONTROLLER
     tester.square().onTrue(new InstantCommand(() -> {
-    hopperFeeder.setSpeed(1.5);
+    hopperFeeder.setSpeed(0.75);
     //intake.setSpeed(1);
-    shooterFeeder.setSpeed(-1);
+    shooterFeeder.setSpeed(0.6);
   }))
     .onFalse(new InstantCommand(()->{
       hopperFeeder.setSpeed(0);
@@ -174,7 +192,7 @@ public class RobotContainer {
   tester.triangle().onTrue(new InstantCommand(() -> {
     hopperFeeder.setSpeed(-1.5);
     //intake.setSpeed(-1);
-    shooterFeeder.setSpeed(1);
+    shooterFeeder.setSpeed(-1);
   }))
     .onFalse(new InstantCommand(()->{
       hopperFeeder.setSpeed(0);
@@ -211,8 +229,10 @@ public class RobotContainer {
     .onFalse(new InstantCommand(()->{hopper.setSpeed(0);}));  
 
   //shooter commands testing
-  tester.cross().onTrue(new ShooterVelocityCommand(shooter, 1000));
+  tester.cross().onTrue(new ShooterVelocityCommand(shooter, ()->SmartDashboard.getNumber("shooterRPMInput", 0)));
   tester.circle().onTrue(new ShooterBangBangControlCommand(shooter, 1000));
+
+  tester.touchpad().onTrue(new HoodHoldCommand(hood,()->SmartDashboard.getNumber("hoodInputAngle", 0)));
 
 
 

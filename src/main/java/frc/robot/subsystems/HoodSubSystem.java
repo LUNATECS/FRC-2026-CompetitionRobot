@@ -11,6 +11,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -20,7 +21,8 @@ public class HoodSubSystem extends SubsystemBase {
   private TalonFX hoodMotor;
   private CANcoder hoodEncoder;
 
-  private final double gearRatio = 23.125;
+  //private final double gearRatio = 23.125;
+  private final double motorGearRatio = 148.0;
   private final double ticksToDegrees = 1;
   private final double offset = 0;
 
@@ -34,14 +36,16 @@ public class HoodSubSystem extends SubsystemBase {
     motorOutputConfigs.Inverted = InvertedValue.CounterClockwise_Positive;
 
     var feedbackConfigs = new FeedbackConfigs();
-    feedbackConfigs.SensorToMechanismRatio = gearRatio;
+    feedbackConfigs.SensorToMechanismRatio = motorGearRatio;
 
     hoodMotor.getConfigurator().apply(motorOutputConfigs);
     hoodMotor.getConfigurator().apply(feedbackConfigs);
+    hoodMotor.setPosition(0);
   }
 
   public double getHoodDegrees(){
-    return (hoodEncoder.getAbsolutePosition().getValueAsDouble() - offset)*ticksToDegrees;
+    //return (hoodMotor.getPosition().getValueAsDouble() - offset)*ticksToDegrees;
+    return (hoodMotor.getPosition().getValueAsDouble())*360;
   }
 
   public void setSpeed(double speed){
@@ -50,6 +54,8 @@ public class HoodSubSystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("hoodDegrees", getHoodDegrees());
+    SmartDashboard.putNumber("hoodMotorposition", hoodMotor.getPosition().getValueAsDouble());
     // This method will be called once per scheduler run
   }
 }

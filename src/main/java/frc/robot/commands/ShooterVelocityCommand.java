@@ -4,6 +4,9 @@
 
 package frc.robot.commands;
 
+import java.util.function.DoubleSupplier;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ShooterSubSystem;
 
@@ -11,12 +14,14 @@ import frc.robot.subsystems.ShooterSubSystem;
 public class ShooterVelocityCommand extends Command {
   private ShooterSubSystem shooter;
   private double targetRPM;
+  private DoubleSupplier rpmSupplier;
   /** Creates a new ShooterVelocityCommand. */
-  public ShooterVelocityCommand(ShooterSubSystem shooter, double targetRPM) {
+  public ShooterVelocityCommand(ShooterSubSystem shooter, DoubleSupplier rpmSupplier) {
     this.shooter = shooter;
-    this.targetRPM = targetRPM;
+    this.rpmSupplier = rpmSupplier;
     shooter.shooterTargetRPM = targetRPM;
     addRequirements(shooter);
+    
 
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -28,7 +33,8 @@ public class ShooterVelocityCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.setRPM(targetRPM);
+    double rpm = rpmSupplier.getAsDouble();
+    shooter.setRPM(rpm);
   }
 
   // Called once the command ends or is interrupted.

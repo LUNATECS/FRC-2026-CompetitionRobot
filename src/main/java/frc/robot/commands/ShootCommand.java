@@ -20,12 +20,14 @@ public class ShootCommand extends Command {
   HoodDynamicPointCommand hoodCommand;
   FaceFieldPointCommand drivetrainCommand;
   BooleanSupplier fireButton;
+  ShooterFeederDynamicCommand feederCommand;
   public ShootCommand(
         HopperFeederSubSystem hopperFeeder,
         ShooterFeederSubSystem shooterFeeder,
         ShooterSubSystem shooter,
         HoodDynamicPointCommand hoodCommand,
         FaceFieldPointCommand drivetrainCommand,
+
         BooleanSupplier fireButton
   ) {
     this.hopperFeeder = hopperFeeder;
@@ -47,12 +49,13 @@ public class ShootCommand extends Command {
   public void execute() {
     if (fireButton.getAsBoolean() &&
                 shooter.atSpeed() &&
-                hoodCommand.atSetpoint() &&
-                drivetrainCommand.isAligned()) {
+                hoodCommand.atSetpoint() 
+                //&&drivetrainCommand.isAligned()
+                ) {
 
                 hopperFeeder.setSpeed(1);
-                shooterFeeder.setSpeed(1);
-            } else {
+                shooterFeeder.setRPMBasedOnShooter(shooter.getRPM());    
+              } else {
                 hopperFeeder.setSpeed(0);
                 shooterFeeder.setSpeed(0);
             }
