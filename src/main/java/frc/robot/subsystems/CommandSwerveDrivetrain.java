@@ -77,6 +77,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
    private final SwerveRequest.SysIdSwerveRotation m_rotationCharacterization = new SwerveRequest.SysIdSwerveRotation();
    private final SwerveDrivePoseEstimator pose = new SwerveDrivePoseEstimator(getKinematics(), getPigeon2().getRotation2d(), getModulePositions(), new Pose2d());
    /* SysId routine for characterizing translation. This is used to find PID gains for the drive motors. */
+   private final NetworkTable robotPoseTable = NetworkTableInstance.getDefault().getTable("RobotPoseDashboard");
+
    private final SysIdRoutine m_sysIdRoutineTranslation = new SysIdRoutine(
        new SysIdRoutine.Config(
            null,        // Use default ramp rate (1 V/s)
@@ -451,6 +453,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
              SmartDashboard.putString("Robot Pose Total", "X:" + getPose().getX() +
            " Y:" + getPose().getY() +
           " R:" + getPose().getRotation().getDegrees());
+          Pose2d currentPose = getPose();
+            robotPoseTable.getEntry("x").setDouble(currentPose.getX());
+            robotPoseTable.getEntry("y").setDouble(currentPose.getY());
+            robotPoseTable.getEntry("rotation").setDouble(currentPose.getRotation().getDegrees());
        }
   
        private void startSimThread() {
