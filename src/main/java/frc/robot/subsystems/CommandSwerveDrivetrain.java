@@ -512,7 +512,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
       }
 
       public double computeFlightTime(double v, double deltaX, double deltaY, double launchAngleRad) {
-        double g = 9.81;
+        double g = 9.81; //gravivty
         double vy = v * Math.sin(launchAngleRad);
         double discriminant = vy*vy - 2 * g * deltaY;
         if(discriminant < 0) return deltaX / (v * Math.cos(launchAngleRad)); // fallback
