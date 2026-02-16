@@ -1,0 +1,73 @@
+package frc.robot.util;
+
+import java.util.function.Supplier;
+
+import edu.wpi.first.math.geometry.Translation2d;
+import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.HoodSubSystem;
+import frc.robot.subsystems.ShooterSubSystem;
+
+public class SOTMSuppliers {
+    public final Supplier<Double> hoodAngleSupplier;
+    public final Supplier<Double> shooterRPMSupplier;
+    public final Supplier<Double> flightTimeSupplier;
+
+    public SOTMSuppliers(
+            CommandSwerveDrivetrain drivetrain,
+            ShooterSubSystem shooter,
+            HoodSubSystem hood,
+            Supplier<Translation2d> targetPos
+    ) {
+
+        // Flight time supplier
+        flightTimeSupplier = () -> {
+            Translation2d robotPos = drivetrain.getPose().getTranslation();
+            Translation2d target = targetPos.get();
+
+            // Distance to target
+            double distance = robotPos.getDistance(target);
+
+            // Use SOTMCalc to get baseline time-of-flight
+            return SOTMCalc.getInstance().getParameters(distance).timeOfFlight();
+        };
+
+        // Hood angle supplier
+        hoodAngleSupplier = () -> {
+            Translation2d robotPos = drivetrain.getPose().getTranslation();
+            Translation2d target = targetPos.get();
+
+            // Lead compensation
+            double flightTime = flightTimeSupplier.get();
+            Translation2d leadOffset = drivetrain.getFieldVelocity().times(flightTime)
+                    .plus(drivetrain.getFieldAcceleration().times(0.5 * flightTime * flightTime));
+            Translation2d virtualTarget = target.minus(leadOffset);
+
+            double distanceToVirtualTarget = robotPos.getDistance(virtualTarget);
+
+            // Required horizontal velocity to reach the virtual target
+            double requiredVelocity = distanceToVirtualTarget / flightTime;
+
+            // Use SOTMCalc to get hood angle
+            return SOTMCalc.getInstance().calculateBoth(distanceToVirtualTarget, requiredVelocity).hoodDeg;
+        };
+
+        shooterRPMSupplier = () -> {
+            Translation2d robotPos = drivetrain.getPose().getTranslation();
+            Translation2d target = targetPos.get();
+
+            // Lead compensation
+            double flightTime = flightTimeSupplier.get();
+            Translation2d leadOffset = drivetrain.getFieldVelocity().times(flightTime)
+                    .plus(drivetrain.getFieldAcceleration().times(0.5 * flightTime * flightTime));
+            Translation2d virtualTarget = target.minus(leadOffset);
+
+            double distanceToVirtualTarget = robotPos.getDistance(virtualTarget);
+
+            // Required horizontal velocity to reach the virtual target
+            double requiredVelocity = distanceToVirtualTarget / flightTime;
+
+            // Use SOTMCalc to get RPM
+            return SOTMCalc.getInstance().calculateBoth(distanceToVirtualTarget, requiredVelocity).rpm;
+        };
+    }
+}

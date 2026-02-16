@@ -18,7 +18,7 @@ import frc.robot.subsystems.HoodSubSystem;
 import frc.robot.subsystems.HopperFeederSubSystem;
 import frc.robot.subsystems.ShooterFeederSubSystem;
 import frc.robot.subsystems.ShooterSubSystem;
-import frc.robot.util.ShootOnTheMoveSuppliers;
+import frc.robot.util.SOTMSuppliers;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -35,16 +35,9 @@ public class FullShootOnTheMoveSequence extends ParallelCommandGroup {
         Supplier<Translation2d> robotTranslation,
         Supplier<Translation2d> targetPos,
         SwerveRequest.FieldCentric driveRequest,
-        BooleanSupplier fireButton,
-        Supplier<Double> shooterRPMSupplier,
-        Supplier<Double> hoodAngleSupplier
+        BooleanSupplier fireButton
   ) {
-    ShootOnTheMoveSuppliers suppliers = new ShootOnTheMoveSuppliers(
-        drivetrain,
-        shooter,
-        hood,
-        targetPos
-    );
+    SOTMSuppliers suppliers = new SOTMSuppliers(drivetrain, shooter, hood, targetPos);
       
     
 

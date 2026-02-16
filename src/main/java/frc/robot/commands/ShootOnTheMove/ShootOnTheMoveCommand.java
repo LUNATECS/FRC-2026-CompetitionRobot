@@ -55,34 +55,37 @@ public class ShootOnTheMoveCommand extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-        Pose2d robotPose = drivetrain.getPose();
+public void execute() {
+    Pose2d robotPose = drivetrain.getPose();
+
+    // Use suppliers to get virtual target
+    
         Translation2d robotPos = robotPose.getTranslation();
-        Translation2d targetPos = targetSupplier.get();
-
-        // Leading calculations 
+        Translation2d target = targetSupplier.get();
         double flightTime = flightTimeSupplier.get();
-        Translation2d leadOffset = drivetrain.getFieldVelocity().times(flightTime)
-                .plus(drivetrain.getFieldAcceleration().times(0.5 * flightTime * flightTime));
-        Translation2d virtualTarget = targetPos.minus(leadOffset);
-
-        // Rotate drivetrain to face "predicted" target
-        Rotation2d desiredHeading = drivetrain.getRotationToFacePoint(virtualTarget);
-        double omega = thetaController.calculate(
-                robotPose.getRotation().getRadians(),
-                desiredHeading.getRadians()
+        Translation2d virtualTarget = target.minus(
+            drivetrain.getFieldVelocity().times(flightTime)
+                .plus(drivetrain.getFieldAcceleration().times(0.5 * flightTime * flightTime))
         );
-        omega = MathUtil.clamp(omega, -3.0, 3.0);
+  
 
-        // Get translational movement
-        Translation2d translation = translationSupplier.get();
+    // Rotate drivetrain to face virtual target
+    Rotation2d desiredHeading = drivetrain.getRotationToFacePoint(virtualTarget);
+    double omega = thetaController.calculate(
+            robotPose.getRotation().getRadians(),
+            desiredHeading.getRadians()
+    );
+    omega = MathUtil.clamp(omega, -3.0, 3.0);
 
-        drivetrain.setControl(
-                driveRequest.withVelocityX(translation.getX())
+    // Get translational movement
+    Translation2d translation = translationSupplier.get();
+
+    drivetrain.setControl(
+            driveRequest.withVelocityX(translation.getX())
                         .withVelocityY(translation.getY())
                         .withRotationalRate(omega)
-        );
-  }
+    );
+}
 
   // Called once the command ends or is interrupted.
   @Override

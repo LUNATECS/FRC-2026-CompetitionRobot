@@ -18,4 +18,8 @@ public final double rpm;
     public double getRPM() {
         return rpm;
     }
+    public double getHoodDeg() {
+        return hoodDeg;
+    }
 }
+

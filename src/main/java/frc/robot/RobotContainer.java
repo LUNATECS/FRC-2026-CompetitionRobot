@@ -26,6 +26,7 @@ import frc.robot.autos.PracticeAuto;
 import frc.robot.commands.AimAndShoot.FaceFieldPointCommand;
 import frc.robot.commands.AimAndShoot.FullShootSequence;
 import frc.robot.commands.HoodHoldCommand;
+import frc.robot.commands.ShootOnTheMove.FullShootOnTheMoveSequence;
 import frc.robot.commands.ShooterBangBangControlCommand;
 import frc.robot.commands.ShooterVelocityCommand;
 import frc.robot.generated.TunerConstants;
@@ -115,10 +116,27 @@ public class RobotContainer {
             drivetrain.applyRequest(() -> idle).ignoringDisable(true)
         );
 
-        driver.L2().whileTrue(drivetrain.applyRequest(() -> brake));
-        driver.L1().whileTrue(drivetrain.applyRequest(() ->
-            point.withModuleDirection(new Rotation2d(-driver.getLeftY(), -driver.getLeftX()))
-        ));
+        //driver.L2().whileTrue(drivetrain.applyRequest(() -> brake));
+        //driver.L1().whileTrue(drivetrain.applyRequest(() ->
+        //    point.withModuleDirection(new Rotation2d(-driver.getLeftY(), -driver.getLeftX()))
+        //));
+
+        driver.L1().whileTrue(
+          new FullShootOnTheMoveSequence(
+            drivetrain, 
+            shooter, 
+            hood, 
+            hopperFeeder, 
+            shooterFeeder, 
+            () -> new Translation2d(
+                    -driver.getLeftY() * MaxSpeed,
+                    -driver.getLeftX() * MaxSpeed
+                ), 
+            () -> targetPose.getTranslation(), 
+            drive,
+            () -> driver.R2().getAsBoolean() 
+            )
+        );
 
         driver.R1().whileTrue(
             new FullShootSequence(
