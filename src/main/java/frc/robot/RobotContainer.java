@@ -11,11 +11,10 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
@@ -129,7 +128,10 @@ public class RobotContainer {
                 hopperFeeder,
                 shooterFeeder,
                 // Robot position
-                () -> drivetrain.getState().Pose.getTranslation(),
+                () -> new Translation2d(
+                    -driver.getLeftY() * MaxSpeed,
+                    -driver.getLeftX() * MaxSpeed
+                ),
                 // Target position
                 () -> targetPose.getTranslation(),
                 drive,
@@ -155,7 +157,18 @@ public class RobotContainer {
 
         // Reset the field-centric heading on left bumper press.
         //driver.circle().onTrue(drivetrain.runOnce(() -> drivetrain.resetRotation(Rotation2d.fromDegrees(0))));
-        driver.circle().onTrue(drivetrain.runOnce(()->{drivetrain.getPigeon2().reset();}));
+        driver.circle().onTrue(
+            drivetrain.runOnce(() -> {
+                drivetrain.resetGyro(0);
+
+                Pose2d newPose = new Pose2d(
+                    drivetrain.getPose().getTranslation(),
+                    Rotation2d.kZero
+                );
+
+                drivetrain.resetPose(newPose);  
+            })
+        );
 
         drivetrain.registerTelemetry(logger::telemeterize);
 

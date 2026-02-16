@@ -10,9 +10,9 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.HoodSubSystem;
@@ -24,16 +24,22 @@ public class ShootOnTheMoveCommand extends Command {
   private final CommandSwerveDrivetrain drivetrain;
   private final Supplier<Translation2d> translationSupplier;
   private final Supplier<Translation2d> targetSupplier;
+  private final Supplier<Double> timeOfFlightSupplier;
   private final SwerveRequest.FieldCentric driveRequest;
   private final PIDController thetaController;
   private final ShooterSubSystem shooter;
   private final HoodSubSystem hood;
+  private final Supplier<Double> shooterRPMSupplier;
+  private final Supplier<Double> hoodAngleDegSupplier;
   /** Creates a new ShootOnTheMoveCommand. */
   public ShootOnTheMoveCommand(
         CommandSwerveDrivetrain drivetrain,
         Supplier<Translation2d> translationSupplier,
         Supplier<Translation2d> targetSupplier,
         SwerveRequest.FieldCentric driveRequest,
+        Supplier<Double> timeOfFlightSupplier,
+        Supplier<Double> shooterRPMSupplier,
+        Supplier<Double> hoodAngleDegSupplier,
         ShooterSubSystem shooter,
         HoodSubSystem hood
   ) {
@@ -43,6 +49,9 @@ public class ShootOnTheMoveCommand extends Command {
         this.driveRequest = driveRequest;
         this.shooter = shooter;
         this.hood = hood;
+        this.timeOfFlightSupplier = timeOfFlightSupplier;
+        this.shooterRPMSupplier = shooterRPMSupplier;
+        this.hoodAngleDegSupplier = hoodAngleDegSupplier;
         thetaController=new PIDController(8.0, 0.0, 0.15);
 
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
@@ -61,51 +70,69 @@ public class ShootOnTheMoveCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Translation2d robotPos = drivetrain.getPose().getTranslation();
-    Translation2d targetPos = targetSupplier.get();
-    Translation2d targetDelta = targetPos.minus(robotPos);
-    double deltaY = 62 - 23.25; // in meters, hubheight minus shooter height
-    double deltaX = targetDelta.getNorm(); // horizontal distance (meters)
-    double hoodAngleRad = Math.toRadians(hood.getHoodDegrees());
+    Pose2d robotPose = drivetrain.getPose();
+        Translation2d robotPos = robotPose.getTranslation();
+        Translation2d targetPos = targetSupplier.get();
 
+        // Get current shot parameters
+        double rpm = shooterRPMSupplier.get();
+        double hoodDeg = hoodAngleDegSupplier.get();
 
-    Translation2d robotVel = drivetrain.getFieldVelocity();
-    Translation2d robotAccel = drivetrain.getFieldAcceleration();
+        // Convert RPM to projectile speed
+        double projectileSpeed =
+            CommandSwerveDrivetrain.calculateProjectileSpeed(rpm);
 
-    double projectileSpeed = drivetrain.calculateProjectileSpeed(shooter.getRPM()); // TODO: replace with real shooter model
-    double tFlight = drivetrain.computeFlightTime(projectileSpeed, deltaX, deltaY, hoodAngleRad);
+        double hoodRad = Math.toRadians(hoodDeg);
 
-    Translation2d displacement =
-        robotVel.times(tFlight)
-            .plus(robotAccel.times(0.5 * tFlight * tFlight));
+        // Distance components
+        double deltaX = robotPos.getDistance(targetPos);
+        double deltaY = 0; // assume same height for now
 
-    Translation2d predictedTarget =
-        targetPos.minus(displacement);
+        // Compute flight time using your drivetrain method
+        double flightTime =
+            drivetrain.computeFlightTime(
+                projectileSpeed,
+                deltaX,
+                deltaY,
+                hoodRad
+            );
 
-    Rotation2d desiredHeading =
-        predictedTarget.minus(robotPos).getAngle();
+        // Field-relative robot velocity
+        Translation2d fieldVelocity =
+            drivetrain.getFieldVelocity();
 
-    double omega =
-        thetaController.calculate(
-            drivetrain.getPose().getRotation().getRadians(),
-            desiredHeading.getRadians()
+        // Optional: add acceleration compensation
+        Translation2d fieldAcceleration =
+            drivetrain.getFieldAcceleration();
+
+        // Basic lead compensation
+        Translation2d leadOffset =
+            fieldVelocity.times(flightTime)
+                .plus(fieldAcceleration.times(0.5 * flightTime * flightTime));
+
+        Translation2d virtualTarget =
+            targetPos.minus(leadOffset);
+
+        // Aim at compensated target
+        Rotation2d desiredHeading =
+            drivetrain.getRotationToFacePoint(virtualTarget);
+
+        double omega =
+            thetaController.calculate(
+                robotPose.getRotation().getRadians(),
+                desiredHeading.getRadians()
+            );
+
+        omega = MathUtil.clamp(omega, -3.0, 3.0);
+
+        Translation2d translation = translationSupplier.get();
+
+        drivetrain.setControl(
+            driveRequest
+                .withVelocityX(translation.getX())
+                .withVelocityY(translation.getY())
+                .withRotationalRate(omega)
         );
-
-    omega = MathUtil.clamp(omega, -3.0, 3.0);
-
-    Translation2d translation = translationSupplier.get();
-
-    drivetrain.setControl(
-        driveRequest
-            .withVelocityX(translation.getX())
-            .withVelocityY(translation.getY())
-            .withRotationalRate(omega)
-    );
-
-    SmartDashboard.putNumber("Predicted Target X", predictedTarget.getX());
-    SmartDashboard.putNumber("Predicted Target Y", predictedTarget.getY());
-    SmartDashboard.putNumber("tFlight", tFlight);
-    SmartDashboard.putNumber("Projectile Speed", projectileSpeed);
   }
 
   // Called once the command ends or is interrupted.

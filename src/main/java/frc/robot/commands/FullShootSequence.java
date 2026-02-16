@@ -28,14 +28,14 @@ public class FullShootSequence extends ParallelCommandGroup {
         HoodSubSystem hood,
         HopperFeederSubSystem hopperFeeder,
         ShooterFeederSubSystem shooterFeeder,
-        Supplier<Translation2d> robotPos,
+        Supplier<Translation2d> robotTranslation,
         Supplier<Translation2d> targetPos,
         SwerveRequest.FieldCentric driveRequest,
         BooleanSupplier fireButton,
         Supplier<Double> shooterRPMSupplier,
         Supplier<Double> hoodAngleSupplier
   ) {
-    FaceFieldPointCommand drivetrainCommand = new FaceFieldPointCommand(drivetrain, robotPos, targetPos, driveRequest);
+    FaceFieldPointCommand drivetrainCommand = new FaceFieldPointCommand(drivetrain, robotTranslation, targetPos, driveRequest);
     HoodDynamicPointCommand hoodCommand = new HoodDynamicPointCommand(hood, hoodAngleSupplier);
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());

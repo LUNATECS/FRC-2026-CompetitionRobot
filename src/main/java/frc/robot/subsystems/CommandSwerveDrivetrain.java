@@ -291,8 +291,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         LimelightHelpers.SetRobotOrientation("limelight-hopper", robotYaw, 0, 0, 0, 0, 0);
 
         //update odometry
-        Rotation2d pidgeonRotation2d = new Rotation2d(getPigeon2().getYaw().getValueAsDouble());
-        pose.update(pidgeonRotation2d, getModulePositions());
+        pose.update(getPigeon2().getRotation2d(), getModulePositions());
 
         //getting LL measurements
         LimelightHelpers.PoseEstimate frontMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-shooter");
@@ -538,7 +537,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         // Rotate robot-relative velocity into field coordinates
         double vxField = speeds.vxMetersPerSecond * heading.getCos() - speeds.vyMetersPerSecond * heading.getSin();
         double vyField = speeds.vxMetersPerSecond * heading.getSin() + speeds.vyMetersPerSecond * heading.getCos();
-
+        
         return new Translation2d(vxField, vyField);
       }
 
