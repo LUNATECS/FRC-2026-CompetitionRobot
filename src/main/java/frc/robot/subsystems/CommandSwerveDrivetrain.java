@@ -506,7 +506,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
         public static double calculateProjectileSpeed(double wheelRPM) {
           //this whole method may need to be redone
-            double wheelRadius = 4.0625 / 2.0; 
+            double wheelRadiusInches = 4.0625 / 2.0; 
+            double wheelRadius = wheelRadiusInches * 0.0254; // convert inches to meters, since literally everythign else is in meters per sec
             double omegaRadPerSec = 2 * Math.PI * wheelRPM / 60.0; // convert RPM to rad/
             return omegaRadPerSec * wheelRadius * 0.95; //adjust slip factor depending on tuning
         }
@@ -522,12 +523,14 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
       public double computeFlightTime(double v, double deltaX, double deltaY, double launchAngleRad) {
         double g = 9.81; //gravivty
-        double vy = v * Math.sin(launchAngleRad);
+        double vy = v * Math.sin(launchAngleRad); //vertical component of velocity
         double discriminant = vy*vy - 2 * g * deltaY;
-        if(discriminant < 0) return deltaX / (v * Math.cos(launchAngleRad)); // fallback
+        if(discriminant < 0){
+           return deltaX / (v * Math.cos(launchAngleRad)); // fallback
+        }
         double t1 = (vy + Math.sqrt(discriminant)) / g;
         double t2 = (vy - Math.sqrt(discriminant)) / g;
-        return Math.max(t1, t2);
+        return Math.max(t1, t2); //returns the two possible flight times, but it chooses the max to see when it reaches target on the way down
     }
 
       public Translation2d getFieldVelocity() {

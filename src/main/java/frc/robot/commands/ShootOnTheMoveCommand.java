@@ -15,43 +15,29 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.HoodSubSystem;
-import frc.robot.subsystems.ShooterSubSystem;
 
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ShootOnTheMoveCommand extends Command {
   private final CommandSwerveDrivetrain drivetrain;
-  private final Supplier<Translation2d> translationSupplier;
-  private final Supplier<Translation2d> targetSupplier;
-  private final Supplier<Double> timeOfFlightSupplier;
-  private final SwerveRequest.FieldCentric driveRequest;
-  private final PIDController thetaController;
-  private final ShooterSubSystem shooter;
-  private final HoodSubSystem hood;
-  private final Supplier<Double> shooterRPMSupplier;
-  private final Supplier<Double> hoodAngleDegSupplier;
+    private final Supplier<Translation2d> translationSupplier;
+    private final Supplier<Translation2d> targetSupplier;
+    private final Supplier<Double> flightTimeSupplier;
+    private final SwerveRequest.FieldCentric driveRequest;
+    private final PIDController thetaController;
   /** Creates a new ShootOnTheMoveCommand. */
   public ShootOnTheMoveCommand(
         CommandSwerveDrivetrain drivetrain,
         Supplier<Translation2d> translationSupplier,
         Supplier<Translation2d> targetSupplier,
-        SwerveRequest.FieldCentric driveRequest,
-        Supplier<Double> timeOfFlightSupplier,
-        Supplier<Double> shooterRPMSupplier,
-        Supplier<Double> hoodAngleDegSupplier,
-        ShooterSubSystem shooter,
-        HoodSubSystem hood
+        Supplier<Double> flightTimeSupplier,
+        SwerveRequest.FieldCentric driveRequest
   ) {
         this.drivetrain = drivetrain;
         this.translationSupplier = translationSupplier;
         this.targetSupplier = targetSupplier;
+        this.flightTimeSupplier = flightTimeSupplier;
         this.driveRequest = driveRequest;
-        this.shooter = shooter;
-        this.hood = hood;
-        this.timeOfFlightSupplier = timeOfFlightSupplier;
-        this.shooterRPMSupplier = shooterRPMSupplier;
-        this.hoodAngleDegSupplier = hoodAngleDegSupplier;
         thetaController=new PIDController(8.0, 0.0, 0.15);
 
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
@@ -70,68 +56,31 @@ public class ShootOnTheMoveCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Pose2d robotPose = drivetrain.getPose();
+        Pose2d robotPose = drivetrain.getPose();
         Translation2d robotPos = robotPose.getTranslation();
         Translation2d targetPos = targetSupplier.get();
 
-        // Get current shot parameters
-        double rpm = shooterRPMSupplier.get();
-        double hoodDeg = hoodAngleDegSupplier.get();
+        // Leading calculations 
+        double flightTime = flightTimeSupplier.get();
+        Translation2d leadOffset = drivetrain.getFieldVelocity().times(flightTime)
+                .plus(drivetrain.getFieldAcceleration().times(0.5 * flightTime * flightTime));
+        Translation2d virtualTarget = targetPos.minus(leadOffset);
 
-        // Convert RPM to projectile speed
-        double projectileSpeed =
-            CommandSwerveDrivetrain.calculateProjectileSpeed(rpm);
-
-        double hoodRad = Math.toRadians(hoodDeg);
-
-        // Distance components
-        double deltaX = robotPos.getDistance(targetPos);
-        double deltaY = 0; // assume same height for now
-
-        // Compute flight time using your drivetrain method
-        double flightTime =
-            drivetrain.computeFlightTime(
-                projectileSpeed,
-                deltaX,
-                deltaY,
-                hoodRad
-            );
-
-        // Field-relative robot velocity
-        Translation2d fieldVelocity =
-            drivetrain.getFieldVelocity();
-
-        // Optional: add acceleration compensation
-        Translation2d fieldAcceleration =
-            drivetrain.getFieldAcceleration();
-
-        // Basic lead compensation
-        Translation2d leadOffset =
-            fieldVelocity.times(flightTime)
-                .plus(fieldAcceleration.times(0.5 * flightTime * flightTime));
-
-        Translation2d virtualTarget =
-            targetPos.minus(leadOffset);
-
-        // Aim at compensated target
-        Rotation2d desiredHeading =
-            drivetrain.getRotationToFacePoint(virtualTarget);
-
-        double omega =
-            thetaController.calculate(
+        // Rotate drivetrain to face "predicted" target
+        Rotation2d desiredHeading = drivetrain.getRotationToFacePoint(virtualTarget);
+        double omega = thetaController.calculate(
                 robotPose.getRotation().getRadians(),
                 desiredHeading.getRadians()
-            );
-
+        );
         omega = MathUtil.clamp(omega, -3.0, 3.0);
 
+        // Get translational movement
         Translation2d translation = translationSupplier.get();
 
         drivetrain.setControl(
-            driveRequest
-                .withVelocityX(translation.getX())
-                .withVelocityY(translation.getY())
-                .withRotationalRate(omega)
+                driveRequest.withVelocityX(translation.getX())
+                        .withVelocityY(translation.getY())
+                        .withRotationalRate(omega)
         );
   }
 
