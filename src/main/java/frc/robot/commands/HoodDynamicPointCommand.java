@@ -10,8 +10,6 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.HoodSubSystem;
-import frc.robot.util.ShotCalc;
-import frc.robot.util.ShotConfigs;
 
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
@@ -21,9 +19,9 @@ public class HoodDynamicPointCommand extends Command {
   private final Supplier<Double> angleSupplier;
 
   /** Creates a new HoodDynamicPointCommand. */
-  public HoodDynamicPointCommand(HoodSubSystem hood, Supplier<Double> angleSUpplier) {
+  public HoodDynamicPointCommand(HoodSubSystem hood, Supplier<Double> angleSupplier) {
     this.hood=hood;
-    this.angleSupplier = angleSUpplier;
+    this.angleSupplier = angleSupplier;
     pid = new PIDController(0.125, 0, 0);
     pid.setTolerance(0.25);
     //COMPLETELY UNTUNED
