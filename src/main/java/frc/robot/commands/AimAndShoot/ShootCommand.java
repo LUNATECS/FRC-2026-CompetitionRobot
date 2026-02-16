@@ -2,31 +2,33 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.AimAndShoot;
 
 import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.HoodDynamicPointCommand;
+import frc.robot.commands.ShooterFeederDynamicCommand;
 import frc.robot.subsystems.HopperFeederSubSystem;
 import frc.robot.subsystems.ShooterFeederSubSystem;
 import frc.robot.subsystems.ShooterSubSystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ShootOnTheMoveShootCommand extends Command {
+public class ShootCommand extends Command {
   /** Creates a new ShootCommand. */
   HopperFeederSubSystem hopperFeeder;
   ShooterFeederSubSystem shooterFeeder;
   ShooterSubSystem shooter;
   HoodDynamicPointCommand hoodCommand;
-  ShootOnTheMoveCommand drivetrainCommand;
+  FaceFieldPointCommand drivetrainCommand;
   BooleanSupplier fireButton;
   ShooterFeederDynamicCommand feederCommand;
-  public ShootOnTheMoveShootCommand(
+  public ShootCommand(
         HopperFeederSubSystem hopperFeeder,
         ShooterFeederSubSystem shooterFeeder,
         ShooterSubSystem shooter,
         HoodDynamicPointCommand hoodCommand,
-        ShootOnTheMoveCommand drivetrainCommand,
+        FaceFieldPointCommand drivetrainCommand,
 
         BooleanSupplier fireButton
   ) {
