@@ -23,7 +23,7 @@ public class HoodDynamicPointCommand extends Command {
     this.hood=hood;
     this.angleSupplier = angleSupplier;
     pid = new PIDController(0.115, 0, 0);
-    pid.setTolerance(0.25);
+    pid.setTolerance(0.5);
     addRequirements(hood);
     // Use addRequirements() here to declare subsystem dependencies.
   }

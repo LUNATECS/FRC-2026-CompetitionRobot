@@ -3,8 +3,6 @@ package frc.robot.util;
 import java.util.function.Supplier;
 
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.HoodSubSystem;
 import frc.robot.subsystems.ShooterSubSystem;
@@ -22,6 +20,7 @@ public class SOTMSuppliers {
             HoodSubSystem hood,
             Supplier<Translation2d> targetPos
     ) {
+        
 
         // Flight time supplier
         flightTimeSupplier = () -> {
@@ -42,11 +41,7 @@ public class SOTMSuppliers {
 
             // Lead compensation
             double flightTime = flightTimeSupplier.get();
-            Translation2d rawVel = drivetrain.getFieldVelocity();
-            filteredVelocity = new Translation2d(
-                filteredVelocity.getX() + alpha * (rawVel.getX()-filteredVelocity.getX()),
-                filteredVelocity.getY() + alpha * (rawVel.getY() - filteredVelocity .getY())
-            ); 
+            filteredVelocity = getFilteredVelocity(drivetrain);
             Translation2d leadOffset = filteredVelocity.times(flightTime);
                     //.plus(drivetrain.getFieldAcceleration().times(0.5 * flightTime * flightTime));
             Translation2d virtualTarget = target.minus(leadOffset);
@@ -66,11 +61,7 @@ public class SOTMSuppliers {
 
             // Lead compensation
             double flightTime = flightTimeSupplier.get();
-            Translation2d rawVel = drivetrain.getFieldVelocity();
-            filteredVelocity = new Translation2d(
-                filteredVelocity.getX() + alpha * (rawVel.getX()-filteredVelocity.getX()),
-                filteredVelocity.getY() + alpha * (rawVel.getY() - filteredVelocity .getY())
-            ); 
+            filteredVelocity = getFilteredVelocity(drivetrain);
             Translation2d leadOffset = filteredVelocity.times(flightTime);
                     //.plus(drivetrain.getFieldAcceleration().times(0.5 * flightTime * flightTime));
             Translation2d virtualTarget = target.minus(leadOffset);
@@ -84,4 +75,15 @@ public class SOTMSuppliers {
             return SOTMCalc.getInstance().getParameters(distanceToVirtualTarget).rpm();
         };
     }
+
+    private Translation2d getFilteredVelocity(CommandSwerveDrivetrain drivetrain) {
+    Translation2d rawVel = drivetrain.getFieldVelocity();
+
+    filteredVelocity = new Translation2d(
+        filteredVelocity.getX() + alpha * (rawVel.getX() - filteredVelocity.getX()),
+        filteredVelocity.getY() + alpha * (rawVel.getY() - filteredVelocity.getY())
+    );
+
+    return filteredVelocity;
+}
 }

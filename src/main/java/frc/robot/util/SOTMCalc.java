@@ -31,7 +31,7 @@ public class SOTMCalc {
 
     // Private constructor to populate LUTs
     private SOTMCalc() {
-        // Distance → RPM
+        // Distance to RPM
         rpmMap.put(1.25, 1000.0);
         rpmMap.put(1.75, 950.0);
         rpmMap.put(2.0, 1000.0);
@@ -43,7 +43,7 @@ public class SOTMCalc {
         rpmMap.put(5.0, 1400.0);
 
 
-        // Distance → Hood Angle (degrees)
+        // Distance to hood angle
         hoodMap.put(1.25, 0.0);
         hoodMap.put(1.75, 7.5);
         hoodMap.put(2.0, 7.5);
@@ -54,7 +54,7 @@ public class SOTMCalc {
         hoodMap.put(4.5, 20.0);
         hoodMap.put(5.0, 20.0);
 
-        // Distance → Time of Flight (seconds)
+        // distance to TOF
         tofMap.put(1.25, 0.94);
         tofMap.put(1.75, 0.83);
         tofMap.put(2.0, 0.86);
