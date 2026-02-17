@@ -52,7 +52,7 @@ public class ShooterSubSystem extends SubsystemBase {
     motorOutputConfigs.Inverted = InvertedValue.CounterClockwise_Positive;
 
     var currentLimits = new CurrentLimitsConfigs();
-    currentLimits.SupplyCurrentLimit = 40;   //increase this current limit if necessary
+    currentLimits.SupplyCurrentLimit = 50;   //increase this current limit if necessary (increased from 40)
     currentLimits.SupplyCurrentLimitEnable = true;
 
     var slot0Configs = new Slot0Configs();
@@ -65,8 +65,8 @@ public class ShooterSubSystem extends SubsystemBase {
     //test recovery by increasing/decreasing the P value. 
 
     var voltageConfigs = new VoltageConfigs();
-    voltageConfigs.PeakForwardVoltage = 12;
-    voltageConfigs.PeakReverseVoltage = -12;
+    voltageConfigs.PeakForwardVoltage = 13; // increased from 12
+    voltageConfigs.PeakReverseVoltage = -13; // increased from 12
 
     shooterMotor1.getConfigurator().apply(slot0Configs);
     shooterMotor1.getConfigurator().apply(feedbackConfigs);

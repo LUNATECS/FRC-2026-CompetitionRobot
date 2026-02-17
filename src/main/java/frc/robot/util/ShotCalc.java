@@ -18,21 +18,25 @@ public class ShotCalc {
         if (distanceMeters < 1.25){
             return new ShotConfigs(0, 1000);
         }
-        else if (distanceMeters < 2 && distanceMeters > 1.25){
-            return new ShotConfigs(7.5, interpolate(distanceMeters, 1.25, 2, 800, 1000));
+        else if (distanceMeters < 1.75 && distanceMeters > 1.25){
+            return new ShotConfigs(7.5, interpolate(distanceMeters, 1.75, 2, 950, 1000));
         }
 
-        else if (distanceMeters < 3 && distanceMeters >2){
-            return new ShotConfigs(15, interpolate(distanceMeters, 2, 3, 1000, 1100));
+        else if (distanceMeters < 2.5 && distanceMeters >2){
+            return new ShotConfigs(7.5, interpolate(distanceMeters, 2, 2.5, 1000, 1100));
         }
 
-        else if (distanceMeters < 4 && distanceMeters >3){
-            return new ShotConfigs(15, interpolate(distanceMeters, 3, 4, 1100, 1250));
+        else if (distanceMeters < 3.5 && distanceMeters >3){
+            return new ShotConfigs(15, interpolate(distanceMeters, 3, 3.5, 1090, 1150));
         }
 
-        else if (distanceMeters < 4.7 && distanceMeters > 4) {
+        else if (distanceMeters < 4.5 && distanceMeters > 4){
+            return new ShotConfigs(20, interpolate(distanceMeters, 4, 4.5, 1215, 1300));
+        }
+
+        else if (distanceMeters < 5 && distanceMeters > 4) {
         return new ShotConfigs(
-            15.0,interpolate(distanceMeters, 4.0, 4.7, 1200, 1400)
+            20,interpolate(distanceMeters, 4.0, 4.5, 1215, 1300)
         );
         } else {
             return new ShotConfigs(30, 4000);
