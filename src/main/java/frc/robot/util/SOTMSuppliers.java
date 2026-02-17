@@ -10,6 +10,7 @@ import frc.robot.subsystems.ShooterSubSystem;
 public class SOTMSuppliers {
     private Translation2d filteredVelocity = new Translation2d(0, 0);
     private final double alpha = 0.2;
+    //reduce alpha for smoother but more delayed response, increase for more responsive but noisier output
     public final Supplier<Double> hoodAngleSupplier;
     public final Supplier<Double> shooterRPMSupplier;
     public final Supplier<Double> flightTimeSupplier;
