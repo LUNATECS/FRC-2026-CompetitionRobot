@@ -83,6 +83,22 @@ public class SOTMCalc {
         return new FullShooterParams(rpm, hood, tof);
     }
 
+
+        public double getSteppedHood(double distance) {
+        distance = clampDistance(distance);
+
+        // Manually define your ranges
+        if (distance < 1.75) {
+            return 0.0;
+        } else if (distance < 3.0) {
+            return 7.5;
+        } else if (distance < 4.5) {
+            return 15.0;
+        } else {
+            return 20.0;
+        }
+    }
+
     /**
      * Adjust both RPM and hood for a required horizontal velocity.
      * @param distance The distance to target in meters

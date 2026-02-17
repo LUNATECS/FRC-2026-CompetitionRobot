@@ -52,7 +52,9 @@ public class SOTMSuppliers {
             double requiredVelocity = distanceToVirtualTarget / flightTime;
 
             // Use SOTMCalc to get hood angle
-            return SOTMCalc.getInstance().getParameters(distanceToVirtualTarget).hoodAngle();
+            //return SOTMCalc.getInstance().getParameters(distanceToVirtualTarget).hoodAngle();
+            //stepped hood parameters:
+            return SOTMCalc.getInstance().getSteppedHood(distanceToVirtualTarget);
         };
 
         shooterRPMSupplier = () -> {
