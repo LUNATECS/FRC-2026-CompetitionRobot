@@ -21,7 +21,7 @@ public class SOTMCalc {
     }
 
     // LUT bounds
-    private static final double MIN_DISTANCE = 1.5;
+    private static final double MIN_DISTANCE = 1.25;
     private static final double MAX_DISTANCE = 5.0;
 
     // Separate LUTs for each field
@@ -32,34 +32,38 @@ public class SOTMCalc {
     // Private constructor to populate LUTs
     private SOTMCalc() {
         // Distance → RPM
-        rpmMap.put(1.5, 2800.0);
-        rpmMap.put(2.0, 3100.0);
-        rpmMap.put(2.5, 3400.0);
-        rpmMap.put(3.0, 3650.0);
-        rpmMap.put(3.5, 3900.0);
-        rpmMap.put(4.0, 4100.0);
-        rpmMap.put(4.5, 4350.0);
-        rpmMap.put(5.0, 4550.0);
+        rpmMap.put(1.25, 1000.0);
+        rpmMap.put(1.75, 950.0);
+        rpmMap.put(2.0, 1000.0);
+        rpmMap.put(2.5, 1000.0);
+        rpmMap.put(3.0, 1050.0);
+        rpmMap.put(3.5, 1150.0);
+        rpmMap.put(4.0, 1215.0);
+        rpmMap.put(4.5, 1300.0);
+        rpmMap.put(5.0, 1400.0);
+
 
         // Distance → Hood Angle (degrees)
-        hoodMap.put(1.5, 35.0);
-        hoodMap.put(2.0, 38.0);
-        hoodMap.put(2.5, 42.0);
-        hoodMap.put(3.0, 46.0);
-        hoodMap.put(3.5, 50.0);
-        hoodMap.put(4.0, 54.0);
-        hoodMap.put(4.5, 58.0);
-        hoodMap.put(5.0, 62.0);
+        hoodMap.put(1.25, 0.0);
+        hoodMap.put(1.75, 7.5);
+        hoodMap.put(2.0, 7.5);
+        hoodMap.put(2.5, 7.5);
+        hoodMap.put(3.0, 15.0);
+        hoodMap.put(3.5, 15.0);
+        hoodMap.put(4.0, 15.0);
+        hoodMap.put(4.5, 20.0);
+        hoodMap.put(5.0, 20.0);
 
         // Distance → Time of Flight (seconds)
-        tofMap.put(1.5, 0.38);
-        tofMap.put(2.0, 0.45);
-        tofMap.put(2.5, 0.52);
-        tofMap.put(3.0, 0.60);
-        tofMap.put(3.5, 0.68);
-        tofMap.put(4.0, 0.76);
-        tofMap.put(4.5, 0.85);
-        tofMap.put(5.0, 0.94);
+        tofMap.put(1.25, 0.94);
+        tofMap.put(1.75, 0.83);
+        tofMap.put(2.0, 0.86);
+        tofMap.put(2.5, 0.95);
+        tofMap.put(3.0, 0.86);
+        tofMap.put(3.5, 1.01);
+        tofMap.put(4.0, 1.21);
+        tofMap.put(4.5, 1.11);
+        tofMap.put(5.0, 1.24);
     }
 
     /** Record to hold interpolated shooter parameters */
@@ -85,29 +89,31 @@ public class SOTMCalc {
      * @param requiredVelocity The horizontal velocity needed to hit target
      * @return ShotConfigs containing adjusted hood and RPM
      */
-    public ShotConfigs calculateBoth(double distance, double requiredVelocity) {
+    /*public ShotConfigs calculateBoth(double distance, double requiredVelocity) {
         double rpmWeight = 0.7; // tuned to your robot
         double hoodWeight = 0.3;
         FullShooterParams baseline = getParameters(distance);
 
         // Compute baseline horizontal velocity based on RPM and hood
-        double baselineHorizVel = baseline.rpm / Math.cos(Math.toRadians(baseline.hoodAngle));
+        //double baselineHorizVel = baseline.rpm / Math.cos(Math.toRadians(baseline.hoodAngle));
 
         // Ratio of target velocity to baseline
-        double velocityRatio = requiredVelocity / baselineHorizVel;
+        //double velocityRatio = requiredVelocity / baselineHorizVel;
 
         // Split correction between RPM and hood using the weighing
-        double rpmFactor = Math.pow(velocityRatio, rpmWeight);
-        double hoodFactor = Math.pow(velocityRatio, hoodWeight);
+        //double rpmFactor = Math.pow(velocityRatio, rpmWeight);
+        //double hoodFactor = Math.pow(velocityRatio, hoodWeight);
 
         // Adjust RPM
-        double adjustedRpm = baseline.rpm * rpmFactor;
+        //double adjustedRpm = baseline.rpm * rpmFactor;
 
         // Adjust hood
-        double targetHorizFromHood = baselineHorizVel * hoodFactor;
-        double ratio = MathUtil.clamp(targetHorizFromHood / baselineHorizVel, 0.0, 1.0);
-        double adjustedHood = Math.toDegrees(Math.acos(ratio));
+        //double targetHorizFromHood = baselineHorizVel * hoodFactor;
+        //double ratio = MathUtil.clamp(targetHorizFromHood / baselineHorizVel, 0.0, 1.0);
+        //double adjustedHood = Math.toDegrees(Math.acos(ratio));
+        FullShooterParams adjusted = getParameters(distanceToVirtualTarget);
 
-        return new ShotConfigs(adjustedHood, adjustedRpm);
+        return new ShotConfigs(adjusted.hoodAngle, adjusted.rpm);
     }
+        */
 }

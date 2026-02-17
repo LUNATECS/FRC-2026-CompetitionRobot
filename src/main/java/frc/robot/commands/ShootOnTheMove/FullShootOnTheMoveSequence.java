@@ -10,6 +10,7 @@ import java.util.function.Supplier;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.HoodDynamicPointCommand;
 import frc.robot.commands.ShooterDynamicVelocityCommand;
@@ -43,6 +44,7 @@ public class FullShootOnTheMoveSequence extends ParallelCommandGroup {
 
       //used commands
       HoodDynamicPointCommand hoodCommand = new HoodDynamicPointCommand(hood, suppliers.hoodAngleSupplier);
+
         ShooterDynamicVelocityCommand shooterCommand = new ShooterDynamicVelocityCommand(shooter, suppliers.shooterRPMSupplier);
         ShootOnTheMoveCommand drivetrainCommand = new ShootOnTheMoveCommand(
                 drivetrain, robotTranslation, targetPos, suppliers.flightTimeSupplier, driveRequest

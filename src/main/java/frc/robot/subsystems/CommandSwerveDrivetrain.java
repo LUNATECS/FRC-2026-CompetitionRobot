@@ -493,6 +493,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
          }
          public void resetPose(Pose2d rpose) {
            pose.resetPose(rpose);
+           this.seedFieldCentric(rpose.getRotation());
          }
 
          public Rotation2d getRotationToFacePoint(Translation2d fieldTarget) {

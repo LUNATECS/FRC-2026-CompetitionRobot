@@ -3,11 +3,15 @@ package frc.robot.util;
 import java.util.function.Supplier;
 
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.HoodSubSystem;
 import frc.robot.subsystems.ShooterSubSystem;
 
 public class SOTMSuppliers {
+    private Translation2d filteredVelocity = new Translation2d(0, 0);
+    private final double alpha = 0.2;
     public final Supplier<Double> hoodAngleSupplier;
     public final Supplier<Double> shooterRPMSupplier;
     public final Supplier<Double> flightTimeSupplier;
@@ -38,8 +42,13 @@ public class SOTMSuppliers {
 
             // Lead compensation
             double flightTime = flightTimeSupplier.get();
-            Translation2d leadOffset = drivetrain.getFieldVelocity().times(flightTime)
-                    .plus(drivetrain.getFieldAcceleration().times(0.5 * flightTime * flightTime));
+            Translation2d rawVel = drivetrain.getFieldVelocity();
+            filteredVelocity = new Translation2d(
+                filteredVelocity.getX() + alpha * (rawVel.getX()-filteredVelocity.getX()),
+                filteredVelocity.getY() + alpha * (rawVel.getY() - filteredVelocity .getY())
+            ); 
+            Translation2d leadOffset = filteredVelocity.times(flightTime);
+                    //.plus(drivetrain.getFieldAcceleration().times(0.5 * flightTime * flightTime));
             Translation2d virtualTarget = target.minus(leadOffset);
 
             double distanceToVirtualTarget = robotPos.getDistance(virtualTarget);
@@ -48,7 +57,7 @@ public class SOTMSuppliers {
             double requiredVelocity = distanceToVirtualTarget / flightTime;
 
             // Use SOTMCalc to get hood angle
-            return SOTMCalc.getInstance().calculateBoth(distanceToVirtualTarget, requiredVelocity).hoodDeg;
+            return SOTMCalc.getInstance().getParameters(distanceToVirtualTarget).hoodAngle();
         };
 
         shooterRPMSupplier = () -> {
@@ -57,8 +66,13 @@ public class SOTMSuppliers {
 
             // Lead compensation
             double flightTime = flightTimeSupplier.get();
-            Translation2d leadOffset = drivetrain.getFieldVelocity().times(flightTime)
-                    .plus(drivetrain.getFieldAcceleration().times(0.5 * flightTime * flightTime));
+            Translation2d rawVel = drivetrain.getFieldVelocity();
+            filteredVelocity = new Translation2d(
+                filteredVelocity.getX() + alpha * (rawVel.getX()-filteredVelocity.getX()),
+                filteredVelocity.getY() + alpha * (rawVel.getY() - filteredVelocity .getY())
+            ); 
+            Translation2d leadOffset = filteredVelocity.times(flightTime);
+                    //.plus(drivetrain.getFieldAcceleration().times(0.5 * flightTime * flightTime));
             Translation2d virtualTarget = target.minus(leadOffset);
 
             double distanceToVirtualTarget = robotPos.getDistance(virtualTarget);
@@ -67,7 +81,7 @@ public class SOTMSuppliers {
             double requiredVelocity = distanceToVirtualTarget / flightTime;
 
             // Use SOTMCalc to get RPM
-            return SOTMCalc.getInstance().calculateBoth(distanceToVirtualTarget, requiredVelocity).rpm;
+            return SOTMCalc.getInstance().getParameters(distanceToVirtualTarget).rpm();
         };
     }
 }

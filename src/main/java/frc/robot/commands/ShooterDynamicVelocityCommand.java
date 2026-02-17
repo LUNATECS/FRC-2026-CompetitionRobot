@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import java.util.function.Supplier;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ShooterSubSystem;
 
@@ -28,6 +29,7 @@ public class ShooterDynamicVelocityCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    SmartDashboard.putNumber("SHOOTERSETPOINT", rpmSupplier.get());
     shooter.setRPM(rpmSupplier.get());
   }
 

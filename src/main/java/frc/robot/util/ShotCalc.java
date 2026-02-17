@@ -27,15 +27,15 @@ public class ShotCalc {
         }
 
         else if (distanceMeters < 4 && distanceMeters >3){
-            return new ShotConfigs(15, interpolate(distanceMeters, 3, 4, 1100, 1210));
+            return new ShotConfigs(15, interpolate(distanceMeters, 3, 4, 1100, 1250));
         }
 
         else if (distanceMeters < 4.7 && distanceMeters > 4) {
         return new ShotConfigs(
-            15.0,interpolate(distanceMeters, 4.0, 4.7, 1210, 1400)
+            15.0,interpolate(distanceMeters, 4.0, 4.7, 1200, 1400)
         );
         } else {
-            return new ShotConfigs(0.0, 0.0);
+            return new ShotConfigs(30, 4000);
         }
     }
 

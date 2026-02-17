@@ -38,7 +38,7 @@ public class ShootOnTheMoveCommand extends Command {
         this.targetSupplier = targetSupplier;
         this.flightTimeSupplier = flightTimeSupplier;
         this.driveRequest = driveRequest;
-        thetaController=new PIDController(8.0, 0.0, 0.15);
+        thetaController=new PIDController(4.0, 0.0, 0.15);
 
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
         thetaController.setTolerance(Math.toRadians(1.5));

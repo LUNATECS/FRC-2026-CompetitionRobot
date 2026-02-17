@@ -185,6 +185,7 @@ public class RobotContainer {
                 );
 
                 drivetrain.resetPose(newPose);  
+                drivetrain.getState().Pose.equals(newPose);
             })
         );
 
