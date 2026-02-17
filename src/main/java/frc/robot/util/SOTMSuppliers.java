@@ -54,7 +54,8 @@ public class SOTMSuppliers {
             // Use SOTMCalc to get hood angle
             //return SOTMCalc.getInstance().getParameters(distanceToVirtualTarget).hoodAngle();
             //stepped hood parameters:
-            return SOTMCalc.getInstance().getSteppedHood(distanceToVirtualTarget);
+            //return SOTMCalc.getInstance().getSteppedHood(distanceToVirtualTarget);
+            return SOTMCalc.getInstance().getHybridSteppedHood(distanceToVirtualTarget);
         };
 
         shooterRPMSupplier = () -> {

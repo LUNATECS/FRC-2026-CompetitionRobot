@@ -99,6 +99,25 @@ public class SOTMCalc {
         }
     }
 
+    public double getHybridSteppedHood(double distance) {
+        distance = clampDistance(distance);
+
+        // Transition zones
+        if (distance >= 1.25 && distance <= 1.75) {
+            double t = (distance - 1.25) / (1.75 - 1.25);
+            return 0.0 + t * (7.5 - 0.0);
+        } else if (distance >= 2.5 && distance <= 3.0) {
+            double t = (distance - 2.5) / (3.0 - 2.5);
+            return 7.5 + t * (15.0 - 7.5);
+        } else if (distance >= 4.0 && distance <= 4.5) {
+            double t = (distance - 4.0) / (4.5 - 4.0);
+            return 15.0 + t * (20.0 - 15.0);
+        } else {
+            // Outside transition zones → stepped LUT
+            return hoodMap.get(distance);
+        }
+    }
+
     /**
      * Adjust both RPM and hood for a required horizontal velocity.
      * @param distance The distance to target in meters
