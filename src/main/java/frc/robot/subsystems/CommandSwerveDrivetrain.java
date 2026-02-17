@@ -45,6 +45,8 @@ import frc.robot.subsystems.vision.LimelightHelpers;
 * Subsystem so it can easily be used in command-based projects.
 */
 public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Subsystem {
+    private Translation2d filteredVelocity = new Translation2d(0, 0);
+    private final double alpha = 0.2;
    private static final double kSimLoopPeriod = 0.005; // 5 ms
    private Notifier m_simNotifier = null;
    private double m_lastSimTime;
@@ -286,6 +288,21 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         double robotPitch = getPigeon2().getPitch().getValueAsDouble();
         double robotRoll = getPigeon2().getRoll().getValueAsDouble();
         SmartDashboard.putNumber("pidgeon2 reading", robotYaw);
+        SmartDashboard.putNumber("pidgeon roll", robotRoll);
+        SmartDashboard.putNumber("pidgeon pitch", robotPitch);
+        SmartDashboard.putNumber("pidgeon aceleration x ", getPigeon2().getAccelerationX().getValueAsDouble()); 
+        SmartDashboard.putNumber("pidgeon aceleration y ", getPigeon2().getAccelerationY().getValueAsDouble()); 
+
+        Translation2d rawVel = getFieldVelocity();
+            filteredVelocity = new Translation2d(
+                filteredVelocity.getX() + alpha * (rawVel.getX()-filteredVelocity.getX()),
+                filteredVelocity.getY() + alpha * (rawVel.getY() - filteredVelocity .getY())
+            );
+        
+        SmartDashboard.putNumber("Filtered Velocity X", filteredVelocity.getX());
+        SmartDashboard.putNumber("Filtered Velocity Y", filteredVelocity.getY());
+        SmartDashboard.putNumber("Filtered Velocity Magnitude", filteredVelocity.getNorm());
+
         //Double Limelight Orientations
         LimelightHelpers.SetRobotOrientation("limelight-shooter", robotYaw, 0, 0, 0, 0, 0);
         LimelightHelpers.SetRobotOrientation("limelight-hopper", robotYaw, 0, 0, 0, 0, 0);

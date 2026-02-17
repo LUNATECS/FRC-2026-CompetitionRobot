@@ -4,9 +4,11 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.VoltageConfigs;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -49,6 +51,10 @@ public class ShooterSubSystem extends SubsystemBase {
     motorOutputConfigs.NeutralMode = NeutralModeValue.Coast;
     motorOutputConfigs.Inverted = InvertedValue.CounterClockwise_Positive;
 
+    var currentLimits = new CurrentLimitsConfigs();
+    currentLimits.SupplyCurrentLimit = 40;   //increase this current limit if necessary
+    currentLimits.SupplyCurrentLimitEnable = true;
+
     var slot0Configs = new Slot0Configs();
     //Slot configs untested but are good base values
     slot0Configs.kV = 0.18;
@@ -58,9 +64,15 @@ public class ShooterSubSystem extends SubsystemBase {
     //FOR ADJUSTING, FIRST SET PID VALUES TO 0, AND SEE IF kV is reaching setpoint consistenly across all ranges, then
     //test recovery by increasing/decreasing the P value. 
 
+    var voltageConfigs = new VoltageConfigs();
+    voltageConfigs.PeakForwardVoltage = 12;
+    voltageConfigs.PeakReverseVoltage = -12;
+
     shooterMotor1.getConfigurator().apply(slot0Configs);
     shooterMotor1.getConfigurator().apply(feedbackConfigs);
     shooterMotor1.getConfigurator().apply(motorOutputConfigs);
+    shooterMotor1.getConfigurator().apply(currentLimits);
+    shooterMotor1.getConfigurator().apply(voltageConfigs);
 
     motorVelocity.Slot = 0;
   }

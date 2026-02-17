@@ -8,6 +8,7 @@ package frc.robot;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -23,7 +24,6 @@ import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.autos.PracticeAuto;
-import frc.robot.commands.AimAndShoot.FaceFieldPointCommand;
 import frc.robot.commands.AimAndShoot.FullShootSequence;
 import frc.robot.commands.HoodHoldCommand;
 import frc.robot.commands.ShootOnTheMove.FullShootOnTheMoveSequence;
@@ -76,6 +76,11 @@ public class RobotContainer {
     //shooting configs/targets
     private Pose2d targetPose = new Pose2d(4.625, 4.04, new Rotation2d(0)); // Example target pose on the field
 
+    //slewrate limiters for slower accelerated driving
+   private final SlewRateLimiter xLimiter = new SlewRateLimiter(3.0); // m/s per second, increase if we need to.
+    private final SlewRateLimiter yLimiter = new SlewRateLimiter(3.0);
+    private final SlewRateLimiter rotLimiter = new SlewRateLimiter(6.0);
+
 
 
 
@@ -101,13 +106,29 @@ public class RobotContainer {
   private void configureBindings() {
     //DRIVER CONTROLS, CURRENTLY WITH SYSID TESTING
     drivetrain.setDefaultCommand(
-            // Drivetrain will execute this command periodically
-            drivetrain.applyRequest(() ->
-                drive.withVelocityX(-driver.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-                    .withVelocityY(-driver.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-                    .withRotationalRate(-driver.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
-            )
-        );
+    drivetrain.applyRequest(() -> {
+
+        double rawX = -driver.getLeftY() * MaxSpeed;
+        double rawY = -driver.getLeftX() * MaxSpeed;
+        double rawRot = -driver.getRightX() * MaxAngularRate;
+
+        if (driver.touchpad().getAsBoolean()) {
+            // Smooth mode
+            rawX = xLimiter.calculate(rawX);
+            rawY = yLimiter.calculate(rawY);
+            rawRot = rotLimiter.calculate(rawRot);
+        } else {
+            // Reset so no lag when switching back
+            xLimiter.reset(rawX);
+            yLimiter.reset(rawY);
+            rotLimiter.reset(rawRot);
+        }
+
+        return drive.withVelocityX(rawX)
+                    .withVelocityY(rawY)
+                    .withRotationalRate(rawRot);
+    })
+);
 
         // Idle while the robot is disabled. This ensures the configured
         // neutral mode is applied to the drive motors while disabled.
@@ -134,7 +155,7 @@ public class RobotContainer {
                 ), 
             () -> targetPose.getTranslation(), 
             drive,
-            () -> driver.R2().getAsBoolean() 
+            () -> driver.L2().getAsBoolean() 
             )
         );
 
@@ -191,17 +212,17 @@ public class RobotContainer {
 
         drivetrain.registerTelemetry(logger::telemeterize);
 
-        driver.touchpad().whileTrue(
-            new FaceFieldPointCommand(
-                drivetrain,
-                () -> new Translation2d(
-                    -driver.getLeftY() * MaxSpeed,
-                    -driver.getLeftX() * MaxSpeed
-                ),
-                () -> targetPose.getTranslation(),
-                drive
-            )
-        );
+        // driver.touchpad().whileTrue(
+        //     new FaceFieldPointCommand(
+        //         drivetrain,
+        //         () -> new Translation2d(
+        //             -driver.getLeftY() * MaxSpeed,
+        //             -driver.getLeftX() * MaxSpeed
+        //         ),
+        //         () -> targetPose.getTranslation(),
+        //         drive
+        //     )
+        // );
 
     //TESTER CONTROLS:
 
