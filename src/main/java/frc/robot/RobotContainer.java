@@ -14,6 +14,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -22,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import frc.robot.autos.OneCycleNoClimbAuto;
 import frc.robot.autos.PracticeAuto;
 import frc.robot.commands.AimAndShoot.FaceFieldPointCommand;
 import frc.robot.commands.AimAndShoot.FullShootSequence;
@@ -38,8 +40,6 @@ import frc.robot.subsystems.HopperSubSystem;
 import frc.robot.subsystems.ShooterFeederSubSystem;
 import frc.robot.subsystems.ShooterSubSystem;
 import frc.robot.util.SOTMCalc;
-import frc.robot.util.ShotCalc;
-import frc.robot.util.ShotConfigs;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -75,12 +75,21 @@ public class RobotContainer {
     private final Telemetry logger = new Telemetry(MaxSpeed);
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
+    //autochooser
+    private final SendableChooser<Command> autoChooser = new SendableChooser<>();
+
     //shooting configs/targets
     private Pose2d targetPose = new Pose2d(4.625, 4.04, new Rotation2d(0)); // Example target pose on the field
 
 
 
+  private void setupAutoChooser() {
+        autoChooser.setDefaultOption("Practice Auto", PracticeAuto.build(drivetrain));
+        autoChooser.addOption("One Cycle No Climb", OneCycleNoClimbAuto.build(drivetrain));
 
+        // Put the chooser on SmartDashboard
+        SmartDashboard.putData("Autonomous Mode", autoChooser);
+    }
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -88,6 +97,7 @@ public class RobotContainer {
     SmartDashboard.putNumber("hoodInputAngle", 0);
     // Configure the trigger bindings
     configureBindings();
+    setupAutoChooser();
   }
 
   /**
@@ -286,6 +296,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return PracticeAuto.build();
+    return autoChooser.getSelected();
   }
 }

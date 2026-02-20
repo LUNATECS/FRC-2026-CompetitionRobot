@@ -33,6 +33,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -81,8 +82,11 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
    private final SwerveDrivePoseEstimator pose = new SwerveDrivePoseEstimator(getKinematics(), getPigeon2().getRotation2d(), getModulePositions(), new Pose2d());
    /* SysId routine for characterizing translation. This is used to find PID gains for the drive motors. */
    private final NetworkTable robotPoseTable = NetworkTableInstance.getDefault().getTable("RobotPoseDashboard");
-   private Pose2d targetPose = new Pose2d(4.625, 4.04, new Rotation2d(0)); // Example target pose on the field
-   //targetPose ONLY for blue
+   private Pose2d targetPoseBlue = new Pose2d(4.625, 4.04, new Rotation2d(0)); // Example target pose on the field
+   //targetPose ONLY for blue (for now, have to add red/blue switching later)
+
+   private Field2d fieldLogging = new Field2d();
+
 
 
    private final SysIdRoutine m_sysIdRoutineTranslation = new SysIdRoutine(
@@ -282,7 +286,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
        public void periodic() {
 
         SmartDashboard.putNumber("drictrain distance to target", pose.getEstimatedPosition().getTranslation()
-                                .getDistance(targetPose.getTranslation()));
+                                .getDistance(targetPoseBlue.getTranslation()));
         //Setting Rotations
         double robotYaw = getPigeon2().getYaw().getValueAsDouble();
         double robotPitch = getPigeon2().getPitch().getValueAsDouble();
@@ -480,7 +484,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
            " Y:" + getPose().getY() +
           " R:" + getPose().getRotation().getDegrees());
           Pose2d currentPose = getPose();
-            
+
+          //field pose logging
+          fieldLogging.setRobotPose(pose.getEstimatedPosition());
+          SmartDashboard.putData("RobotPoseOnField", fieldLogging);
        }
   
        private void startSimThread() {
@@ -510,6 +517,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
          }
          public void resetPose(Pose2d rpose) {
            pose.resetPose(rpose);
+           super.resetPose(rpose);
            this.seedFieldCentric(rpose.getRotation());
          }
 
@@ -660,7 +668,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                                ),
                                new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
                                new PIDConstants(1.75, 0.0, 0.0), // Translation PID constants
-                               new PIDConstants(4., 0.0, 0.0)
+                               new PIDConstants(4.0, 0.0, 0.0)
                                //HAVE TO ADJUST THESE PID CONFIGS
            ),
                                config,

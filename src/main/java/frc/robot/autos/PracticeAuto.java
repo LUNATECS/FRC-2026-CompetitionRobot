@@ -4,16 +4,26 @@
 
 package frc.robot.autos;
 
+import com.pathplanner.lib.path.PathPlannerPath;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 /** Add your docs here. */
 public class PracticeAuto {
 
-    public static Command build() {
+    public static Command build(CommandSwerveDrivetrain drivetrain) {
         return Commands.sequence(
-            AutoFactory.followPath("Start Of Auto Path"),
-            AutoFactory.followPathForAlliance("Climb Path")
+            Commands.runOnce(() -> {
+            try {
+                var path1 = PathPlannerPath.fromPathFile("StraightlineTune");
+                drivetrain.resetPose(path1.getStartingHolonomicPose().get());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }),
+            AutoFactory.followPath("StraightlineTune")
         );
     }
 }
