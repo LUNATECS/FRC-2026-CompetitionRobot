@@ -13,7 +13,7 @@ public class SOTMCalc {
     // Singleton instance
     private static SOTMCalc instance;
 
-    public static SOTMCalc getInstance() {
+    public static synchronized SOTMCalc getInstance() {
         if (instance == null) {
             instance = new SOTMCalc();
         }

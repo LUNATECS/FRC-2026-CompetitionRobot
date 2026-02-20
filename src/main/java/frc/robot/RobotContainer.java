@@ -8,7 +8,6 @@ package frc.robot;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
-import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -24,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.autos.PracticeAuto;
+import frc.robot.commands.AimAndShoot.FaceFieldPointCommand;
 import frc.robot.commands.AimAndShoot.FullShootSequence;
 import frc.robot.commands.HoodHoldCommand;
 import frc.robot.commands.ShootOnTheMove.FullShootOnTheMoveSequence;
@@ -37,7 +37,9 @@ import frc.robot.subsystems.HopperFeederSubSystem;
 import frc.robot.subsystems.HopperSubSystem;
 import frc.robot.subsystems.ShooterFeederSubSystem;
 import frc.robot.subsystems.ShooterSubSystem;
+import frc.robot.util.SOTMCalc;
 import frc.robot.util.ShotCalc;
+import frc.robot.util.ShotConfigs;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -76,11 +78,6 @@ public class RobotContainer {
     //shooting configs/targets
     private Pose2d targetPose = new Pose2d(4.625, 4.04, new Rotation2d(0)); // Example target pose on the field
 
-    //slewrate limiters for slower accelerated driving
-   private final SlewRateLimiter xLimiter = new SlewRateLimiter(3.0); // m/s per second, increase if we need to.
-    private final SlewRateLimiter yLimiter = new SlewRateLimiter(3.0);
-    private final SlewRateLimiter rotLimiter = new SlewRateLimiter(6.0);
-
 
 
 
@@ -106,29 +103,13 @@ public class RobotContainer {
   private void configureBindings() {
     //DRIVER CONTROLS, CURRENTLY WITH SYSID TESTING
     drivetrain.setDefaultCommand(
-    drivetrain.applyRequest(() -> {
-
-        double rawX = -driver.getLeftY() * MaxSpeed;
-        double rawY = -driver.getLeftX() * MaxSpeed;
-        double rawRot = -driver.getRightX() * MaxAngularRate;
-
-        if (driver.touchpad().getAsBoolean()) {
-            // Smooth mode
-            rawX = xLimiter.calculate(rawX);
-            rawY = yLimiter.calculate(rawY);
-            rawRot = rotLimiter.calculate(rawRot);
-        } else {
-            // Reset so no lag when switching back
-            xLimiter.reset(rawX);
-            yLimiter.reset(rawY);
-            rotLimiter.reset(rawRot);
-        }
-
-        return drive.withVelocityX(rawX)
-                    .withVelocityY(rawY)
-                    .withRotationalRate(rawRot);
-    })
-);
+            // Drivetrain will execute this command periodically
+            drivetrain.applyRequest(() ->
+                drive.withVelocityX(-driver.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
+                    .withVelocityY(-driver.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+                    .withRotationalRate(-driver.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+            )
+        );
 
         // Idle while the robot is disabled. This ensures the configured
         // neutral mode is applied to the drive motors while disabled.
@@ -155,7 +136,7 @@ public class RobotContainer {
                 ), 
             () -> targetPose.getTranslation(), 
             drive,
-            () -> driver.L2().getAsBoolean() 
+            () -> driver.R2().getAsBoolean() 
             )
         );
 
@@ -177,13 +158,21 @@ public class RobotContainer {
                 // Fire button
                 () -> driver.R2().getAsBoolean(),
                 // Shooter RPM supplier
-                () -> ShotCalc.getShot(
-                        drivetrain.getPose().getTranslation()
-                                .getDistance(targetPose.getTranslation())).rpm,
+                () -> SOTMCalc.getInstance().getParameters(
+                      drivetrain.getPose().getTranslation()
+                          .getDistance(targetPose.getTranslation())).rpm(),
                 // Hood angle supplier
-                () -> ShotCalc.getShot(
-                        drivetrain.getPose().getTranslation()
-                                .getDistance(targetPose.getTranslation())).hoodDeg
+                () -> SOTMCalc.getInstance().getParameters(
+                      drivetrain.getPose().getTranslation()
+                          .getDistance(targetPose.getTranslation())).hoodAngle()
+                          
+                //() -> ShotCalc.getShot(
+                        //drivetrain.getPose().getTranslation()
+                                //.getDistance(targetPose.getTranslation())).rpm,
+
+                //()  -> ShotCalc.getShot(
+                        //drivetrain.getPose().getTranslation()
+                                //.getDistance(targetPose.getTranslation())).hoodDeg
             )
         );
 
@@ -212,17 +201,17 @@ public class RobotContainer {
 
         drivetrain.registerTelemetry(logger::telemeterize);
 
-        // driver.touchpad().whileTrue(
-        //     new FaceFieldPointCommand(
-        //         drivetrain,
-        //         () -> new Translation2d(
-        //             -driver.getLeftY() * MaxSpeed,
-        //             -driver.getLeftX() * MaxSpeed
-        //         ),
-        //         () -> targetPose.getTranslation(),
-        //         drive
-        //     )
-        // );
+        driver.touchpad().whileTrue(
+            new FaceFieldPointCommand(
+                drivetrain,
+                () -> new Translation2d(
+                    -driver.getLeftY() * MaxSpeed,
+                    -driver.getLeftX() * MaxSpeed
+                ),
+                () -> targetPose.getTranslation(),
+                drive
+            )
+        );
 
     //TESTER CONTROLS:
 
