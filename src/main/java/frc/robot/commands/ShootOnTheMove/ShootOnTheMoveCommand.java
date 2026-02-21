@@ -14,6 +14,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 
@@ -65,7 +66,7 @@ public void execute() {
         double flightTime = flightTimeSupplier.get();
         Translation2d virtualTarget = target.minus(
             drivetrain.getFieldVelocity().times(flightTime)
-                .plus(drivetrain.getFieldAcceleration().times(0.5 * flightTime * flightTime))
+                //.plus(drivetrain.getFieldAcceleration().times(0.5 * flightTime * flightTime))
         );
   
 
@@ -79,6 +80,8 @@ public void execute() {
 
     // Get translational movement
     Translation2d translation = translationSupplier.get();
+
+    RobotContainer.virtualTargetField.setRobotPose(new Pose2d(virtualTarget, Rotation2d.fromDegrees(0))); 
 
     drivetrain.setControl(
             driveRequest.withVelocityX(translation.getX())

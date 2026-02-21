@@ -1,6 +1,9 @@
 package frc.robot.util;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 
 /**
@@ -28,6 +31,11 @@ public class SOTMCalc {
     private final InterpolatingDoubleTreeMap rpmMap = new InterpolatingDoubleTreeMap();
     private final InterpolatingDoubleTreeMap hoodMap = new InterpolatingDoubleTreeMap();
     private final InterpolatingDoubleTreeMap tofMap = new InterpolatingDoubleTreeMap();
+    public static final Transform2d ROBOT_TO_LAUNCHER =
+    new Transform2d(
+        new Translation2d(0.1607, 0.0), // 6.325 inches forward
+        new Rotation2d()
+    );
 
     // Private constructor to populate LUTs
     private SOTMCalc() {
@@ -55,14 +63,14 @@ public class SOTMCalc {
         hoodMap.put(5.0, 20.0);
 
         // distance to TOF
-        tofMap.put(1.25, 0.94);
+        tofMap.put(1.25, 0.8);
         tofMap.put(1.75, 0.83);
         tofMap.put(2.0, 0.86);
         tofMap.put(2.5, 0.95);
-        tofMap.put(3.0, 0.86);
+        tofMap.put(3.0, 0.98);
         tofMap.put(3.5, 1.01);
-        tofMap.put(4.0, 1.21);
-        tofMap.put(4.5, 1.11);
+        tofMap.put(4.0, 1.13);
+        tofMap.put(4.5, 1.19);
         tofMap.put(5.0, 1.24);
     }
 

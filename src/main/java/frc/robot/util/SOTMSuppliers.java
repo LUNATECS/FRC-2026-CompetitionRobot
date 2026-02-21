@@ -2,6 +2,7 @@ package frc.robot.util;
 
 import java.util.function.Supplier;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.HoodSubSystem;
@@ -25,11 +26,13 @@ public class SOTMSuppliers {
 
         // Flight time supplier
         flightTimeSupplier = () -> {
-            Translation2d robotPos = drivetrain.getPose().getTranslation();
+            Pose2d robotPose = drivetrain.getPose();
+            Pose2d launcherPose = robotPose.transformBy(SOTMCalc.ROBOT_TO_LAUNCHER);
+            Translation2d launcherPos = launcherPose.getTranslation();
             Translation2d target = targetPos.get();
 
             // Distance to target
-            double distance = robotPos.getDistance(target);
+            double distance = launcherPos.getDistance(target);
 
             // Use SOTMCalc to get baseline time-of-flight
             return SOTMCalc.getInstance().getParameters(distance).timeOfFlight();
@@ -37,46 +40,19 @@ public class SOTMSuppliers {
 
         // Hood angle supplier
         hoodAngleSupplier = () -> {
-            Translation2d robotPos = drivetrain.getPose().getTranslation();
             Translation2d target = targetPos.get();
+            double distance = calculateLookaheadDistance(drivetrain, target);
 
-            // Lead compensation
-            double flightTime = flightTimeSupplier.get();
-            filteredVelocity = getFilteredVelocity(drivetrain);
-            Translation2d leadOffset = filteredVelocity.times(flightTime);
-                    //.plus(drivetrain.getFieldAcceleration().times(0.5 * flightTime * flightTime));
-            Translation2d virtualTarget = target.minus(leadOffset);
-
-            double distanceToVirtualTarget = robotPos.getDistance(virtualTarget);
-
-            // Required horizontal velocity to reach the virtual target
-            double requiredVelocity = distanceToVirtualTarget / flightTime;
-
-            // Use SOTMCalc to get hood angle
-            //return SOTMCalc.getInstance().getParameters(distanceToVirtualTarget).hoodAngle();
-            //stepped hood parameters:
-            //return SOTMCalc.getInstance().getSteppedHood(distanceToVirtualTarget);
-            return SOTMCalc.getInstance().getHybridSteppedHood(distanceToVirtualTarget);
+            return SOTMCalc.getInstance()
+                    .getHybridSteppedHood(distance);
         };
 
         shooterRPMSupplier = () -> {
-            Translation2d robotPos = drivetrain.getPose().getTranslation();
             Translation2d target = targetPos.get();
+            double distance = calculateLookaheadDistance(drivetrain, target);
 
-            // Lead compensation
-            double flightTime = flightTimeSupplier.get();
-            filteredVelocity = getFilteredVelocity(drivetrain);
-            Translation2d leadOffset = filteredVelocity.times(flightTime);
-                    //.plus(drivetrain.getFieldAcceleration().times(0.5 * flightTime * flightTime));
-            Translation2d virtualTarget = target.minus(leadOffset);
-
-            double distanceToVirtualTarget = robotPos.getDistance(virtualTarget);
-
-            // Required horizontal velocity to reach the virtual target
-            double requiredVelocity = distanceToVirtualTarget / flightTime;
-
-            // Use SOTMCalc to get RPM
-            return SOTMCalc.getInstance().getParameters(distanceToVirtualTarget).rpm();
+            return SOTMCalc.getInstance()
+                    .getParameters(distance).rpm();
         };
     }
 
@@ -90,4 +66,28 @@ public class SOTMSuppliers {
 
     return filteredVelocity;
 }
+    private double calculateLookaheadDistance(CommandSwerveDrivetrain drivetrain, Translation2d target) {
+        Pose2d robotPose = drivetrain.getPose();
+        Pose2d launcherPose = robotPose.transformBy(SOTMCalc.ROBOT_TO_LAUNCHER);
+        Translation2d launcherPos = launcherPose.getTranslation();
+
+        Translation2d filteredVel = getFilteredVelocity(drivetrain);
+
+        double lookaheadDistance = launcherPos.getDistance(target);
+        double tof = SOTMCalc.getInstance()
+                .getParameters(lookaheadDistance).timeOfFlight();
+
+        for (int i = 0; i < 10; i++) {
+            tof = SOTMCalc.getInstance()
+                    .getParameters(lookaheadDistance).timeOfFlight();
+
+            Translation2d futureLauncherPos =
+                launcherPos.plus(filteredVel.times(tof));
+
+            lookaheadDistance =
+                futureLauncherPos.getDistance(target);
+        }
+
+        return lookaheadDistance;
+    }
 }

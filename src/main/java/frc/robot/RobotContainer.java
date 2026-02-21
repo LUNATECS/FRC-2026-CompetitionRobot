@@ -14,6 +14,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -81,6 +82,8 @@ public class RobotContainer {
     //shooting configs/targets
     private Pose2d targetPose = new Pose2d(4.625, 4.04, new Rotation2d(0)); // Example target pose on the field
 
+    public static Field2d virtualTargetField = new Field2d();
+
 
 
   private void setupAutoChooser() {
@@ -95,6 +98,7 @@ public class RobotContainer {
   public RobotContainer() {
     SmartDashboard.putNumber("shooterRPMInput", 0);
     SmartDashboard.putNumber("hoodInputAngle", 0);
+    SmartDashboard.putData(virtualTargetField);
     // Configure the trigger bindings
     configureBindings();
     setupAutoChooser();
@@ -146,7 +150,7 @@ public class RobotContainer {
                 ), 
             () -> targetPose.getTranslation(), 
             drive,
-            () -> driver.R2().getAsBoolean() 
+            () -> driver.L2().getAsBoolean() 
             )
         );
 
