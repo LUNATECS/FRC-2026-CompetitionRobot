@@ -55,7 +55,8 @@ public class ShootCommand extends Command {
                 //&&drivetrainCommand.isAligned()
                 ) {
 
-                hopperFeeder.setRPM(6000);
+                hopperFeeder.setRPMHopper(6000);
+                hopperFeeder.setRPMtopFeeder(6000);
                 shooterFeeder.setRPMBasedOnShooter(shooter.getRPM());    
               } else {
                 hopperFeeder.setSpeed(0);

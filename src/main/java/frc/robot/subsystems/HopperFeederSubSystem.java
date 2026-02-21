@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.Slot1Configs;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -19,18 +20,29 @@ public class HopperFeederSubSystem extends SubsystemBase {
   /** Creates a new HopperFeederSubSystem. */
 
   private TalonFX hopperFeederMotor;
-  private final VelocityVoltage motorVelocity = new VelocityVoltage(0);
+  private TalonFX topFeederMotor;
+  private final VelocityVoltage hopperMotorVelocity = new VelocityVoltage(0);
+  private final VelocityVoltage topFeederMotorVelocity = new VelocityVoltage(0);
+  private double hopperDiameterWheels;
+  private double topDiameterWheels;
 
 
   public HopperFeederSubSystem() {
 
     hopperFeederMotor = new TalonFX(Constants.Hopper_Feeder_SubSystem_Constants.CAN_ID_FEEDER_BELTS, Constants.CANBUS_Constants.CANIVORE);
+    topFeederMotor = new TalonFX(Constants.Hopper_Feeder_SubSystem_Constants.CAN_ID_TOP_FEEDER_MOTOR);
 
-    var motorOutputConfigs = new MotorOutputConfigs();
-    motorOutputConfigs.NeutralMode = NeutralModeValue.Brake;
-    motorOutputConfigs.Inverted = InvertedValue.CounterClockwise_Positive;
+    var hopperMotorOutputConfigs = new MotorOutputConfigs();
+    hopperMotorOutputConfigs.NeutralMode = NeutralModeValue.Brake;
+    hopperMotorOutputConfigs.Inverted = InvertedValue.CounterClockwise_Positive;
 
-    hopperFeederMotor.getConfigurator().apply(motorOutputConfigs);
+    hopperFeederMotor.getConfigurator().apply(hopperMotorOutputConfigs);
+
+    var topFeederMotorOutputConfigs = new MotorOutputConfigs();
+    topFeederMotorOutputConfigs.NeutralMode = NeutralModeValue.Brake;
+    topFeederMotorOutputConfigs.Inverted = InvertedValue.Clockwise_Positive;
+
+    topFeederMotor.getConfigurator().apply(topFeederMotorOutputConfigs);
 
     var slot0Configs = new Slot0Configs();
     //Slot configs untested but are good base values
@@ -39,13 +51,22 @@ public class HopperFeederSubSystem extends SubsystemBase {
     slot0Configs.kI = 0;
     slot0Configs.kD = 0;
     hopperFeederMotor.getConfigurator().apply(slot0Configs);
-    motorVelocity.Slot = 0;
+    hopperMotorVelocity.Slot = 0;
+    var slot1Configs = new Slot1Configs();
+   slot1Configs.kV = 0.2;
+    slot1Configs.kP = 0.4;
+    slot1Configs.kI = 0;
+    slot1Configs.kD = 0;
+    topFeederMotor.getConfigurator().apply(slot1Configs);
+    topFeederMotorVelocity.Slot = 1;
   }
 
-  public void setRPM(double rpm){
-    hopperFeederMotor.setControl(motorVelocity.withVelocity(rpm));
+  public void setRPMHopper(double rpm){
+    hopperFeederMotor.setControl(hopperMotorVelocity.withVelocity(rpm));
 }
-
+  public void setRPMtopFeeder(double rpm){
+    topFeederMotor.setControl(topFeederMotorVelocity.withVelocity(rpm));
+  }
    public void setSpeed(double speed){
     hopperFeederMotor.set(speed);
   }
