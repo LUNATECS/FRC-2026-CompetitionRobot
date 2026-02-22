@@ -9,6 +9,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -32,9 +33,14 @@ public class HopperSubSystem extends SubsystemBase {
     hopperMotor.set(speed);
   }
 
+  public double getPosition(){
+    return hopperMotor.getPosition().getValueAsDouble();
+  }
+
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("hopper position", hopperMotor.getPosition().getValueAsDouble());
     // This method will be called once per scheduler run
   }
 }
