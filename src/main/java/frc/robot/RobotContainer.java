@@ -41,6 +41,7 @@ import frc.robot.subsystems.HopperSubSystem;
 import frc.robot.subsystems.ShooterFeederSubSystem;
 import frc.robot.subsystems.ShooterSubSystem;
 import frc.robot.util.SOTMCalc;
+import frc.robot.util.TargetSupplier;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -80,7 +81,7 @@ public class RobotContainer {
     private final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
     //shooting configs/targets
-    private Pose2d targetPose = new Pose2d(4.625, 4.04, new Rotation2d(0)); // Example target pose on the field
+    //private Pose2d targetPose = new Pose2d(4.625, 4.04, new Rotation2d(0)); // Example target pose on the field
 
     public static Field2d virtualTargetField = new Field2d();
 
@@ -148,7 +149,7 @@ public class RobotContainer {
                     -driver.getLeftY() * MaxSpeed,
                     -driver.getLeftX() * MaxSpeed
                 ), 
-            () -> targetPose.getTranslation(), 
+            () -> TargetSupplier.getTargetBasedOnAlliance(drivetrain), 
             drive,
             () -> driver.L2().getAsBoolean() 
             )
@@ -167,18 +168,18 @@ public class RobotContainer {
                     -driver.getLeftX() * MaxSpeed
                 ),
                 // Target position
-                () -> targetPose.getTranslation(),
+                () -> TargetSupplier.getTargetBasedOnAlliance(drivetrain),
                 drive,
                 // Fire button
                 () -> driver.R2().getAsBoolean(),
                 // Shooter RPM supplier
                 () -> SOTMCalc.getInstance().getParameters(
                       drivetrain.getPose().getTranslation()
-                          .getDistance(targetPose.getTranslation())).rpm(),
+                          .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).rpm(),
                 // Hood angle supplier
                 () -> SOTMCalc.getInstance().getParameters(
                       drivetrain.getPose().getTranslation()
-                          .getDistance(targetPose.getTranslation())).hoodAngle()
+                          .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).hoodAngle()
                           
                 //() -> ShotCalc.getShot(
                         //drivetrain.getPose().getTranslation()
@@ -222,7 +223,7 @@ public class RobotContainer {
                     -driver.getLeftY() * MaxSpeed,
                     -driver.getLeftX() * MaxSpeed
                 ),
-                () -> targetPose.getTranslation(),
+                () -> TargetSupplier.getTargetBasedOnAlliance(drivetrain),
                 drive
             )
         );

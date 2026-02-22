@@ -41,6 +41,7 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 import frc.robot.subsystems.vision.LimelightHelpers;
+import frc.robot.util.TargetSupplier;
 /**
 * Class that extends the Phoenix 6 SwerveDrivetrain class and implements
 * Subsystem so it can easily be used in command-based projects.
@@ -82,7 +83,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
    private final SwerveDrivePoseEstimator pose = new SwerveDrivePoseEstimator(getKinematics(), getPigeon2().getRotation2d(), getModulePositions(), new Pose2d());
    /* SysId routine for characterizing translation. This is used to find PID gains for the drive motors. */
    private final NetworkTable robotPoseTable = NetworkTableInstance.getDefault().getTable("RobotPoseDashboard");
-   private Pose2d targetPoseBlue = new Pose2d(4.625, 4.04, new Rotation2d(0)); // Example target pose on the field
+   //private Pose2d targetPoseBlue = new Pose2d(4.625, 4.04, new Rotation2d(0)); // Example target pose on the field
    //targetPose ONLY for blue (for now, have to add red/blue switching later)
 
    private Field2d fieldLogging = new Field2d();
@@ -286,7 +287,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
        public void periodic() {
 
         SmartDashboard.putNumber("drictrain distance to target", pose.getEstimatedPosition().getTranslation()
-                                .getDistance(targetPoseBlue.getTranslation()));
+                                .getDistance(TargetSupplier.getTargetBasedOnAlliance(this)));
         //Setting Rotations
         double robotYaw = getPigeon2().getYaw().getValueAsDouble();
         double robotPitch = getPigeon2().getPitch().getValueAsDouble();
