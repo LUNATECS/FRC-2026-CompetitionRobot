@@ -5,6 +5,7 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
@@ -30,7 +31,7 @@ public class DriveOverBumpCommand extends Command {
     private double flatStartTime = -1;
 
     // Speed values for states
-    private final double approachSpeed = 0.5;
+    private final double approachSpeed = 1;
     private final double climbSpeed = 1.5;
     private final double descendSpeed = 1;
     private final double flatSpeed = 0.5;
@@ -69,10 +70,12 @@ public class DriveOverBumpCommand extends Command {
 
     @Override
     public void execute() {
-        double pitch = drivetrain.getPigeon2().getPitch().getValueAsDouble();
-        double roll  = drivetrain.getPigeon2().getRoll().getValueAsDouble();
+        SmartDashboard.putString("Current Bump Climb State", currentState.name());
+        double pitch = drivetrain.getPigeon2().getPitch().refresh().getValueAsDouble();
+        double roll  = drivetrain.getPigeon2().getRoll().refresh().getValueAsDouble();
         //TOTAL TILT
         double totalTilt = Math.sqrt(pitch * pitch + roll * roll);
+        SmartDashboard.putNumber("total Tilt", totalTilt);
 
         double driveSpeed = 0;
 

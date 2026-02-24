@@ -21,10 +21,11 @@ public class HopperSubSystem extends SubsystemBase {
   public HopperSubSystem() {
 
     hopperMotor = new TalonFX(Constants.Hopper_SubSystem_Constants.CAN_ID_HOPPER, Constants.CANBUS_Constants.CANIVORE);
+    hopperMotor.setPosition(0);
 
     var motorOutputConfigs = new MotorOutputConfigs();
     motorOutputConfigs.NeutralMode = NeutralModeValue.Brake;
-    motorOutputConfigs.Inverted = InvertedValue.CounterClockwise_Positive;
+    motorOutputConfigs.Inverted = InvertedValue.Clockwise_Positive;
 
     hopperMotor.getConfigurator().apply(motorOutputConfigs);
   }

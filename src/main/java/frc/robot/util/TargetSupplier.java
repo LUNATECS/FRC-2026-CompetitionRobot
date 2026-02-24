@@ -34,7 +34,7 @@ public class TargetSupplier {
             } 
             if(alliance == Alliance.Blue){
                 if(robotPose.getX() < 5){
-                     targetPose = new Translation2d(4.625, 4.02);
+                     targetPose = new Translation2d(4.625, 4.125);
                 } else if(robotPose.getX() > 5){
                     if(robotPose.getY() < 4){
                         targetPose = new Translation2d(2, 2);

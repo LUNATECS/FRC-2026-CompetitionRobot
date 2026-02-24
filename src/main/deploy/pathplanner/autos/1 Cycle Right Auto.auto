@@ -7,19 +7,25 @@
         {
           "type": "path",
           "data": {
+            "pathName": "Starting Path Right"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Drive Over Bump RIGHT"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
             "pathName": "Right SweepBalls Path"
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Right 1 Cycle Climb Get Ball"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Right 1 Cycle Climb Return"
+            "name": "Drive Over Bump LEFT"
           }
         },
         {

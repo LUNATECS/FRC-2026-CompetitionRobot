@@ -11,6 +11,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -54,6 +55,7 @@ public void setRPMBasedOnShooter(double Shooterrpm){
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("Shooter Feeder RPM", shooterFeeder.getVelocity().getValueAsDouble()/60);
     // This method will be called once per scheduler run
   }
 }

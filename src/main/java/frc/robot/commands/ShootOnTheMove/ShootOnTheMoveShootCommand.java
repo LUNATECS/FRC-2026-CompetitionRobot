@@ -56,18 +56,23 @@ public class ShootOnTheMoveShootCommand extends Command {
                 ) {
 
                 //hopperFeeder.setSpeed(1);
-                hopperFeeder.setRPMHopper(6000);
-                hopperFeeder.setRPMtopFeeder(6000);
+                hopperFeeder.setSpeed(1);
+                hopperFeeder.setTopRollerSpeed(1);
                 shooterFeeder.setRPMBasedOnShooter(shooter.getRPM());    
               } else {
                 hopperFeeder.setSpeed(0);
+                hopperFeeder.setTopRollerSpeed(0);
                 shooterFeeder.setSpeed(0);
             }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    hopperFeeder.setSpeed(0);
+                hopperFeeder.setTopRollerSpeed(0);
+                shooterFeeder.setSpeed(0);
+  }
 
   // Returns true when the command should end.
   @Override

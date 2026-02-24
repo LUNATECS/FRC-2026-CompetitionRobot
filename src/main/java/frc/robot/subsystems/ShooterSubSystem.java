@@ -52,13 +52,13 @@ public class ShooterSubSystem extends SubsystemBase {
     motorOutputConfigs.Inverted = InvertedValue.CounterClockwise_Positive;
 
     var currentLimits = new CurrentLimitsConfigs();
-    currentLimits.SupplyCurrentLimit = 50;   //increase this current limit if necessary (increased from 40)
+    currentLimits.SupplyCurrentLimit = 70;   //increase this current limit if necessary (increased from 40)
     currentLimits.SupplyCurrentLimitEnable = true;
 
     var slot0Configs = new Slot0Configs();
     //Slot configs untested but are good base values
-    slot0Configs.kV = 0.18;
-    slot0Configs.kP = 0.29;
+    slot0Configs.kV = 0.2;
+    slot0Configs.kP = 0.5;
     slot0Configs.kI = 0;
     slot0Configs.kD = 0;
     //FOR ADJUSTING, FIRST SET PID VALUES TO 0, AND SEE IF kV is reaching setpoint consistenly across all ranges, then
@@ -71,8 +71,8 @@ public class ShooterSubSystem extends SubsystemBase {
     shooterMotor1.getConfigurator().apply(slot0Configs);
     shooterMotor1.getConfigurator().apply(feedbackConfigs);
     shooterMotor1.getConfigurator().apply(motorOutputConfigs);
-    shooterMotor1.getConfigurator().apply(currentLimits);
-    shooterMotor1.getConfigurator().apply(voltageConfigs);
+    //shooterMotor1.getConfigurator().apply(currentLimits);
+    //shooterMotor1.getConfigurator().apply(voltageConfigs);
 
     motorVelocity.Slot = 0;
   }

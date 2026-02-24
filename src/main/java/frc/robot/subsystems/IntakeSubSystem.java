@@ -26,11 +26,11 @@ public class IntakeSubSystem extends SubsystemBase {
 
     var motorOutputConfigs = new MotorOutputConfigs();
     motorOutputConfigs.NeutralMode = NeutralModeValue.Brake;
-    motorOutputConfigs.Inverted = InvertedValue.CounterClockwise_Positive;
+    motorOutputConfigs.Inverted = InvertedValue.Clockwise_Positive;
 
     var slot0Configs = new Slot0Configs();
-    slot0Configs.kV = 0;
-    slot0Configs.kP = 0;
+    slot0Configs.kV = 0.15;
+    slot0Configs.kP = 0.18;
     slot0Configs.kI = 0;
     slot0Configs.kD = 0;
 
@@ -46,7 +46,7 @@ public class IntakeSubSystem extends SubsystemBase {
 
   public void setRPM(double rpm){
     intakeMotor.setControl(motorVelocity.withVelocity(rpm/60));
-  }
+  } 
 
   public void setSpeed(double speed){
     intakeMotor.set(speed);

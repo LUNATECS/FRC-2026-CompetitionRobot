@@ -6,6 +6,8 @@ package frc.robot;
 
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -24,11 +26,16 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import frc.robot.autos.DriveOverBumpCommand;
 import frc.robot.autos.OneCycleNoClimbAuto;
 import frc.robot.autos.PracticeAuto;
 import frc.robot.commands.AimAndShoot.FaceFieldPointCommand;
+import frc.robot.commands.AimAndShoot.FullShootAUTOSequence;
 import frc.robot.commands.AimAndShoot.FullShootSequence;
 import frc.robot.commands.HoodHoldCommand;
+import frc.robot.commands.HopperAgitateCommand;
+import frc.robot.commands.HopperPositionCommand;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootOnTheMove.FullShootOnTheMoveSequence;
 import frc.robot.commands.ShooterBangBangControlCommand;
 import frc.robot.commands.ShooterVelocityCommand;
@@ -38,6 +45,7 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.HoodSubSystem;
 import frc.robot.subsystems.HopperFeederSubSystem;
 import frc.robot.subsystems.HopperSubSystem;
+import frc.robot.subsystems.IntakeSubSystem;
 import frc.robot.subsystems.ShooterFeederSubSystem;
 import frc.robot.subsystems.ShooterSubSystem;
 import frc.robot.util.SOTMCalc;
@@ -59,6 +67,7 @@ public class RobotContainer {
   private final HopperFeederSubSystem hopperFeeder = new HopperFeederSubSystem();
   private final HoodSubSystem hood = new HoodSubSystem();
   private final ClimberSubSystem climber = new ClimberSubSystem();
+  private final IntakeSubSystem intake = new IntakeSubSystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandPS5Controller driver = new CommandPS5Controller(Constants.DriverConstants.DRIVER_CONTROLLER_PORT);
@@ -68,7 +77,7 @@ public class RobotContainer {
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
 
     /* Setting up bindings for necessary control of the swerve drive platform */
-    private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
+    public final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
             .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
     private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
@@ -78,7 +87,9 @@ public class RobotContainer {
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
     //autochooser
-    private final SendableChooser<Command> autoChooser = new SendableChooser<>();
+    //private final SendableChooser<Command> autoChooser = new SendableChooser<>();
+
+    private final SendableChooser<Command> autoChooser;
 
     //shooting configs/targets
     //private Pose2d targetPose = new Pose2d(4.625, 4.04, new Rotation2d(0)); // Example target pose on the field
@@ -88,11 +99,11 @@ public class RobotContainer {
 
 
   private void setupAutoChooser() {
-        autoChooser.setDefaultOption("Practice Auto", PracticeAuto.build(drivetrain));
-        autoChooser.addOption("One Cycle No Climb", OneCycleNoClimbAuto.build(drivetrain));
+        //autoChooser.setDefaultOption("Practice Auto", PracticeAuto.build(drivetrain));
+        //autoChooser.addOption("One Cycle No Climb", OneCycleNoClimbAuto.build(drivetrain));
 
         // Put the chooser on SmartDashboard
-        SmartDashboard.putData("Autonomous Mode", autoChooser);
+        //SmartDashboard.putData("Autonomous Mode", autoChooser);
     }
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -100,9 +111,28 @@ public class RobotContainer {
     SmartDashboard.putNumber("shooterRPMInput", 0);
     SmartDashboard.putNumber("hoodInputAngle", 0);
     SmartDashboard.putData(virtualTargetField);
+
+    NamedCommands.registerCommand("Drive Over Bump RIGHT", new DriveOverBumpCommand(drivetrain, Rotation2d.fromDegrees(-45), drive, 1.0));
+        NamedCommands.registerCommand("Drive Over Bump LEFT", new DriveOverBumpCommand(drivetrain, Rotation2d.fromDegrees(-45), drive, -1.0));
+
+    NamedCommands.registerCommand("Start Intake Command", new IntakeCommand(intake, 6000));
+
+    NamedCommands.registerCommand("StopIntakeCommand", new InstantCommand(()->{intake.setSpeed(0);}, intake));
+
+    NamedCommands.registerCommand("Shoot Auto Command", new FullShootAUTOSequence(drivetrain, shooter, hood, hopperFeeder, shooterFeeder, () -> TargetSupplier.getTargetBasedOnAlliance(drivetrain), drive, ()->true, () -> SOTMCalc.getInstance().getParameters(
+                      drivetrain.getPose().getTranslation()
+                          .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).rpm(),
+                          //hood angle supplier
+                           () -> SOTMCalc.getInstance().getParameters(
+                      drivetrain.getPose().getTranslation()
+                          .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).hoodAngle()));
+
     // Configure the trigger bindings
+    autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("Auto Mode FInal", autoChooser);
     configureBindings();
-    setupAutoChooser();
+    //setupAutoChooser();
+
   }
 
   /**
@@ -138,6 +168,9 @@ public class RobotContainer {
         //    point.withModuleDirection(new Rotation2d(-driver.getLeftY(), -driver.getLeftX()))
         //));
 
+        driver.povUp().onTrue(new DriveOverBumpCommand(drivetrain, Rotation2d.fromDegrees(-45), drive, 1));
+                driver.povDown().onTrue(new DriveOverBumpCommand(drivetrain, Rotation2d.fromDegrees(-45), drive, -1));
+
         driver.L1().whileTrue(
           new FullShootOnTheMoveSequence(
             drivetrain, 
@@ -151,11 +184,17 @@ public class RobotContainer {
                 ), 
             () -> TargetSupplier.getTargetBasedOnAlliance(drivetrain), 
             drive,
-            () -> driver.L2().getAsBoolean() 
+            () -> driver.R2().getAsBoolean() 
             )
         );
 
-        driver.R1().whileTrue(
+        driver.L2().onTrue(new InstantCommand(()->{hopperFeeder.setSpeed(-0.5);}))
+          .onFalse(new InstantCommand(()->{hopperFeeder.setSpeed(0);}));
+
+        driver.L2().onTrue(new InstantCommand(()->{hopperFeeder.setTopRollerSpeed(-0.5);}))
+          .onFalse(new InstantCommand(()->{hopperFeeder.setTopRollerSpeed(0);}));
+
+        /*driver.R1().whileTrue(
             new FullShootSequence(
                 drivetrain,
                 shooter,
@@ -190,16 +229,25 @@ public class RobotContainer {
                                 //.getDistance(targetPose.getTranslation())).hoodDeg
             )
         );
+        */
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
-        driver.triangle().whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
-        driver.cross().whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
-        driver.povUp().whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
-        driver.povDown().whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
+        //driver.triangle().whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
+        //driver.cross().whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
+        //driver.povUp().whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
+        //driver.povDown().whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
         // Reset the field-centric heading on left bumper press.
         //driver.circle().onTrue(drivetrain.runOnce(() -> drivetrain.resetRotation(Rotation2d.fromDegrees(0))));
+
+        driver.R1().onTrue(new IntakeCommand(intake, 6000))
+          .onFalse(new InstantCommand(()->{intake.setSpeed(0);}, intake) );
+        driver.triangle().onTrue(new HopperPositionCommand(hopper, 52.5));
+
+        driver.cross().onTrue(new HopperAgitateCommand(hopper));
+
+
         driver.circle().onTrue(
             drivetrain.runOnce(() -> {
                 drivetrain.resetGyro(0);
@@ -236,14 +284,17 @@ public class RobotContainer {
 
     //TESTING SUBSYSTEMS WITH TESTER CONTROLLER
     tester.square().onTrue(new InstantCommand(() -> {
-    hopperFeeder.setSpeed(0.75);
+    hopperFeeder.setSpeed(1);
     //intake.setSpeed(1);
     shooterFeeder.setSpeed(0.6);
+    hopperFeeder.setTopRollerSpeed(1);
   }))
     .onFalse(new InstantCommand(()->{
       hopperFeeder.setSpeed(0);
       //intake.setSpeed(0);
       shooterFeeder.setSpeed(0);
+          hopperFeeder.setTopRollerSpeed(0);
+
   }));
 
   tester.triangle().onTrue(new InstantCommand(() -> {
@@ -302,5 +353,9 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
     return autoChooser.getSelected();
+  }
+
+  public CommandSwerveDrivetrain getSwerveDrivetrain(){
+    return drivetrain;
   }
 }

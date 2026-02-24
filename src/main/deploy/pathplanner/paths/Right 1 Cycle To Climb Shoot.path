@@ -50,13 +50,58 @@
         "x": 4.625,
         "y": 4.0
       },
-      "rotationOffset": 5.0,
+      "rotationOffset": 180.0,
       "minWaypointRelativePos": 0.16315974745639536,
       "maxWaypointRelativePos": 0.8484745148689516,
       "name": "Point Towards Zone"
     }
   ],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "ShootCommand",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Shoot Auto Command"
+        }
+      }
+    },
+    {
+      "name": "",
+      "waypointRelativePos": 0.12203389830508476,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Shoot Auto Command"
+        }
+      }
+    },
+    {
+      "name": "",
+      "waypointRelativePos": 0.34915254237288146,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Shoot Auto Command"
+        }
+      }
+    },
+    {
+      "name": "",
+      "waypointRelativePos": 0.5355932203389834,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Shoot Auto Command"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
@@ -67,13 +112,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.5485149325497232
+    "rotation": 180.0
   },
   "reversed": false,
   "folder": "Right 1 Cycle Auto Climb",
   "idealStartingState": {
     "velocity": 0.5,
-    "rotation": -53.815745105303165
+    "rotation": -45.0
   },
   "useDefaultConstraints": true
 }

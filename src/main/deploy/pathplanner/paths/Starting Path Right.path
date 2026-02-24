@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.590270363854026,
-        "y": 3.6145216477861
+        "x": 3.4272678571428568,
+        "y": 2.6097142857142854
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.128291512122409,
-        "y": 3.374732660212173
+        "x": 3.6757387908112613,
+        "y": 2.6373221672329983
       },
       "isLocked": false,
-      "linkedName": "1 Cycle Climb Get Ball End"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.7908585378332145,
-        "y": 2.6182163182670513
+        "x": 3.459660714285714,
+        "y": 2.6259107142857148
       },
       "prevControl": {
-        "x": 6.278749334131231,
-        "y": 2.9884964577895925
+        "x": 3.709025389243398,
+        "y": 2.6437224767826915
       },
       "nextControl": null,
       "isLocked": false,
@@ -41,14 +41,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0.5,
-    "rotation": -51.1983104664088
+    "velocity": 0,
+    "rotation": -45.0
   },
   "reversed": false,
   "folder": "Right 1 Cycle Auto Climb",
   "idealStartingState": {
-    "velocity": 0.25,
-    "rotation": -93.23430137568332
+    "velocity": 0,
+    "rotation": -45.0
   },
   "useDefaultConstraints": true
 }

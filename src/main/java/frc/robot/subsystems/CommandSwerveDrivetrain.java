@@ -5,6 +5,8 @@ import java.util.function.Supplier;
 
 import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.Utils;
+import com.ctre.phoenix6.configs.MountPoseConfigs;
+import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
@@ -175,6 +177,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
            if (Utils.isSimulation()) {
                startSimThread();
            }
+           configurePigeon();
            configureAutoBuilder();
        }
   
@@ -200,6 +203,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
            if (Utils.isSimulation()) {
                startSimThread();
            }
+           configurePigeon();
            configureAutoBuilder();
        }
   
@@ -233,7 +237,19 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
            if (Utils.isSimulation()) {
                startSimThread();
            }
+           configurePigeon();
            configureAutoBuilder();
+       }
+
+
+
+       private void configurePigeon() {
+        Pigeon2 pigeon = getPigeon2();
+        MountPoseConfigs mountConfig = new MountPoseConfigs();
+        mountConfig.MountPoseRoll = 180;
+        mountConfig.MountPosePitch = 0;
+        mountConfig.MountPoseYaw = 0;
+        pigeon.getConfigurator().apply(mountConfig);
        }
        /**
     * Creates a new auto factory for this drivetrain.
@@ -289,9 +305,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         SmartDashboard.putNumber("drictrain distance to target", pose.getEstimatedPosition().getTranslation()
                                 .getDistance(TargetSupplier.getTargetBasedOnAlliance(this)));
         //Setting Rotations
-        double robotYaw = getPigeon2().getYaw().getValueAsDouble();
-        double robotPitch = getPigeon2().getPitch().getValueAsDouble();
-        double robotRoll = getPigeon2().getRoll().getValueAsDouble();
+        double robotYaw = getPigeon2().getYaw().refresh().getValueAsDouble();
+        double robotPitch = getPigeon2().getPitch().refresh().getValueAsDouble();
+        double robotRoll = getPigeon2().getRoll().refresh().getValueAsDouble();
         SmartDashboard.putNumber("pidgeon2 reading", robotYaw);
         SmartDashboard.putNumber("pidgeon roll", robotRoll);
         SmartDashboard.putNumber("pidgeon pitch", robotPitch);

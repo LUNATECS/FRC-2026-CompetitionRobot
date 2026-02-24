@@ -30,7 +30,7 @@ public class HopperFeederSubSystem extends SubsystemBase {
   public HopperFeederSubSystem() {
 
     hopperFeederMotor = new TalonFX(Constants.Hopper_Feeder_SubSystem_Constants.CAN_ID_FEEDER_BELTS, Constants.CANBUS_Constants.CANIVORE);
-    topFeederMotor = new TalonFX(Constants.Hopper_Feeder_SubSystem_Constants.CAN_ID_TOP_FEEDER_MOTOR);
+    topFeederMotor = new TalonFX(Constants.Hopper_Feeder_SubSystem_Constants.CAN_ID_TOP_FEEDER_MOTOR, Constants.CANBUS_Constants.CANIVORE);
 
     var hopperMotorOutputConfigs = new MotorOutputConfigs();
     hopperMotorOutputConfigs.NeutralMode = NeutralModeValue.Brake;
@@ -69,6 +69,10 @@ public class HopperFeederSubSystem extends SubsystemBase {
   }
    public void setSpeed(double speed){
     hopperFeederMotor.set(speed);
+  }
+
+  public void setTopRollerSpeed(double speed){
+    topFeederMotor.set(speed);
   }
 
 

@@ -45,7 +45,7 @@ public class FullShootSequence extends ParallelCommandGroup {
       drivetrainCommand,
       new ShooterDynamicVelocityCommand(shooter, shooterRPMSupplier),
       hoodCommand,
-      new ShootCommand(hopperFeeder, shooterFeeder, shooter, hoodCommand, drivetrainCommand, fireButton)
+      new ShootCommand(hopperFeeder, shooterFeeder, shooter, hoodCommand, fireButton)
     );
   }
 }

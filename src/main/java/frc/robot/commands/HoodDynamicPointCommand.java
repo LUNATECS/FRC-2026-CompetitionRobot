@@ -42,7 +42,7 @@ public class HoodDynamicPointCommand extends Command {
     
     double output = pid.calculate(hood.getHoodDegrees());
     //CLAMPING FOR NOW
-    output = Math.max(-0.4, Math.min(0.4, output));
+    output = Math.max(-0.8, Math.min(0.8, output));
 
     hood.setSpeed(output);
   }

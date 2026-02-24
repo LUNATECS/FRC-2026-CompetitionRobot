@@ -20,7 +20,6 @@ public class ShootCommand extends Command {
   ShooterFeederSubSystem shooterFeeder;
   ShooterSubSystem shooter;
   HoodDynamicPointCommand hoodCommand;
-  FaceFieldPointCommand drivetrainCommand;
   BooleanSupplier fireButton;
   ShooterFeederDynamicCommand feederCommand;
   public ShootCommand(
@@ -28,7 +27,6 @@ public class ShootCommand extends Command {
         ShooterFeederSubSystem shooterFeeder,
         ShooterSubSystem shooter,
         HoodDynamicPointCommand hoodCommand,
-        FaceFieldPointCommand drivetrainCommand,
 
         BooleanSupplier fireButton
   ) {
@@ -36,7 +34,6 @@ public class ShootCommand extends Command {
     this.shooterFeeder = shooterFeeder;
     this.shooter = shooter;
     this.hoodCommand = hoodCommand;
-    this.drivetrainCommand = drivetrainCommand;
     this.fireButton = fireButton;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooterFeeder, hopperFeeder);
@@ -55,12 +52,15 @@ public class ShootCommand extends Command {
                 //&&drivetrainCommand.isAligned()
                 ) {
 
-                hopperFeeder.setRPMHopper(6000);
-                hopperFeeder.setRPMtopFeeder(6000);
+                //hopperFeeder.setRPMHopper(6000);
+                //hopperFeeder.setRPMtopFeeder(6000);
+                hopperFeeder.setSpeed(1);
+                hopperFeeder.setTopRollerSpeed(1);
                 shooterFeeder.setRPMBasedOnShooter(shooter.getRPM());    
               } else {
                 hopperFeeder.setSpeed(0);
                 shooterFeeder.setSpeed(0);
+                hopperFeeder.setTopRollerSpeed(0);
             }
   }
 
