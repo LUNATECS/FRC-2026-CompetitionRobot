@@ -6,9 +6,8 @@ package frc.robot;
 
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -25,13 +24,11 @@ import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.autos.DriveOverBumpCommand;
-import frc.robot.autos.OneCycleNoClimbAuto;
 import frc.robot.autos.PracticeAuto;
+import frc.robot.autos.RightOneCycleClimbAuto;
 import frc.robot.commands.AimAndShoot.FaceFieldPointCommand;
 import frc.robot.commands.AimAndShoot.FullShootAUTOSequence;
-import frc.robot.commands.AimAndShoot.FullShootSequence;
 import frc.robot.commands.HoodHoldCommand;
 import frc.robot.commands.HopperAgitateCommand;
 import frc.robot.commands.HopperPositionCommand;
@@ -87,9 +84,9 @@ public class RobotContainer {
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
     //autochooser
-    //private final SendableChooser<Command> autoChooser = new SendableChooser<>();
+    private final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
-    private final SendableChooser<Command> autoChooser;
+    //private final SendableChooser<Command> autoChooser;
 
     //shooting configs/targets
     //private Pose2d targetPose = new Pose2d(4.625, 4.04, new Rotation2d(0)); // Example target pose on the field
@@ -99,11 +96,11 @@ public class RobotContainer {
 
 
   private void setupAutoChooser() {
-        //autoChooser.setDefaultOption("Practice Auto", PracticeAuto.build(drivetrain));
-        //autoChooser.addOption("One Cycle No Climb", OneCycleNoClimbAuto.build(drivetrain));
+        autoChooser.setDefaultOption("Practice Auto", PracticeAuto.build(drivetrain));
+        autoChooser.addOption("Right One Cycle Climb", RightOneCycleClimbAuto.build(drivetrain, drive));
 
         // Put the chooser on SmartDashboard
-        //SmartDashboard.putData("Autonomous Mode", autoChooser);
+        SmartDashboard.putData("Autonomous Mode", autoChooser);
     }
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -128,10 +125,10 @@ public class RobotContainer {
                           .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).hoodAngle()));
 
     // Configure the trigger bindings
-    autoChooser = AutoBuilder.buildAutoChooser();
-    SmartDashboard.putData("Auto Mode FInal", autoChooser);
+    //autoChooser = AutoBuilder.buildAutoChooser();
+    //SmartDashboard.putData("Auto Mode FInal", autoChooser);
     configureBindings();
-    //setupAutoChooser();
+    setupAutoChooser();
 
   }
 

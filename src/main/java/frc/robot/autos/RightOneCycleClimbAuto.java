@@ -4,20 +4,26 @@
 
 package frc.robot.autos;
 
+import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.path.PathPlannerPath;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.util.AllianceFliputil;
+
 
 /** Add your docs here. */
-public class OneCycleNoClimbAuto {
+public class RightOneCycleClimbAuto {
     double maxSpeed = 3.0;        //match AutoFactory constraints
     double maxAngularRate = 2.0;
-    RobotContainer robotcontainer;
 
-    public static Command build(CommandSwerveDrivetrain drivetrain) {
+    public static Command build(CommandSwerveDrivetrain drivetrain, SwerveRequest.FieldCentric driveRequest) {
+        double directionGoing = AllianceFliputil.getFlipBasedOnAllianceForGoingToCenter();
+        double directionComing = AllianceFliputil.getFlipbasedOnAllianceForComingBack();
+        Rotation2d heading = AllianceFliputil.getHeadingBasedOnAllianceForBumpRIGHT();
+        
             return Commands.sequence(
                 Commands.runOnce(() -> {
                 try {
@@ -29,18 +35,14 @@ public class OneCycleNoClimbAuto {
                 }
             }),
 
-            //We first HAVE to reset our odometry manually depending on the auto, or we
-            //might not even have to if we have good vision at the beginning
-            //This auto would start with a shoot commmand
-            //Then it would go into a dead reckoning over the bump at the beggining
-            //new DriveOverBumpCommand(drivetrain, -45, , 1),
-            AutoFactory.followPath("1 Cycle Climb Collect"),
-            AutoFactory.followPath("1 Cycle Climb Get Ball"),
-            AutoFactory.followPath("1 Cycle Climb Return"),
+            AutoFactory.followPath("Starting Path Right"),
+            new DriveOverBumpCommand(drivetrain, heading, driveRequest, directionGoing),
+            AutoFactory.followPath("Right SweepBalls Path"),
+            new DriveOverBumpCommand(drivetrain, heading, driveRequest, directionComing),
             //Then we would need to have another dead reckoning over bump
-            AutoFactory.followPath("1 Cycle Climb Shoot"),
-            //OR
-            AutoFactory.pathFindThenFollowPath("1 Cycle Climb Shoot")
+            AutoFactory.followPath("Right 1 Cycle To Climb Shoot"),
+            AutoFactory.followPath("Right 1 Cycle Climb")
+            //AutoFactory.pathFindThenFollowPath("1 Cycle Climb Shoot")
             //BECAUSE we can pathfind over the bump!!! W/ Lydia
             //then shoot or something like that
             

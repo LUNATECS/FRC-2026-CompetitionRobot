@@ -32,9 +32,9 @@ public class DriveOverBumpCommand extends Command {
 
     // Speed values for states
     private final double approachSpeed = 1;
-    private final double climbSpeed = 1.5;
-    private final double descendSpeed = 1;
-    private final double flatSpeed = 0.5;
+    private final double climbSpeed = 2;
+    private final double descendSpeed = 1.5;
+    private final double flatSpeed = 1;
 
     private final double climbThreshold = 7.0;
     private final double flatThreshold = 3.0;
