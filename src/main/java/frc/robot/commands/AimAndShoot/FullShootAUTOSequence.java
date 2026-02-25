@@ -12,10 +12,12 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.HoodDynamicPointCommand;
+import frc.robot.commands.HopperAgitateTrigerredCommand;
 import frc.robot.commands.ShooterDynamicVelocityCommand;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.HoodSubSystem;
 import frc.robot.subsystems.HopperFeederSubSystem;
+import frc.robot.subsystems.HopperSubSystem;
 import frc.robot.subsystems.ShooterFeederSubSystem;
 import frc.robot.subsystems.ShooterSubSystem;
 
@@ -30,6 +32,7 @@ public class FullShootAUTOSequence extends ParallelCommandGroup {
         HoodSubSystem hood,
         HopperFeederSubSystem hopperFeeder,
         ShooterFeederSubSystem shooterFeeder,
+        HopperSubSystem hopper,
         Supplier<Translation2d> targetPos,
         SwerveRequest.FieldCentric driveRequest,
         BooleanSupplier fireButton,
@@ -43,7 +46,8 @@ public class FullShootAUTOSequence extends ParallelCommandGroup {
     addCommands(
       new ShooterDynamicVelocityCommand(shooter, shooterRPMSupplier),
       hoodCommand,
-      new ShootCommand(hopperFeeder, shooterFeeder, shooter, hoodCommand, fireButton)
+      new ShootCommand(hopperFeeder, shooterFeeder, shooter, hoodCommand, fireButton),
+      new HopperAgitateTrigerredCommand(hopper, fireButton, shooter, hoodCommand)
     );
   }
 }

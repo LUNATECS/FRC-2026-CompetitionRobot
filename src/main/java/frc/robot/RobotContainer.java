@@ -25,8 +25,10 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autos.DriveOverBumpCommand;
+import frc.robot.autos.LeftOneCycleAuto;
 import frc.robot.autos.LeftTwoCycleAuto;
 import frc.robot.autos.PracticeAuto;
+import frc.robot.autos.RightOneCycleAuto;
 import frc.robot.autos.RightOneCycleClimbAuto;
 import frc.robot.autos.RightTwoCycleAuto;
 import frc.robot.commands.AimAndShoot.FaceFieldPointCommand;
@@ -100,8 +102,10 @@ public class RobotContainer {
   private void setupAutoChooser() {
         autoChooser.setDefaultOption("Practice Auto", PracticeAuto.build(drivetrain));
         autoChooser.addOption("Right One Cycle Climb", RightOneCycleClimbAuto.build(drivetrain, drive));
-        autoChooser.addOption("Right Two Cycle Auto", RightTwoCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder));
-        autoChooser.addOption("Left Two Cycle Auto", LeftTwoCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder));
+        autoChooser.addOption("Right Two Cycle Auto", RightTwoCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper));
+        autoChooser.addOption("Left Two Cycle Auto", LeftTwoCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper));
+        autoChooser.addOption("Right One Cycle Auto", RightOneCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper));
+        autoChooser.addOption("Left One Cycle Auto", LeftOneCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper));
 
         // Put the chooser on SmartDashboard
         SmartDashboard.putData("Autonomous Mode FINAL", autoChooser);
@@ -120,7 +124,7 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("StopIntakeCommand", new InstantCommand(()->{intake.setSpeed(0);}, intake));
 
-    NamedCommands.registerCommand("Shoot Auto Command", new FullShootAUTOSequence(drivetrain, shooter, hood, hopperFeeder, shooterFeeder, () -> TargetSupplier.getTargetBasedOnAlliance(drivetrain), drive, ()->true, () -> SOTMCalc.getInstance().getParameters(
+    NamedCommands.registerCommand("Shoot Auto Command", new FullShootAUTOSequence(drivetrain, shooter, hood, hopperFeeder, shooterFeeder, hopper, () -> TargetSupplier.getTargetBasedOnAlliance(drivetrain), drive, ()->true, () -> SOTMCalc.getInstance().getParameters(
                       drivetrain.getPose().getTranslation()
                           .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).rpm(),
                           //hood angle supplier
@@ -178,7 +182,8 @@ public class RobotContainer {
             shooter, 
             hood, 
             hopperFeeder, 
-            shooterFeeder, 
+            shooterFeeder,
+            hopper, 
             () -> new Translation2d(
                     -driver.getLeftY() * MaxSpeed,
                     -driver.getLeftX() * MaxSpeed
@@ -187,7 +192,8 @@ public class RobotContainer {
             drive,
             () -> driver.R2().getAsBoolean() 
             )
-        );
+        ).onFalse(new HopperPositionCommand(hopper, 52.5));
+        //after command is over, then reset hoppery back to position)
 
         driver.L2().onTrue(new InstantCommand(()->{hopperFeeder.setSpeed(-0.5);}))
           .onFalse(new InstantCommand(()->{hopperFeeder.setSpeed(0);}));

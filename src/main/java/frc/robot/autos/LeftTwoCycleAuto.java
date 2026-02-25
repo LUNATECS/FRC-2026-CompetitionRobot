@@ -10,12 +10,15 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.AimAndShoot.FullShootAUTOSequence;
+import frc.robot.commands.HopperPositionCommand;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.HoodSubSystem;
 import frc.robot.subsystems.HopperFeederSubSystem;
+import frc.robot.subsystems.HopperSubSystem;
 import frc.robot.subsystems.ShooterFeederSubSystem;
 import frc.robot.subsystems.ShooterSubSystem;
 import frc.robot.util.AllianceFliputil;
@@ -33,7 +36,8 @@ public class LeftTwoCycleAuto {
         HoodSubSystem hood, 
         ShooterSubSystem shooter, 
         HopperFeederSubSystem hopperFeeder, 
-        ShooterFeederSubSystem shooterFeeder) 
+        ShooterFeederSubSystem shooterFeeder,
+        HopperSubSystem hopper) 
         {
         double directionGoing = AllianceFliputil.getFlipBasedOnAllianceForGoingToCenter();
         double directionComing = AllianceFliputil.getFlipbasedOnAllianceForComingBack();
@@ -57,7 +61,7 @@ public class LeftTwoCycleAuto {
             AutoFactory.followPath("Left Shoot Path"),
             //wait for 5 seconds when we should
             new ParallelDeadlineGroup( new WaitCommand(5)
-                , new FullShootAUTOSequence(drivetrain, shooter, hood, hopperFeeder, shooterFeeder, 
+                , new FullShootAUTOSequence(drivetrain, shooter, hood, hopperFeeder, shooterFeeder, hopper, 
                     () -> TargetSupplier.getTargetBasedOnAlliance(drivetrain), driveRequest, 
                     ()->true, 
                     () -> SOTMCalc.getInstance().getParameters(
@@ -68,13 +72,17 @@ public class LeftTwoCycleAuto {
                       drivetrain.getPose().getTranslation()
                           .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).hoodAngle())),
             //drive back over for second cycle.
+            //resets the hopper while driving back over bump
+            new ParallelCommandGroup(
             new DriveOverBumpCommand(drivetrain, heading, driveRequest, directionGoing),
+            new HopperPositionCommand(hopper, 52.5)
+            ),
             AutoFactory.followPath("Left Sweep 2 Path"),
             new DriveOverBumpCommand(drivetrain, heading, driveRequest, directionComing),
             AutoFactory.followPath("Left Shoot Path"),
             //Same wait for 5 seconds to shoot
             new ParallelDeadlineGroup( new WaitCommand(5)
-                , new FullShootAUTOSequence(drivetrain, shooter, hood, hopperFeeder, shooterFeeder, 
+                , new FullShootAUTOSequence(drivetrain, shooter, hood, hopperFeeder, shooterFeeder, hopper, 
                     () -> TargetSupplier.getTargetBasedOnAlliance(drivetrain), driveRequest, 
                     ()->true, 
                     () -> SOTMCalc.getInstance().getParameters(
@@ -83,7 +91,9 @@ public class LeftTwoCycleAuto {
                           //hood angle supplier
                            () -> SOTMCalc.getInstance().getParameters(
                       drivetrain.getPose().getTranslation()
-                          .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).hoodAngle()))
+                          .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).hoodAngle())),
+            //reset hopper after shooting
+            new HopperPositionCommand(hopper, 52.5)
 
             
         );

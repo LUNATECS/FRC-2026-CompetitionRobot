@@ -19,8 +19,7 @@ public class HopperPositionCommand extends Command {
     this.setpoint = setpoint;
     this.hopper = hopper;
     pid = new PIDController(0.0125, 0, 0);
-    pid.setTolerance(0.5);
-    pid.setSetpoint(setpoint);
+    pid.setTolerance(1);
     addRequirements(hopper);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -29,6 +28,7 @@ public class HopperPositionCommand extends Command {
   @Override
   public void initialize() {
     pid.reset();
+    pid.setSetpoint(setpoint);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -50,6 +50,7 @@ public class HopperPositionCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    //return false;
+    return pid.atSetpoint();
   }
 }

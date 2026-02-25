@@ -22,9 +22,9 @@ public class TargetSupplier {
         public static Translation2d getTargetBasedOnAlliance(CommandSwerveDrivetrain drivetrain){
             robotPose = drivetrain.getPose();
             if(alliance == Alliance.Red){
-                if(robotPose.getX() > 11.3){
+                if(robotPose.getX() > 11){
                      targetPose = new Translation2d(11.91, 4.03);
-                } else if(robotPose.getX() < 11.3){
+                } else if(robotPose.getX() < 11){
                     if(robotPose.getY() < 4){
                         targetPose = new Translation2d(14.5, 2);
                     } else if(robotPose.getY() > 4){
@@ -33,9 +33,9 @@ public class TargetSupplier {
                 }
             } 
             if(alliance == Alliance.Blue){
-                if(robotPose.getX() < 5){
+                if(robotPose.getX() < 5.5){
                      targetPose = new Translation2d(4.625, 4.125);
-                } else if(robotPose.getX() > 5){
+                } else if(robotPose.getX() > 5.5){
                     if(robotPose.getY() < 4){
                         targetPose = new Translation2d(2, 2);
                     } else if(robotPose.getY() > 4){
