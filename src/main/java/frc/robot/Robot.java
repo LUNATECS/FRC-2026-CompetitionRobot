@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.HopperPositionCommand;
 
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
@@ -20,7 +21,6 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private final RobotContainer m_robotContainer;
-  private final DriverStation.Alliance  alliance = DriverStation.getAlliance().get();
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -52,10 +52,12 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     //MAKE SURE TO CHANGE THIS ON STARTUP IF WE CHANGE THE AUTO STARTING ORIENTATION
-    if (alliance == DriverStation.Alliance.Red) {
-      m_robotContainer.getSwerveDrivetrain().resetGyro(180);
+    var alliance = DriverStation.getAlliance();
+
+    if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red) {
+        m_robotContainer.getSwerveDrivetrain().resetGyro(180);
     } else {
-      m_robotContainer.getSwerveDrivetrain().resetGyro(0);
+        m_robotContainer.getSwerveDrivetrain().resetGyro(0);
     }
     //we need the warmup command, so there is is, using the non-depracated version
     CommandScheduler.getInstance().schedule(PathfindingCommand.warmupCommand());
@@ -71,6 +73,13 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+    var alliance = DriverStation.getAlliance();
+
+    if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red) {
+        m_robotContainer.getSwerveDrivetrain().resetGyro(180);
+    } else {
+        m_robotContainer.getSwerveDrivetrain().resetGyro(0);
+    }
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
@@ -84,7 +93,13 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {}
 
   @Override
+  public void autonomousExit(){
+    CommandScheduler.getInstance().schedule(new HopperPositionCommand(m_robotContainer.getHopper(), 50.25));
+  }
+
+  @Override
   public void teleopInit() {
+    //puts the hopper out at the beginning of teleop.
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove

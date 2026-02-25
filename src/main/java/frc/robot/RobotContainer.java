@@ -372,4 +372,7 @@ public class RobotContainer {
   public CommandSwerveDrivetrain getSwerveDrivetrain(){
     return drivetrain;
   }
+  public HopperSubSystem getHopper(){
+    return hopper;
+  }
 }
