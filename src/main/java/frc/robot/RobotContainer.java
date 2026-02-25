@@ -26,10 +26,12 @@ import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autos.DriveOverBumpCommand;
 import frc.robot.autos.LeftOneCycleAuto;
+import frc.robot.autos.LeftSweepAuto;
 import frc.robot.autos.LeftTwoCycleAuto;
 import frc.robot.autos.PracticeAuto;
 import frc.robot.autos.RightOneCycleAuto;
 import frc.robot.autos.RightOneCycleClimbAuto;
+import frc.robot.autos.RightSweepAuto;
 import frc.robot.autos.RightTwoCycleAuto;
 import frc.robot.commands.AimAndShoot.FaceFieldPointCommand;
 import frc.robot.commands.AimAndShoot.FullShootAUTOSequence;
@@ -102,10 +104,15 @@ public class RobotContainer {
   private void setupAutoChooser() {
         autoChooser.setDefaultOption("Practice Auto", PracticeAuto.build(drivetrain));
         autoChooser.addOption("Right One Cycle Climb", RightOneCycleClimbAuto.build(drivetrain, drive));
+        //two cycle autos
         autoChooser.addOption("Right Two Cycle Auto", RightTwoCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper));
         autoChooser.addOption("Left Two Cycle Auto", LeftTwoCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper));
+        //since cycle autos
         autoChooser.addOption("Right One Cycle Auto", RightOneCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper));
         autoChooser.addOption("Left One Cycle Auto", LeftOneCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper));
+        //sweep autos
+        autoChooser.addOption("Left Sweep Auto", LeftSweepAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper));
+        autoChooser.addOption("Right Sweep Auto", RightSweepAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper));
 
         // Put the chooser on SmartDashboard
         SmartDashboard.putData("Autonomous Mode FINAL", autoChooser);
