@@ -4,24 +4,24 @@
     {
       "anchor": {
         "x": 3.3098462656667,
-        "y": 2.4271290373144745
+        "y": 2.5
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.1007362729535224,
-        "y": 2.636239030027652
+        "x": 3.0601549963834196,
+        "y": 2.5124205492513108
       },
       "isLocked": false,
       "linkedName": "Zone Pose After bump RIGHT"
     },
     {
       "anchor": {
-        "x": 3.191139576485916,
-        "y": 2.565845148675103
+        "x": 3.1205154082044153,
+        "y": 2.5
       },
       "prevControl": {
-        "x": 3.3516834077404045,
-        "y": 2.3742057001105383
+        "x": 3.3701524448348508,
+        "y": 2.4865333767270843
       },
       "nextControl": null,
       "isLocked": false,
@@ -53,12 +53,12 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -135.48412896622094
+    "rotation": -132.15329801237397
   },
   "reversed": false,
   "folder": "Right 1 Cycle Auto Climb",
   "idealStartingState": {
-    "velocity": 0.5,
+    "velocity": 1.0,
     "rotation": -45.0
   },
   "useDefaultConstraints": true

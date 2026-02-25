@@ -19,7 +19,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Right SweepBalls Path"
+            "pathName": "Right Sweep 1 Path"
           }
         },
         {
@@ -31,13 +31,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Right 1 Cycle To Climb Shoot"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Right 1 Cycle Climb"
+            "pathName": "Right Sweep 2 Path"
           }
         }
       ]

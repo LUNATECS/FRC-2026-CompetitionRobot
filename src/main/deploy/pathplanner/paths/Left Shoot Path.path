@@ -1,0 +1,65 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.543,
+        "y": 5.5
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.308632078476889,
+        "y": 5.412984614228651
+      },
+      "isLocked": false,
+      "linkedName": "Zone Pose After bump LEFT"
+    },
+    {
+      "anchor": {
+        "x": 3.205811272981287,
+        "y": 5.349503935593971
+      },
+      "prevControl": {
+        "x": 3.4526311796928155,
+        "y": 5.502849197670194
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [
+    {
+      "fieldPosition": {
+        "x": 4.625,
+        "y": 4.025
+      },
+      "rotationOffset": 180.0,
+      "minWaypointRelativePos": 0.7989734280493952,
+      "maxWaypointRelativePos": 1.0,
+      "name": "Point Towards Zone"
+    }
+  ],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 135.0
+  },
+  "reversed": false,
+  "folder": "Left 2 Cycle Auto",
+  "idealStartingState": {
+    "velocity": 1.0,
+    "rotation": 45.0
+  },
+  "useDefaultConstraints": true
+}

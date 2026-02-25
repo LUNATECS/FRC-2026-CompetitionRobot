@@ -37,7 +37,7 @@ public class RightOneCycleClimbAuto {
 
             AutoFactory.followPath("Starting Path Right"),
             new DriveOverBumpCommand(drivetrain, heading, driveRequest, directionGoing),
-            AutoFactory.followPath("Right SweepBalls Path"),
+            AutoFactory.followPath("Right Sweep 1 Path"),
             new DriveOverBumpCommand(drivetrain, heading, driveRequest, directionComing),
             //Then we would need to have another dead reckoning over bump
             AutoFactory.followPath("Right 1 Cycle To Climb Shoot"),

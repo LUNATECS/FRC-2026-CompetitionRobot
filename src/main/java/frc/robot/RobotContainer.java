@@ -25,8 +25,10 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autos.DriveOverBumpCommand;
+import frc.robot.autos.LeftTwoCycleAuto;
 import frc.robot.autos.PracticeAuto;
 import frc.robot.autos.RightOneCycleClimbAuto;
+import frc.robot.autos.RightTwoCycleAuto;
 import frc.robot.commands.AimAndShoot.FaceFieldPointCommand;
 import frc.robot.commands.AimAndShoot.FullShootAUTOSequence;
 import frc.robot.commands.HoodHoldCommand;
@@ -98,9 +100,11 @@ public class RobotContainer {
   private void setupAutoChooser() {
         autoChooser.setDefaultOption("Practice Auto", PracticeAuto.build(drivetrain));
         autoChooser.addOption("Right One Cycle Climb", RightOneCycleClimbAuto.build(drivetrain, drive));
+        autoChooser.addOption("Right Two Cycle Auto", RightTwoCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder));
+        autoChooser.addOption("Left Two Cycle Auto", LeftTwoCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder));
 
         // Put the chooser on SmartDashboard
-        SmartDashboard.putData("Autonomous Mode", autoChooser);
+        SmartDashboard.putData("Autonomous Mode FINAL", autoChooser);
     }
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */

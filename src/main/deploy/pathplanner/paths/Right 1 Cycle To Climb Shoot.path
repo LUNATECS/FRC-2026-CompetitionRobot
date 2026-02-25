@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 3.3098462656667,
-        "y": 2.4271290373144745
+        "y": 2.5
       },
       "prevControl": null,
       "nextControl": {
         "x": 2.711451540898392,
-        "y": 2.9701517655671172
+        "y": 3.0430227282526428
       },
       "isLocked": false,
       "linkedName": "Zone Pose After bump RIGHT"

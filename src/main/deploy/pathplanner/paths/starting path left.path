@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 3.543,
-        "y": 5.606
+        "y": 5.5
       },
       "prevControl": null,
       "nextControl": {
         "x": 3.7922518797125724,
-        "y": 5.586673840015424
+        "y": 5.480673840015424
       },
       "isLocked": false,
       "linkedName": null
@@ -17,27 +17,18 @@
     {
       "anchor": {
         "x": 3.543,
-        "y": 5.606
+        "y": 5.5
       },
       "prevControl": {
         "x": 3.293000009270532,
-        "y": 5.606068082786147
+        "y": 5.5000680827861474
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Zone Pose After bump LEFT"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0,
-      "rotationDegrees": 0.0
-    },
-    {
-      "waypointRelativePos": 1,
-      "rotationDegrees": 45.0
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -50,8 +41,8 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0.5,
-    "rotation": 0.0
+    "velocity": 1.0,
+    "rotation": 45.0
   },
   "reversed": false,
   "folder": "Left 2 Cycle Auto",
