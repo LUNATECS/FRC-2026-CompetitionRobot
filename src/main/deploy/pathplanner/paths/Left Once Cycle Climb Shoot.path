@@ -70,7 +70,7 @@
     "rotation": 180.0
   },
   "reversed": false,
-  "folder": "Left 1 Cycle Auto Climb",
+  "folder": "Left 2 Cycle Auto",
   "idealStartingState": {
     "velocity": 0,
     "rotation": -45.0
