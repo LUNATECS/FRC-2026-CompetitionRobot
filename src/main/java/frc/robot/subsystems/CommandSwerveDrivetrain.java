@@ -505,6 +505,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
           //field pose logging
           fieldLogging.setRobotPose(pose.getEstimatedPosition());
           SmartDashboard.putData("RobotPoseOnField", fieldLogging);
+          Pose2d targetPose = new Pose2d(TargetSupplier.getTargetBasedOnAlliance(this), new Rotation2d(0));
+          fieldLogging.getObject("TargetPose").setPose(targetPose);
        }
   
        private void startSimThread() {
