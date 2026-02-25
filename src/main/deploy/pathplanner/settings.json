@@ -3,9 +3,9 @@
   "robotLength": 0.8509,
   "holonomicMode": true,
   "pathFolders": [
-    "Left 1 Cycle Auto Climb",
-    "Tuning",
-    "Right 1 Cycle Auto Climb"
+    "Left 2 Cycle Auto",
+    "Right 1 Cycle Auto Climb",
+    "Tuning"
   ],
   "autoFolders": [],
   "defaultMaxVel": 3.0,
