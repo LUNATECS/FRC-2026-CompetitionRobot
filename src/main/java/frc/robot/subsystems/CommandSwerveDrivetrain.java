@@ -693,6 +693,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                                    // Boolean supplier that controls when the path will be mirrored for the red alliance
                                    // This will flip the path being followed to the red side of the field.
                                    // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+                                   //still unsure if it flips properly for both side and horizontally
                     
                                    var alliance = DriverStation.getAlliance();
                                    if (alliance.isPresent()) {
