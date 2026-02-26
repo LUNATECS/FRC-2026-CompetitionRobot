@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autos.DriveOverBumpCommand;
+import frc.robot.autos.DriveToFuelLoopAuto;
 import frc.robot.autos.LeftOneCycleAuto;
 import frc.robot.autos.LeftSweepAuto;
 import frc.robot.autos.LeftTwoCycleAuto;
@@ -113,6 +114,10 @@ public class RobotContainer {
         //sweep autos
         autoChooser.addOption("Left Sweep Auto", LeftSweepAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper));
         autoChooser.addOption("Right Sweep Auto", RightSweepAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper));
+
+
+        //practice object detection
+        autoChooser.addOption("Fuel Loop Auto Obj.Detec", DriveToFuelLoopAuto.build(drivetrain, intake));
 
         // Put the chooser on SmartDashboard
         SmartDashboard.putData("Autonomous Mode FINAL", autoChooser);

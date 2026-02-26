@@ -668,6 +668,19 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
          public double getTYHopper() {
            return limelightHopper.getEntry("ty").getDouble(0.);
          }
+
+         public void setHopperLimelightPipeline(int pipeline){
+          limelightHopper.getEntry("pipeline").setNumber(pipeline);
+         }
+         public Command setHopperToNeural = new InstantCommand(() -> {
+              setHopperLimelightPipeline(1); // pipeline 1 = neural network
+          }, this);
+
+          public Command setHopperToApriltag = new InstantCommand(() -> {
+              setHopperLimelightPipeline(0); // pipeline 0 = Apriltags
+          }, this);
+
+
          public void resetPoseBasedOnShooterLL() {
            var llMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-shooter");
            if (llMeasurement != null && llMeasurement.tagCount > 0) {
