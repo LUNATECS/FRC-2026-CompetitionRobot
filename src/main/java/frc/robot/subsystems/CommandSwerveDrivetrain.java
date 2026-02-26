@@ -87,6 +87,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
    private final NetworkTable robotPoseTable = NetworkTableInstance.getDefault().getTable("RobotPoseDashboard");
    //private Pose2d targetPoseBlue = new Pose2d(4.625, 4.04, new Rotation2d(0)); // Example target pose on the field
    //targetPose ONLY for blue (for now, have to add red/blue switching later)
+   private static final double HOPPER_LL_HEIGHT_METERS = 0.5; // camera height from floor
+   private static final double HOPPER_LL_MOUNT_ANGLE_DEG = -15.0; // downward tilt
 
    private Field2d fieldLogging = new Field2d();
 
@@ -302,7 +304,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
        @Override
        public void periodic() {
 
-        SmartDashboard.putNumber("drictrain distance to target", pose.getEstimatedPosition().getTranslation()
+        SmartDashboard.putNumber("drivetrain distance to target", pose.getEstimatedPosition().getTranslation()
                                 .getDistance(TargetSupplier.getTargetBasedOnAlliance(this)));
         //Setting Rotations
         double robotYaw = getPigeon2().getYaw().refresh().getValueAsDouble();
@@ -507,6 +509,15 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
           SmartDashboard.putData("RobotPoseOnField", fieldLogging);
           Pose2d targetPose = new Pose2d(TargetSupplier.getTargetBasedOnAlliance(this), new Rotation2d(0));
           fieldLogging.getObject("TargetPose").setPose(targetPose);
+
+          Pose2d detectedFuels = getDetectedGamePiecePose();
+
+          if (detectedFuels != null) {
+              fieldLogging.getObject("DetectedFuel").setPose(detectedFuels);
+          } else {
+              fieldLogging.getObject("DetectedFuel")
+                  .setPose(new Pose2d(0, 0, new Rotation2d()));
+          }
        }
   
        private void startSimThread() {
@@ -547,7 +558,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 //double Angle = robotToTarget.getAngle().getDegrees() - 180;
                 //Rotation2d finalRotateAngle = new Rotation2d(Angle);
                 return robotToTarget.getAngle().plus(Rotation2d.fromDegrees(180));
-        }
+          }
 
         public static double calculateProjectileSpeed(double wheelRPM) {
           //this whole method may need to be redone
@@ -587,6 +598,45 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         double vyField = speeds.vxMetersPerSecond * heading.getSin() + speeds.vyMetersPerSecond * heading.getCos();
         
         return new Translation2d(vxField, vyField);
+      }
+
+
+      //NOW OBJECT DETECTION STUFF
+      public Pose2d getDetectedGamePiecePose() {
+          double ty = getTYHopper();
+          double tx = getTXHopper();
+
+          // If no target detected, return null
+          if (limelightHopper.getEntry("tv").getDouble(0) == 0) {
+              return null;
+          }
+
+          // Convert angles to radians
+          double totalAngleDeg = HOPPER_LL_MOUNT_ANGLE_DEG + ty;
+          double totalAngleRad = Math.toRadians(totalAngleDeg);
+
+          // Target assumed on ground (height = 0)
+          double targetHeight = 0.0;
+
+          // Distance from camera to object
+          double distance = (targetHeight - HOPPER_LL_HEIGHT_METERS) / Math.tan(totalAngleRad);
+          SmartDashboard.putNumber("distance to fuel", distance);
+
+          // If tx is not perfectly zero, include horizontal offset
+          double txRad = Math.toRadians(tx);
+
+          // Robot-relative coordinates
+          double xRobot = distance * Math.cos(txRad);
+          double yRobot = distance * Math.sin(txRad);
+
+          Translation2d robotRelative = new Translation2d(xRobot, yRobot);
+
+          // Convert to field-relative
+          Pose2d robotPose = getPose();
+          Translation2d fieldRelative =
+                  robotRelative.rotateBy(robotPose.getRotation())
+                              .plus(robotPose.getTranslation());
+          return new Pose2d(fieldRelative, new Rotation2d());
       }
 
 
