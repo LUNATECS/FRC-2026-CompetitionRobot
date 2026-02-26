@@ -6,6 +6,7 @@ package frc.robot.commands.ShootOnTheMove;
 
 import java.util.function.BooleanSupplier;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.HoodDynamicPointCommand;
 import frc.robot.commands.ShooterFeederDynamicCommand;
@@ -23,6 +24,11 @@ public class ShootOnTheMoveShootCommand extends Command {
   ShootOnTheMoveCommand drivetrainCommand;
   BooleanSupplier fireButton;
   ShooterFeederDynamicCommand feederCommand;
+  private final double currentThreshold = 40; // tune this, in amps
+  private final double reverseTime = 0.2; //in seconds
+
+  private boolean isReversing = false;
+  private final Timer reverseTimer = new Timer();
   public ShootOnTheMoveShootCommand(
         HopperFeederSubSystem hopperFeeder,
         ShooterFeederSubSystem shooterFeeder,
@@ -49,27 +55,50 @@ public class ShootOnTheMoveShootCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    double hopperCurrent = hopperFeeder.getTopFeederCurrent();
+    double shooterFeederCurrent = shooterFeeder.getCurrent();
+
+    boolean jamDetected = hopperCurrent > currentThreshold ||
+                        shooterFeederCurrent > currentThreshold;
     if (fireButton.getAsBoolean() &&
                 shooter.atSpeed() &&
                 hoodCommand.atSetpoint() 
                 //&&drivetrainCommand.isAligned()
                 ) {
+                  if (jamDetected && !isReversing) {
+                      isReversing = true;
+                      reverseTimer.restart(); //restarts timer
+                  }
 
-                //hopperFeeder.setSpeed(1);
-                hopperFeeder.setSpeed(1);
-                hopperFeeder.setTopRollerSpeed(1);
-                shooterFeeder.setRPMBasedOnShooter(shooter.getRPM());    
+                  // If reversing just keep reversing until timer ends
+                  if (isReversing) {
+                      hopperFeeder.setSpeed(-1);
+                      hopperFeeder.setTopRollerSpeed(-1);
+                      shooterFeeder.setSpeed(-1);
+
+                      if (reverseTimer.hasElapsed(reverseTime)) {
+                          isReversing = false;
+                      }
+
+                  } else {
+                      // Always feed normally when not reversing
+                      hopperFeeder.setSpeed(1);
+                      hopperFeeder.setTopRollerSpeed(1);
+                      shooterFeeder.setRPMBasedOnShooter(shooter.getRPM());
+                  }
               } else {
                 hopperFeeder.setSpeed(0);
                 hopperFeeder.setTopRollerSpeed(0);
                 shooterFeeder.setSpeed(0);
+                isReversing = false;
+                reverseTimer.stop();
             }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    hopperFeeder.setSpeed(0);
+                hopperFeeder.setSpeed(0);
                 hopperFeeder.setTopRollerSpeed(0);
                 shooterFeeder.setSpeed(0);
   }

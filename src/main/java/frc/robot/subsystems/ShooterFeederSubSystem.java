@@ -52,10 +52,15 @@ public void setRPMBasedOnShooter(double Shooterrpm){
     double rpmspeed = Shooterrpm*feederMotortoShooterMotorRatio;
     shooterFeeder.setControl(motorVelocity.withVelocity(rpmspeed/60));
 }
+//get current for stalling/spikes
+public double getCurrent() {
+  return shooterFeeder.getStatorCurrent().getValueAsDouble();
+}
 
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Shooter Feeder RPM", shooterFeeder.getVelocity().getValueAsDouble()/60);
+    SmartDashboard.putNumber("Shooter Feeder AMPS", getCurrent());
     // This method will be called once per scheduler run
   }
 }

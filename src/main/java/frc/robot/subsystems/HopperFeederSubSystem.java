@@ -74,11 +74,17 @@ public class HopperFeederSubSystem extends SubsystemBase {
   public void setTopRollerSpeed(double speed){
     topFeederMotor.set(speed);
   }
+  //get current for motor stalling
+
+  public double getTopFeederCurrent() {
+    return topFeederMotor.getStatorCurrent().getValueAsDouble();
+  }
 
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Hoper Feeder RPM", hopperFeederMotor.getVelocity().getValueAsDouble()*60);
+    SmartDashboard.putNumber("Hopper Feeder RPM", hopperFeederMotor.getVelocity().getValueAsDouble()*60);
+    SmartDashboard.putNumber("Top Feeder AMPS", getTopFeederCurrent());
     // This method will be called once per scheduler run
   }
 }
