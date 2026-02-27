@@ -117,7 +117,7 @@ public class RobotContainer {
 
 
         //practice object detection
-        autoChooser.addOption("Fuel Loop Auto Obj.Detec", DriveToFuelLoopAuto.build(drivetrain, intake));
+        //autoChooser.addOption("Fuel Loop Auto Obj.Detec", DriveToFuelLoopAuto.build(drivetrain, intake));
 
         // Put the chooser on SmartDashboard
         SmartDashboard.putData("Autonomous Mode FINAL", autoChooser);
