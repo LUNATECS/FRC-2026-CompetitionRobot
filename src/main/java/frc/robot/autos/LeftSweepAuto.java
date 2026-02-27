@@ -10,6 +10,7 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.AimAndShoot.FullShootAUTOSequence;
@@ -54,7 +55,8 @@ public class LeftSweepAuto {
                 }
             }),
 
-            AutoFactory.followPath("Starting Path Left"),
+            new ParallelCommandGroup(AutoFactory.followPath("Starting Path Left"),
+            new HopperPositionCommand(hopper, 52.5)),
             new DriveOverBumpCommand(drivetrain, headingGoing, driveRequest, directionGoing),
             AutoFactory.followPath("Left Big Sweep Path"),
             new DriveOverBumpCommand(drivetrain, headingComing, driveRequest, directionComing),
