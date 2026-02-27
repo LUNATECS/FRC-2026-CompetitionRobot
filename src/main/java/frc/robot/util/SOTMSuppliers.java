@@ -45,6 +45,8 @@ public class SOTMSuppliers {
 
             return SOTMCalc.getInstance()
                     .getHybridSteppedHood(distance);
+                    //OR
+                    //.getParameters(distance).hoodAngle();
         };
 
         shooterRPMSupplier = () -> {

@@ -104,7 +104,7 @@ public class RobotContainer {
 
   private void setupAutoChooser() {
         autoChooser.setDefaultOption("Practice Auto", PracticeAuto.build(drivetrain));
-        autoChooser.addOption("Right One Cycle Climb", RightOneCycleClimbAuto.build(drivetrain, drive));
+        autoChooser.addOption("Right One Cycle Climb", RightOneCycleClimbAuto.build(drivetrain, drive, hopper));
         //two cycle autos
         autoChooser.addOption("Right Two Cycle Auto", RightTwoCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper));
         autoChooser.addOption("Left Two Cycle Auto", LeftTwoCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper));

@@ -54,7 +54,8 @@ public class RightTwoCycleAuto {
                 }
             }),
 
-            AutoFactory.followPath("Starting Path Right"),
+            new ParallelCommandGroup(AutoFactory.followPath("Starting Path Right"),
+            new HopperPositionCommand(hopper, 52.5)),
             new DriveOverBumpCommand(drivetrain, heading, driveRequest, directionGoing),
             AutoFactory.followPath("Right Sweep 1 Path"),
             new DriveOverBumpCommand(drivetrain, heading, driveRequest, directionComing),
