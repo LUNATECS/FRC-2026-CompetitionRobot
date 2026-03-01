@@ -366,6 +366,7 @@ public class RobotContainer {
 
   tester.touchpad().onTrue(new HoodHoldCommand(hood,()->SmartDashboard.getNumber("hoodInputAngle", 0)));
 
+  tester.options().onTrue(new InstantCommand(()->{shooter.setMotor3Speed(0.5);}));
 
 
   }

@@ -28,13 +28,13 @@ public class DriveOverBumpCommand extends Command {
 
     private State currentState;
 
-    private double flatStartTime = -1;
+    private double flatStartTime = -0.5;
 
     // Speed values for states
-    private final double approachSpeed = 1;
-    private final double climbSpeed = 2;
-    private final double descendSpeed = 1.5;
-    private final double flatSpeed = 1;
+    private final double approachSpeed = 2.5;
+    private final double climbSpeed = 3;
+    private final double descendSpeed = 2.5;
+    private final double flatSpeed = 1.5;
 
     private final double climbThreshold = 7.0;
     private final double flatThreshold = 3.0;
@@ -113,14 +113,14 @@ public class DriveOverBumpCommand extends Command {
                     double timeStayedFlat =
                         edu.wpi.first.wpilibj.Timer.getFPGATimestamp() - flatStartTime;
 
-                    if (timeStayedFlat > 0.25) {
+                    if (timeStayedFlat > -0.35) {
                         currentState = State.DONE;
                     }
                 }
                 break;
 
             case DONE:
-                driveSpeed = 1;
+                driveSpeed = 0.5;
                 break;
                 //change drivespeed based on whether or not we use this in auto or not.
         }

@@ -17,9 +17,9 @@ public class HopperAgitateTrigerredCommand extends Command {
   private final Timer timer = new Timer();
 
   // Tune these
-  private final double inwardSpeed = -0.25;   // push balls inward
-  private final double outwardSpeed = 0.15;   // slight retract
-  private final double inwardTime = 0.6;      // seconds
+  private final double inwardSpeed = -0.5;   // push balls inward
+  private final double outwardSpeed = 0.25;   // slight retract
+  private final double inwardTime = 0.8;      // seconds
   private final double outwardTime = 0.4;     // seconds
 
   private final double stopThreshold = 5.0; //hopper position encoder value thing

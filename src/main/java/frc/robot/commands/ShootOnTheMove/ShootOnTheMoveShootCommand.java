@@ -24,7 +24,7 @@ public class ShootOnTheMoveShootCommand extends Command {
   ShootOnTheMoveCommand drivetrainCommand;
   BooleanSupplier fireButton;
   ShooterFeederDynamicCommand feederCommand;
-  private final double currentThreshold = 40; // tune this, in amps
+  private final double currentThreshold = 400; // tune this, in amps
   private final double reverseTime = 0.2; //in seconds
 
   private boolean isReversing = false;

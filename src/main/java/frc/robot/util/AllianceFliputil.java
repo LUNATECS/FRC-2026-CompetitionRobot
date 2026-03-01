@@ -6,6 +6,7 @@ package frc.robot.util;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /** Add your docs here. */
 public class AllianceFliputil {
@@ -18,6 +19,7 @@ public class AllianceFliputil {
         } else {
             direction = 1;
         }
+        SmartDashboard.putNumber("Direction in Auto", direction);
         return direction;
     }
 
@@ -37,6 +39,7 @@ public class AllianceFliputil {
             return Rotation2d.fromDegrees(135);
         } else {
             return Rotation2d.fromDegrees(-45);
+
         }
     }
 

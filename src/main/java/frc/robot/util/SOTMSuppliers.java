@@ -44,9 +44,9 @@ public class SOTMSuppliers {
             double distance = calculateLookaheadDistance(drivetrain, target);
 
             return SOTMCalc.getInstance()
-                    .getHybridSteppedHood(distance);
+                    //.getHybridSteppedHood(distance);
                     //OR
-                    //.getParameters(distance).hoodAngle();
+                    .getParameters(distance).hoodAngle();
         };
 
         shooterRPMSupplier = () -> {

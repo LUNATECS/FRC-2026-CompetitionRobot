@@ -26,7 +26,7 @@ public final class Constants {
 
   public static class Hopper_SubSystem_Constants{
     public static final int CAN_ID_HOPPER = 11;
-    public static final double Hopper_Out_Position = 52.5;
+    public static final double Hopper_Out_Position = 70.0;
   }
 
   public static class Hopper_Feeder_SubSystem_Constants{

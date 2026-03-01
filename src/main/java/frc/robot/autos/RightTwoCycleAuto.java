@@ -10,6 +10,7 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -55,14 +56,13 @@ public class RightTwoCycleAuto {
                 }
             }),
 
-            new ParallelCommandGroup(AutoFactory.followPath("Starting Path Right"),
+             new ParallelDeadlineGroup(new DriveOverBumpCommand(drivetrain, heading, driveRequest, directionGoing), 
             new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position)),
-            new DriveOverBumpCommand(drivetrain, heading, driveRequest, directionGoing),
             AutoFactory.followPath("Right Sweep 1 Path"),
             new DriveOverBumpCommand(drivetrain, heading, driveRequest, directionComing),
             AutoFactory.followPath("Right Shoot Path"),
             //wait for 5 seconds when we should
-            new ParallelDeadlineGroup( new WaitCommand(5)
+            new ParallelDeadlineGroup( new WaitCommand(4)
                 , new FullShootAUTOSequence(drivetrain, shooter, hood, hopperFeeder, shooterFeeder, hopper, 
                     () -> TargetSupplier.getTargetBasedOnAlliance(drivetrain), driveRequest, 
                     ()->true, 
@@ -74,10 +74,12 @@ public class RightTwoCycleAuto {
                       drivetrain.getPose().getTranslation()
                           .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).hoodAngle())),
             //drive back over for second cycle.
-            new ParallelCommandGroup(
-            new DriveOverBumpCommand(drivetrain, heading, driveRequest, directionGoing),
-            new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position)
-            ),
+           new ParallelDeadlineGroup(new DriveOverBumpCommand(drivetrain, heading, driveRequest, directionGoing), 
+            new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position),
+            new InstantCommand(()->{shooter.setSpeed(0);}),
+            new InstantCommand(()->{shooterFeeder.setSpeed(0);}),
+            new InstantCommand(()->{hopperFeeder.setRPMtopFeeder(0);}),
+            new InstantCommand(()->{hopperFeeder.setRPMHopper(0);})),
             AutoFactory.followPath("Right Sweep 2 Path"),
             new DriveOverBumpCommand(drivetrain, heading, driveRequest, directionComing),
             AutoFactory.followPath("Right Shoot Path"),

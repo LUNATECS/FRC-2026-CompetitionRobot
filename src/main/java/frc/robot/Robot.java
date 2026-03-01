@@ -27,6 +27,8 @@ public class Robot extends TimedRobot {
 
   private final RobotContainer m_robotContainer;
 
+  private double degreesOutOfAuto;
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -35,6 +37,8 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    double degreesOutOfAuto = 0;
+    this.degreesOutOfAuto = degreesOutOfAuto;
   }
 
   /**
@@ -60,13 +64,6 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     //MAKE SURE TO CHANGE THIS ON STARTUP IF WE CHANGE THE AUTO STARTING ORIENTATION
-    var alliance = DriverStation.getAlliance();
-
-    if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red) {
-        m_robotContainer.getSwerveDrivetrain().resetGyro(180);
-    } else {
-        m_robotContainer.getSwerveDrivetrain().resetGyro(0);
-    }
     //we need the warmup command, so there is is, using the non-depracated version
     CommandScheduler.getInstance().schedule(PathfindingCommand.warmupCommand());
   }
@@ -76,7 +73,15 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+    var alliance = DriverStation.getAlliance();
+
+    if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red) {
+        m_robotContainer.getSwerveDrivetrain().resetGyro(180);
+    } else {
+        m_robotContainer.getSwerveDrivetrain().resetGyro(0);
+    }
+  }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
@@ -101,12 +106,15 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {}
 
   @Override
-  public void autonomousExit(){
+  public void autonomousExit(){ 
+    degreesOutOfAuto = m_robotContainer.getSwerveDrivetrain().getPose().getRotation().getDegrees();   
     CommandScheduler.getInstance().schedule(new HopperPositionCommand(m_robotContainer.getHopper(), 50.25));
   }
 
   @Override
   public void teleopInit() {
+    m_robotContainer.getSwerveDrivetrain().resetGyro(degreesOutOfAuto);
+
     //puts the hopper out at the beginning of teleop.
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to

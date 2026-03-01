@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 3.1205154082044153,
-        "y": 2.5
+        "x": 2.490782051282053,
+        "y": 2.6861282051282056
       },
       "prevControl": {
-        "x": 3.3701524448348508,
-        "y": 2.4865333767270843
+        "x": 2.7404190879124886,
+        "y": 2.67266158185529
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,18 +30,7 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "pointTowardsZones": [
-    {
-      "fieldPosition": {
-        "x": 4.625,
-        "y": 4.025
-      },
-      "rotationOffset": 180.0,
-      "minWaypointRelativePos": 0.8687255859374999,
-      "maxWaypointRelativePos": 1.0,
-      "name": "Point Towards Zone"
-    }
-  ],
+  "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
@@ -53,12 +42,12 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -132.15329801237397
+    "rotation": -140.0
   },
   "reversed": false,
   "folder": "Right 1 Cycle Auto Climb",
   "idealStartingState": {
-    "velocity": 1.0,
+    "velocity": 2.0,
     "rotation": -45.0
   },
   "useDefaultConstraints": true

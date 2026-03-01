@@ -510,6 +510,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
           Pose2d targetPose = new Pose2d(TargetSupplier.getTargetBasedOnAlliance(this), new Rotation2d(0));
           fieldLogging.getObject("TargetPose").setPose(targetPose);
 
+          SmartDashboard.putNumber("Target pose X", targetPose.getX());
+          SmartDashboard.putNumber("Target pose Y", targetPose.getY());
+
+
           Pose2d detectedFuels = getDetectedGamePiecePose();
 
           if (detectedFuels != null) {

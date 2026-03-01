@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 3.205811272981287,
-        "y": 5.349503935593971
+        "x": 2.8512564102564113,
+        "y": 5.2327051282051285
       },
       "prevControl": {
-        "x": 3.4526311796928155,
-        "y": 5.502849197670194
+        "x": 3.0980763169679397,
+        "y": 5.386050390281352
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,18 +30,7 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "pointTowardsZones": [
-    {
-      "fieldPosition": {
-        "x": 4.625,
-        "y": 4.025
-      },
-      "rotationOffset": 180.0,
-      "minWaypointRelativePos": 0.7989734280493952,
-      "maxWaypointRelativePos": 1.0,
-      "name": "Point Towards Zone"
-    }
-  ],
+  "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
@@ -53,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 135.0
+    "rotation": 145.0
   },
   "reversed": false,
   "folder": "Left 2 Cycle Auto",

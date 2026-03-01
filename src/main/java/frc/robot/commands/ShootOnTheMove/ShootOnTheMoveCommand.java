@@ -13,6 +13,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -39,10 +40,10 @@ public class ShootOnTheMoveCommand extends Command {
         this.targetSupplier = targetSupplier;
         this.flightTimeSupplier = flightTimeSupplier;
         this.driveRequest = driveRequest;
-        thetaController=new PIDController(4.0, 0.0, 0.15);
+        thetaController=new PIDController(8.0, 0.0, 0.15);
 
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
-        thetaController.setTolerance(Math.toRadians(1.5));
+        thetaController.setTolerance(Math.toRadians(0.5));
 
         addRequirements(drivetrain);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -91,6 +92,7 @@ public void execute() {
                         .withVelocityY(translationYClamping)
                         .withRotationalRate(omega)
     );
+    SmartDashboard.putBoolean("Pointing at Target", thetaController.atSetpoint());
 }
 
   // Called once the command ends or is interrupted.

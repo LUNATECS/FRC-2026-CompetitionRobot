@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.205811272981287,
-        "y": 5.349503935593971
+        "x": 2.8512564102564113,
+        "y": 5.2327051282051285
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.7177080869280377,
-        "y": 6.436249639280176
+        "x": 2.363153224203162,
+        "y": 6.319450831891333
       },
       "isLocked": false,
       "linkedName": "Shoot From Left"
@@ -48,7 +48,7 @@
   "folder": "Depot Auto",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 135.0
+    "rotation": 145.0
   },
   "useDefaultConstraints": true
 }
