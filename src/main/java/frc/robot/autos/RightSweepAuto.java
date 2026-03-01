@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Constants;
 import frc.robot.commands.AimAndShoot.FullShootAUTOSequence;
 import frc.robot.commands.HopperPositionCommand;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -56,7 +57,7 @@ public class RightSweepAuto {
             }),
 
             new ParallelCommandGroup(AutoFactory.followPath("Starting Path Right"),
-            new HopperPositionCommand(hopper, 52.5)),
+            new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position)),
             new DriveOverBumpCommand(drivetrain, headingGoing, driveRequest, directionGoing),
             AutoFactory.followPath("Right Big Sweep Path"),
             new DriveOverBumpCommand(drivetrain, headingComing, driveRequest, directionComing),
@@ -73,7 +74,7 @@ public class RightSweepAuto {
                            () -> SOTMCalc.getInstance().getParameters(
                       drivetrain.getPose().getTranslation()
                           .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).hoodAngle())),
-            new HopperPositionCommand(hopper, 52.5)
+            new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position)
         );
     }
 }

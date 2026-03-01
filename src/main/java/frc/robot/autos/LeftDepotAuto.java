@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Constants;
 import frc.robot.commands.AimAndShoot.FullShootAUTOSequence;
 import frc.robot.commands.HopperPositionCommand;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -55,7 +56,7 @@ public class LeftDepotAuto {
             }),
 
             new ParallelCommandGroup(AutoFactory.followPath("Starting Path Left"),
-            new HopperPositionCommand(hopper, 52.5)),
+            new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position)),
             new DriveOverBumpCommand(drivetrain, heading, driveRequest, directionGoing),
             AutoFactory.followPath("Left Sweep 1 Path"),
             new DriveOverBumpCommand(drivetrain, heading, driveRequest, directionComing),
@@ -73,7 +74,7 @@ public class LeftDepotAuto {
                       drivetrain.getPose().getTranslation()
                           .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).hoodAngle())),
             new ParallelCommandGroup(AutoFactory.followPath("Get To Depot"),
-            new HopperPositionCommand(hopper, 52.5)),
+            new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position)),
             AutoFactory.followPath("Intake At Depot"),
             AutoFactory.followPath("Shoot From Depot"),
             new ParallelDeadlineGroup( new WaitCommand(3)
@@ -86,7 +87,9 @@ public class LeftDepotAuto {
                           //hood angle supplier
                            () -> SOTMCalc.getInstance().getParameters(
                       drivetrain.getPose().getTranslation()
-                          .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).hoodAngle()))
+                          .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).hoodAngle())),
+            new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position)
+
         );
     }
 }

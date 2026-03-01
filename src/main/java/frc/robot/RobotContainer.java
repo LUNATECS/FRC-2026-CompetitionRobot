@@ -25,11 +25,12 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autos.DriveOverBumpCommand;
-import frc.robot.autos.DriveToFuelLoopAuto;
+import frc.robot.autos.LeftDepotAuto;
 import frc.robot.autos.LeftOneCycleAuto;
 import frc.robot.autos.LeftSweepAuto;
 import frc.robot.autos.LeftTwoCycleAuto;
 import frc.robot.autos.PracticeAuto;
+import frc.robot.autos.RightDepotAuto;
 import frc.robot.autos.RightOneCycleAuto;
 import frc.robot.autos.RightOneCycleClimbAuto;
 import frc.robot.autos.RightSweepAuto;
@@ -103,7 +104,7 @@ public class RobotContainer {
 
 
   private void setupAutoChooser() {
-        autoChooser.setDefaultOption("Practice Auto", PracticeAuto.build(drivetrain));
+        autoChooser.setDefaultOption("Practice Auto DO NOTHING", PracticeAuto.build(drivetrain));
         autoChooser.addOption("Right One Cycle Climb", RightOneCycleClimbAuto.build(drivetrain, drive, hopper));
         //two cycle autos
         autoChooser.addOption("Right Two Cycle Auto", RightTwoCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper));
@@ -114,6 +115,10 @@ public class RobotContainer {
         //sweep autos
         autoChooser.addOption("Left Sweep Auto", LeftSweepAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper));
         autoChooser.addOption("Right Sweep Auto", RightSweepAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper));
+
+        //depot autos
+        autoChooser.addOption("Left Depot Auto", LeftDepotAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper));
+        autoChooser.addOption("Right Depot Auto", RightDepotAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper));
 
 
         //practice object detection
@@ -204,7 +209,7 @@ public class RobotContainer {
             drive,
             () -> driver.R2().getAsBoolean() 
             )
-        ).onFalse(new HopperPositionCommand(hopper, 52.5));
+        ).onFalse(new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position));
         //after command is over, then reset hoppery back to position)
 
         driver.L2().onTrue(new InstantCommand(()->{hopperFeeder.setSpeed(-0.5);}))
@@ -262,7 +267,7 @@ public class RobotContainer {
 
         driver.R1().onTrue(new IntakeCommand(intake, 6000))
           .onFalse(new InstantCommand(()->{intake.setSpeed(0);}, intake) );
-        driver.triangle().onTrue(new HopperPositionCommand(hopper, 52.5));
+        driver.triangle().onTrue(new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position));
 
         driver.cross().onTrue(new HopperAgitateCommand(hopper));
 
