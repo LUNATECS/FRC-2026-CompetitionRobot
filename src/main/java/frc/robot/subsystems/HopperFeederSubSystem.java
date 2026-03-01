@@ -40,7 +40,7 @@ public class HopperFeederSubSystem extends SubsystemBase {
 
     var topFeederMotorOutputConfigs = new MotorOutputConfigs();
     topFeederMotorOutputConfigs.NeutralMode = NeutralModeValue.Brake;
-    topFeederMotorOutputConfigs.Inverted = InvertedValue.Clockwise_Positive;
+    topFeederMotorOutputConfigs.Inverted = InvertedValue.CounterClockwise_Positive;
 
     topFeederMotor.getConfigurator().apply(topFeederMotorOutputConfigs);
 
