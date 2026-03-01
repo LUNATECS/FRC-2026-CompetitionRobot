@@ -22,8 +22,8 @@ public class PracticeAuto {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }),
-            AutoFactory.followPath("StraightlineTune")
+        })
+            //AutoFactory.followPath("StraightlineTune")
         );
     }
 }

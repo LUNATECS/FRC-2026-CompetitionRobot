@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Constants;
 import frc.robot.commands.AimAndShoot.FullShootAUTOSequence;
 import frc.robot.commands.HopperPositionCommand;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -55,7 +56,7 @@ public class LeftTwoCycleAuto {
             }),
 
             new ParallelCommandGroup(AutoFactory.followPath("Starting Path Left"),
-            new HopperPositionCommand(hopper, 52.5)),
+            new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position)),
             new DriveOverBumpCommand(drivetrain, heading, driveRequest, directionGoing),
             AutoFactory.followPath("Left Sweep 1 Path"),
             new DriveOverBumpCommand(drivetrain, heading, driveRequest, directionComing),
@@ -76,7 +77,7 @@ public class LeftTwoCycleAuto {
             //resets the hopper while driving back over bump
             new ParallelCommandGroup(
             new DriveOverBumpCommand(drivetrain, heading, driveRequest, directionGoing),
-            new HopperPositionCommand(hopper, 52.5)
+            new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position)
             ),
             AutoFactory.followPath("Left Sweep 2 Path"),
             new DriveOverBumpCommand(drivetrain, heading, driveRequest, directionComing),
@@ -94,7 +95,7 @@ public class LeftTwoCycleAuto {
                       drivetrain.getPose().getTranslation()
                           .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).hoodAngle())),
             //reset hopper after shooting
-            new HopperPositionCommand(hopper, 52.5)
+            new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position)
 
             
         );
