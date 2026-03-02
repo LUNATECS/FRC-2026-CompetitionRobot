@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 2.490782051282053,
-        "y": 2.6861282051282056
+        "x": 2.944085856846401,
+        "y": 2.684734947567895
       },
       "prevControl": {
-        "x": 2.7404190879124886,
-        "y": 2.67266158185529
+        "x": 3.1937228934768362,
+        "y": 2.6712683242949793
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -140.0
+    "rotation": -136.13603218668453
   },
   "reversed": false,
   "folder": "Right 1 Cycle Auto Climb",

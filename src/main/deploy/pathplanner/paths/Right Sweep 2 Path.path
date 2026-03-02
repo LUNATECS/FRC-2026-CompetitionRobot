@@ -3,44 +3,44 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.872928571428571,
+        "x": 5.873,
         "y": 2.5
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.208914015884042,
-        "y": 1.5436476951090832
+        "x": 7.431810705094111,
+        "y": 1.37516538529169
       },
       "isLocked": false,
       "linkedName": "Middle Pose After Bump RIGHT"
     },
     {
       "anchor": {
-        "x": 8.6,
-        "y": 1.3027853590917515
+        "x": 8.55,
+        "y": 1.4
       },
       "prevControl": {
-        "x": 8.529647732177061,
-        "y": 1.0628883845127262
+        "x": 8.479647732177062,
+        "y": 1.1601030254209745
       },
       "nextControl": {
-        "x": 8.67152214996675,
-        "y": 1.546671560963646
+        "x": 8.62152214996675,
+        "y": 1.6438862018718945
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.6,
+        "x": 8.55,
         "y": 3.75
       },
       "prevControl": {
-        "x": 8.695605148217682,
+        "x": 8.645605148217683,
         "y": 3.5190029099008497
       },
       "nextControl": {
-        "x": 8.504394851782317,
+        "x": 8.454394851782318,
         "y": 3.9809970900991503
       },
       "isLocked": false,
@@ -76,8 +76,8 @@
       "minWaypointRelativePos": 1.028522319178427,
       "maxWaypointRelativePos": 2.1644283171622973,
       "constraints": {
-        "maxVelocity": 1.0,
-        "maxAcceleration": 1.0,
+        "maxVelocity": 1.5,
+        "maxAcceleration": 1.5,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -111,22 +111,22 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
+    "velocity": 1.5,
     "rotation": -45.0
   },
   "reversed": false,
   "folder": "Right 1 Cycle Auto Climb",
   "idealStartingState": {
-    "velocity": 0,
+    "velocity": 1.5,
     "rotation": -45.0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

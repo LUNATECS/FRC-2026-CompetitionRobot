@@ -76,8 +76,8 @@
       "minWaypointRelativePos": 0.9152542372881356,
       "maxWaypointRelativePos": 2.2372881355932153,
       "constraints": {
-        "maxVelocity": 0.75,
-        "maxAcceleration": 0.75,
+        "maxVelocity": 1.5,
+        "maxAcceleration": 1.5,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -119,13 +119,13 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 1.0,
+    "velocity": 1.5,
     "rotation": 45.0
   },
   "reversed": false,
   "folder": "Left 2 Cycle Auto",
   "idealStartingState": {
-    "velocity": 1.0,
+    "velocity": 1.5,
     "rotation": 45.0
   },
   "useDefaultConstraints": true
