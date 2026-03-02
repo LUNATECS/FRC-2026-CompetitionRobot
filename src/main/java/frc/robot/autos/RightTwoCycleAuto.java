@@ -84,7 +84,7 @@ public class RightTwoCycleAuto {
             new DriveOverBumpCommand(drivetrain, heading, driveRequest, directionComing),
             AutoFactory.followPath("Right Shoot Path"),
             //Same wait for 5 seconds to shoot
-            new ParallelDeadlineGroup( new WaitCommand(5)
+            new ParallelDeadlineGroup(new WaitCommand(4)
                 , new FullShootAUTOSequence(drivetrain, shooter, hood, hopperFeeder, shooterFeeder, hopper, 
                     () -> TargetSupplier.getTargetBasedOnAlliance(drivetrain), driveRequest, 
                     ()->true, 
