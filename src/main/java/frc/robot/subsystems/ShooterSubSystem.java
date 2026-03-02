@@ -43,13 +43,14 @@ public class ShooterSubSystem extends SubsystemBase {
     var feedbackConfigs = new FeedbackConfigs();
     feedbackConfigs.SensorToMechanismRatio = gearRatio;
 
-    var motorOutputConfigs = new MotorOutputConfigs();
-    motorOutputConfigs.NeutralMode = NeutralModeValue.Coast;
-    motorOutputConfigs.Inverted = InvertedValue.CounterClockwise_Positive;
+    var motorOutputShooterConfigs = new MotorOutputConfigs();
+    motorOutputShooterConfigs.NeutralMode = NeutralModeValue.Coast;
+    motorOutputShooterConfigs.Inverted = InvertedValue.CounterClockwise_Positive;
 
     var currentLimits = new CurrentLimitsConfigs();
-    currentLimits.SupplyCurrentLimit = 70;   //increase this current limit if necessary (increased from 40)
+    currentLimits.SupplyCurrentLimit = 120;   //increase this current limit if necessary (increased from 40)
     currentLimits.SupplyCurrentLimitEnable = true;
+
 
     var slot0Configs = new Slot0Configs();
     //Slot configs untested but are good base values
@@ -66,9 +67,9 @@ public class ShooterSubSystem extends SubsystemBase {
 
     shooterMotor1.getConfigurator().apply(slot0Configs);
     shooterMotor1.getConfigurator().apply(feedbackConfigs);
-    shooterMotor1.getConfigurator().apply(motorOutputConfigs);
-    //shooterMotor1.getConfigurator().apply(currentLimits);
-    //shooterMotor1.getConfigurator().apply(voltageConfigs);
+    shooterMotor1.getConfigurator().apply(motorOutputShooterConfigs);
+    shooterMotor1.getConfigurator().apply(currentLimits);
+    shooterMotor1.getConfigurator().apply(voltageConfigs);
 
     motorVelocity.Slot = 0;
     shooterMotor2.setControl(new Follower(Constants.Shooter_SubSystem_Constants.CAN_ID_SHOOTER1, MotorAlignmentValue.Aligned));

@@ -40,10 +40,10 @@ public class ShootOnTheMoveCommand extends Command {
         this.targetSupplier = targetSupplier;
         this.flightTimeSupplier = flightTimeSupplier;
         this.driveRequest = driveRequest;
-        thetaController=new PIDController(8.0, 0.0, 0.15);
+        thetaController=new PIDController(9.0, 0.0, 0.15);
 
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
-        thetaController.setTolerance(Math.toRadians(0.5));
+        thetaController.setTolerance(Math.toRadians(0.25));
 
         addRequirements(drivetrain);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -84,8 +84,8 @@ public void execute() {
 
     RobotContainer.virtualTargetField.setRobotPose(new Pose2d(virtualTarget, Rotation2d.fromDegrees(0))); 
 
-    double translationXClamping = MathUtil.clamp(translation.getX(), -1.5, 1.5);
-    double translationYClamping = MathUtil.clamp(translation.getY(), -1.5, 1.5);
+    double translationXClamping = MathUtil.clamp(translation.getX(), -0.5, 0.5);
+    double translationYClamping = MathUtil.clamp(translation.getY(), -0.5, 0.5);
 
     drivetrain.setControl(
             driveRequest.withVelocityX(translationXClamping)
