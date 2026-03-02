@@ -10,6 +10,7 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -55,28 +56,21 @@ public class LeftDepotAuto {
                 }
             }),
 
-            new ParallelCommandGroup(AutoFactory.followPath("Starting Path Left"),
+            new ParallelDeadlineGroup(new DriveOverBumpCommand(drivetrain, heading, driveRequest, directionGoing), 
             new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position)),
-            new DriveOverBumpCommand(drivetrain, heading, driveRequest, directionGoing),
             AutoFactory.followPath("Left Sweep 1 Path"),
             new DriveOverBumpCommand(drivetrain, heading, driveRequest, directionComing),
             AutoFactory.followPath("Left Shoot Path"),
             //wait for 5 seconds when we should
-            new ParallelDeadlineGroup( new WaitCommand(5)
-                , new FullShootAUTOSequence(drivetrain, shooter, hood, hopperFeeder, shooterFeeder, hopper, 
-                    () -> TargetSupplier.getTargetBasedOnAlliance(drivetrain), driveRequest, 
-                    ()->true, 
-                    () -> SOTMCalc.getInstance().getParameters(
-                      drivetrain.getPose().getTranslation()
-                          .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).rpm(),
-                          //hood angle supplier
-                           () -> SOTMCalc.getInstance().getParameters(
-                      drivetrain.getPose().getTranslation()
-                          .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).hoodAngle())),
-            new ParallelCommandGroup(AutoFactory.followPath("Get To Depot"),
-            new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position)),
-            AutoFactory.followPath("Intake At Depot"),
-            AutoFactory.followPath("Shoot From Depot"),
+            AutoFactory.makeShootOnTheMovePathCommand(drivetrain, "Depot SOTM Path", ()->TargetSupplier.getTargetBasedOnAlliance(drivetrain), driveRequest, shooter, shooterFeeder, hopperFeeder, hopper, hood),
+                    new ParallelCommandGroup(AutoFactory.followPath("Get To Depot Intaking"), 
+                    new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position),
+                    new InstantCommand(()->{shooter.setSpeed(0);}),
+                    new InstantCommand(()->{shooterFeeder.setSpeed(0);}),
+                    new InstantCommand(()->{hopperFeeder.setRPMtopFeeder(0);}),
+                    new InstantCommand(()->{hopperFeeder.setRPMHopper(0);})),
+                    AutoFactory.followPath("Intake At Depot"),
+                    AutoFactory.followPath("Shoot From Depot"),
             new ParallelDeadlineGroup( new WaitCommand(3)
                 , new FullShootAUTOSequence(drivetrain, shooter, hood, hopperFeeder, shooterFeeder, hopper, 
                     () -> TargetSupplier.getTargetBasedOnAlliance(drivetrain), driveRequest, 
@@ -88,7 +82,11 @@ public class LeftDepotAuto {
                            () -> SOTMCalc.getInstance().getParameters(
                       drivetrain.getPose().getTranslation()
                           .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).hoodAngle())),
-            new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position)
+            new ParallelCommandGroup(new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position),
+            new InstantCommand(()->{shooter.setSpeed(0);}),
+            new InstantCommand(()->{shooterFeeder.setSpeed(0);}),
+            new InstantCommand(()->{hopperFeeder.setRPMtopFeeder(0);}),
+            new InstantCommand(()->{hopperFeeder.setRPMHopper(0);}))
 
         );
     }

@@ -63,18 +63,8 @@ public class RightDepotAuto {
             new DriveOverBumpCommand(drivetrain, headingComing, driveRequest, directionComing),
             AutoFactory.followPath("Left Shoot Path"),
             //wait for 5 seconds when we should
-            new ParallelDeadlineGroup(new WaitCommand(4)
-                , new FullShootAUTOSequence(drivetrain, shooter, hood, hopperFeeder, shooterFeeder, hopper, 
-                    () -> TargetSupplier.getTargetBasedOnAlliance(drivetrain), driveRequest, 
-                    ()->true, 
-                    () -> SOTMCalc.getInstance().getParameters(
-                      drivetrain.getPose().getTranslation()
-                          .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).rpm(),
-                          //hood angle supplier
-                           () -> SOTMCalc.getInstance().getParameters(
-                      drivetrain.getPose().getTranslation()
-                          .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).hoodAngle())),
-                    new ParallelCommandGroup(AutoFactory.followPath("Get To Depot"), 
+            AutoFactory.makeShootOnTheMovePathCommand(drivetrain, "Depot SOTM Path", ()->TargetSupplier.getTargetBasedOnAlliance(drivetrain), driveRequest, shooter, shooterFeeder, hopperFeeder, hopper, hood),
+                    new ParallelCommandGroup(AutoFactory.followPath("Get To Depot Intaking"), 
                     new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position),
                     new InstantCommand(()->{shooter.setSpeed(0);}),
                     new InstantCommand(()->{shooterFeeder.setSpeed(0);}),

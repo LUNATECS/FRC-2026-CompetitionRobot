@@ -34,7 +34,7 @@ public class FaceFieldPointCommand extends Command {
         this.driveRequest = driveRequest;
 
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
-        thetaController.setTolerance(Math.toRadians(1.5));
+        thetaController.setTolerance(Math.toRadians(0.5));
 
         addRequirements(drivetrain);
     }

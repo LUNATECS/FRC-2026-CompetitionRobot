@@ -4,14 +4,29 @@
 
 package frc.robot.autos;
 
+import java.util.function.Supplier;
+
+import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.trajectory.PathPlannerTrajectory;
+import com.pathplanner.lib.trajectory.PathPlannerTrajectoryState;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.commands.ShootOnTheMove.FullShootOnTheMoveSequence;
+import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.HoodSubSystem;
+import frc.robot.subsystems.HopperFeederSubSystem;
+import frc.robot.subsystems.HopperSubSystem;
+import frc.robot.subsystems.ShooterFeederSubSystem;
+import frc.robot.subsystems.ShooterSubSystem;
 
 /** Add your docs here. */
 public class AutoFactory {
@@ -57,6 +72,99 @@ public class AutoFactory {
             return AutoBuilder.pathfindToPose(pose, intakeBallsConstraints);
         }
 
-        
-        
+
+        public static Supplier<Translation2d> getPathTranslationSupplier(String pathName) {
+            try {
+                // load the path
+                PathPlannerPath path = PathPlannerPath.fromPathFile(pathName);
+
+                // get the trajectory from the path using config
+                var config = RobotConfig.fromGUISettings();
+                java.util.Optional<PathPlannerTrajectory> optionalTraj =
+                    path.getIdealTrajectory(config);
+
+                if (optionalTraj.isEmpty()) {
+                    System.err.println("Failed to get trajectory for path: " + pathName);
+                    return () -> new Translation2d(0, 0);
+                }
+
+                PathPlannerTrajectory trajectory = optionalTraj.get();
+                final double startTime = Timer.getFPGATimestamp();
+
+                return () -> {
+                    double time = Timer.getFPGATimestamp() - startTime;
+
+                    // sample the trajectory at the current time
+                    PathPlannerTrajectoryState state = trajectory.sample(time);
+
+                    // use fieldSpeeds (vx, vy) instead of velocityMetersPerSecond
+                    double vx = state.fieldSpeeds.vxMetersPerSecond;
+                    double vy = state.fieldSpeeds.vyMetersPerSecond;
+
+                    return new Translation2d(vx, vy);
+                };
+            } catch (Exception e) {
+                e.printStackTrace();
+                return () -> new Translation2d(0, 0);
+            }
+        }  
+
+
+                public static Command makeShootOnTheMovePathCommand(
+                CommandSwerveDrivetrain drivetrain,
+                String pathName,
+                Supplier<Translation2d> targetSupplier,
+                SwerveRequest.FieldCentric driveRequest,
+                ShooterSubSystem shooter,
+                ShooterFeederSubSystem shooterFeeder,
+                HopperFeederSubSystem hopperFeeder,
+                HopperSubSystem hopper,
+                HoodSubSystem hood
+        ) {
+            try {
+                PathPlannerPath path = PathPlannerPath.fromPathFile(pathName);
+                var config = RobotConfig.fromGUISettings();
+                var optionalTraj = path.getIdealTrajectory(config);
+
+                if (optionalTraj.isEmpty()) {
+                    System.err.println("Failed to get trajectory for path: " + pathName);
+                    return Commands.none();
+                }
+
+                PathPlannerTrajectory trajectory = optionalTraj.get();
+                final double startTime = Timer.getFPGATimestamp();
+                final double totalTime = trajectory.getTotalTimeSeconds();
+
+                // Use a supplier for translational velocities
+                Supplier<Translation2d> translationSupplier = () -> {
+                    double time = Timer.getFPGATimestamp() - startTime;
+                    if (time > totalTime) time = totalTime;
+                    var state = trajectory.sample(time);
+                    return new Translation2d(state.fieldSpeeds.vxMetersPerSecond, state.fieldSpeeds.vyMetersPerSecond);
+                };
+
+                // Build your SOTM sequence command using the translation supplier
+                FullShootOnTheMoveSequence sotm = new FullShootOnTheMoveSequence(
+                    drivetrain,
+                    shooter,
+                    hood,
+                    hopperFeeder,
+                    shooterFeeder,
+                    hopper,
+                    translationSupplier,
+                    targetSupplier,
+                    driveRequest,
+                    ()->true
+                );
+
+                // Wrap in a command that ends when the path ends
+                return Commands.sequence(
+                    sotm.withTimeout(totalTime)
+                );
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return Commands.none();
+            }
+        }
 }

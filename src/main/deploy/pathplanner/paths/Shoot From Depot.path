@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.7754929277593532,
-        "y": 6.005992031424146
+        "x": 0.8937976602624969,
+        "y": 5.8385761266637735
       },
       "isLocked": false,
       "linkedName": "After Depot"
     },
     {
       "anchor": {
-        "x": 1.3619024928073113,
-        "y": 5.893177733196142
+        "x": 1.9493258096200452,
+        "y": 5.539783711751301
       },
       "prevControl": {
-        "x": 1.11650559900591,
-        "y": 5.845424570865006
+        "x": 1.5272970804285126,
+        "y": 5.708066013477467
       },
       "nextControl": null,
       "isLocked": false,
@@ -47,7 +47,7 @@
   "reversed": false,
   "folder": "Depot Auto",
   "idealStartingState": {
-    "velocity": 1.0,
+    "velocity": 0.5,
     "rotation": -90.05104613881727
   },
   "useDefaultConstraints": true

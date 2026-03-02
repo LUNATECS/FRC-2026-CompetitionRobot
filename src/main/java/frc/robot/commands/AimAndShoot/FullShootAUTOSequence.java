@@ -39,6 +39,7 @@ public class FullShootAUTOSequence extends ParallelCommandGroup {
         Supplier<Double> shooterRPMSupplier,
         Supplier<Double> hoodAngleSupplier
   ) {
+        FaceFieldPointCommand drivetrainCommand = new FaceFieldPointCommand(drivetrain, () -> new Translation2d(0, 0), targetPos, driveRequest);
         HoodDynamicPointCommand hoodCommand = new HoodDynamicPointCommand(hood, hoodAngleSupplier);
 
     // Add your commands in the addCommands() call, e.g.
@@ -46,6 +47,7 @@ public class FullShootAUTOSequence extends ParallelCommandGroup {
     addCommands(
       new ShooterDynamicVelocityCommand(shooter, shooterRPMSupplier),
       hoodCommand,
+      drivetrainCommand,
       new ShootCommand(hopperFeeder, shooterFeeder, shooter, hoodCommand, fireButton),
       new HopperAgitateTrigerredCommand(hopper, fireButton, shooter, hoodCommand)
     );

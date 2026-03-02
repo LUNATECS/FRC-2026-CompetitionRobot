@@ -96,8 +96,11 @@ public class RightTwoCycleAuto {
                       drivetrain.getPose().getTranslation()
                           .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).hoodAngle())),
             //reset hopper after shooting
-            new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position)
-
+            new ParallelCommandGroup(new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position),
+            new InstantCommand(()->{shooter.setSpeed(0);}),
+            new InstantCommand(()->{shooterFeeder.setSpeed(0);}),
+            new InstantCommand(()->{hopperFeeder.setRPMtopFeeder(0);}),
+            new InstantCommand(()->{hopperFeeder.setRPMHopper(0);}))
             
         );
     }
