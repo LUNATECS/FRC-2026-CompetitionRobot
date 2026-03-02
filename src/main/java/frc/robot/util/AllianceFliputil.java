@@ -13,7 +13,8 @@ public class AllianceFliputil {
     public static double direction = 0;
     
     public static double getFlipBasedOnAllianceForGoingToCenter() {
-        DriverStation.Alliance alliance = DriverStation.getAlliance().get();
+        DriverStation.Alliance alliance =
+    DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue);
         if (alliance == DriverStation.Alliance.Red) {
             direction = -1;
         } else {
@@ -24,7 +25,8 @@ public class AllianceFliputil {
     }
 
     public static double getFlipbasedOnAllianceForComingBack() {
-        DriverStation.Alliance alliance = DriverStation.getAlliance().get();
+        DriverStation.Alliance alliance =
+    DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue);
         if (alliance == DriverStation.Alliance.Red) {
             direction = 1;
         } else {
@@ -34,7 +36,8 @@ public class AllianceFliputil {
     }
 
     public static Rotation2d getHeadingBasedOnAllianceForBumpRIGHT() {
-        DriverStation.Alliance alliance = DriverStation.getAlliance().get();
+        DriverStation.Alliance alliance =
+    DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue);
         if (alliance == DriverStation.Alliance.Red) {
             return Rotation2d.fromDegrees(135);
         } else {
@@ -44,7 +47,8 @@ public class AllianceFliputil {
     }
 
     public static Rotation2d getHeadingBasedOnAllianceForBumpLEFT() {
-        DriverStation.Alliance alliance = DriverStation.getAlliance().get();
+        DriverStation.Alliance alliance =
+    DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue);
         if (alliance == DriverStation.Alliance.Red) {
             return Rotation2d.fromDegrees(225);
         } else {

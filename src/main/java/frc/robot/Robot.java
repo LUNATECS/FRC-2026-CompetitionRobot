@@ -4,11 +4,9 @@
 
 package frc.robot;
 
-import static edu.wpi.first.units.Units.Seconds;
-
 import com.pathplanner.lib.commands.PathfindingCommand;
 
-import edu.wpi.first.units.Units;
+import static edu.wpi.first.units.Units.Seconds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -51,7 +49,9 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     SmartDashboard.putNumber("Match Timer", DriverStation.getMatchTime());
+    SmartDashboard.putNumber("Match Timer (0-160)", HubTracker.getMatchTime());
     SmartDashboard.putBoolean("Hub Active", HubTracker.isActive());
+    SmartDashboard.putString("Current Shift", HubTracker.getCurrentShift().toString());
     SmartDashboard.putNumber("Time left in Current Shift", HubTracker.timeRemainingInCurrentShift().orElse(Seconds.zero()).in(Seconds));
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
