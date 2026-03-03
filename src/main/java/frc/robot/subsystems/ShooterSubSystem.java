@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.ClosedLoopRampsConfigs;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
@@ -48,7 +49,7 @@ public class ShooterSubSystem extends SubsystemBase {
     motorOutputShooterConfigs.Inverted = InvertedValue.CounterClockwise_Positive;
 
     var currentLimits = new CurrentLimitsConfigs();
-    currentLimits.SupplyCurrentLimit = 120;   //increase this current limit if necessary (increased from 40)
+    currentLimits.SupplyCurrentLimit = 60;   //increase this current limit if necessary (increased from 40)
     currentLimits.SupplyCurrentLimitEnable = true;
 
 
@@ -65,10 +66,14 @@ public class ShooterSubSystem extends SubsystemBase {
     voltageConfigs.PeakForwardVoltage = 13; // increased from 12
     voltageConfigs.PeakReverseVoltage = -13; // increased from 12
 
+    ClosedLoopRampsConfigs ramp = new ClosedLoopRampsConfigs();
+    ramp.VoltageClosedLoopRampPeriod = 0.4; // 400ms ramp
+
     shooterMotor1.getConfigurator().apply(slot0Configs);
     shooterMotor1.getConfigurator().apply(feedbackConfigs);
     shooterMotor1.getConfigurator().apply(motorOutputShooterConfigs);
     shooterMotor1.getConfigurator().apply(currentLimits);
+    shooterMotor1.getConfigurator().apply(ramp);
     shooterMotor1.getConfigurator().apply(voltageConfigs);
 
     motorVelocity.Slot = 0;
