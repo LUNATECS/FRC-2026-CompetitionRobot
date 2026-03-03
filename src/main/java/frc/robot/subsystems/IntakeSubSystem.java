@@ -36,7 +36,7 @@ public class IntakeSubSystem extends SubsystemBase {
     slot0Configs.kD = 0;
 
     var currentLimits = new CurrentLimitsConfigs();
-    currentLimits.SupplyCurrentLimit = 30;   //increase this current limit if necessary (increased from 40)
+    currentLimits.SupplyCurrentLimit = Constants.Current_Limit_Constants.CurrentLimit;   //increase this current limit if necessary (increased from 40)
     currentLimits.SupplyCurrentLimitEnable = true;
 
     intakeMotor.getConfigurator().apply(motorOutputConfigs);
@@ -66,5 +66,8 @@ public class IntakeSubSystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Intake rpm", getRPM());
+    if (Constants.Current_Limit_Constants.PlotCurrentLimits){
+      SmartDashboard.putNumber("intake current", intakeMotor.getStatorCurrent().getValueAsDouble());
+    }
   }
 }

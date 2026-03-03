@@ -35,7 +35,7 @@ public class ShooterFeederSubSystem extends SubsystemBase {
     shooterFeeder.getConfigurator().apply(motorOutputConfigs);
 
     var currentLimits = new CurrentLimitsConfigs();
-    currentLimits.SupplyCurrentLimit = 30;   //increase this current limit if necessary (increased from 40)
+    currentLimits.SupplyCurrentLimit = Constants.Current_Limit_Constants.CurrentLimit;   //increase this current limit if necessary (increased from 40)
     currentLimits.SupplyCurrentLimitEnable = true;
     shooterFeeder.getConfigurator().apply(currentLimits);
 
@@ -66,7 +66,9 @@ public double getCurrent() {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Shooter Feeder RPM", shooterFeeder.getVelocity().getValueAsDouble()/60);
+    if (Constants.Current_Limit_Constants.PlotCurrentLimits){
     SmartDashboard.putNumber("Shooter Feeder AMPS", getCurrent());
+    }
     // This method will be called once per scheduler run
   }
 }

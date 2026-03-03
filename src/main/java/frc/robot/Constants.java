@@ -58,4 +58,9 @@ public final class Constants {
     public static final String CANIVORE_NAME = "canivore";
     public static CANBus CANIVORE = new CANBus(CANIVORE_NAME);
   }
+
+  public static class Current_Limit_Constants{
+    public static final double CurrentLimit = 30; //this is in amps btw
+    public static final boolean PlotCurrentLimits = true;
+  }
 }

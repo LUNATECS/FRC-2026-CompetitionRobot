@@ -46,7 +46,7 @@ public class HopperFeederSubSystem extends SubsystemBase {
     topFeederMotor.getConfigurator().apply(topFeederMotorOutputConfigs);
 
     var currentLimits = new CurrentLimitsConfigs();
-    currentLimits.SupplyCurrentLimit = 30;   //increase this current limit if necessary (increased from 40)
+    currentLimits.SupplyCurrentLimit = Constants.Current_Limit_Constants.CurrentLimit;   //increase this current limit if necessary (increased from 40)
     currentLimits.SupplyCurrentLimitEnable = true;
 
     topFeederMotor.getConfigurator().apply(currentLimits);
@@ -92,12 +92,18 @@ public class HopperFeederSubSystem extends SubsystemBase {
     return topFeederMotor.getStatorCurrent().getValueAsDouble();
   }
 
+  public double getHopperFeederCurrent() {
+    return hopperFeederMotor.getStatorCurrent().getValueAsDouble();
+  }
 
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Hopper Feeder RPM", hopperFeederMotor.getVelocity().getValueAsDouble()*60);
     SmartDashboard.putNumber("Top Feeder RPM", topFeederMotor.getVelocity().getValueAsDouble()*60);
+    if (Constants.Current_Limit_Constants.PlotCurrentLimits){
     SmartDashboard.putNumber("Top Feeder AMPS", getTopFeederCurrent());
+    SmartDashboard.putNumber("Hopper Feeder Curent", getHopperFeederCurrent());
+    }
     // This method will be called once per scheduler run
   }
 }
