@@ -388,4 +388,10 @@ public class RobotContainer {
   public HopperSubSystem getHopper(){
     return hopper;
   }
+  public ShooterFeederSubSystem getShooterFeeder(){
+    return shooterFeeder;
+  }
+  public HopperFeederSubSystem getHopperFeeder(){
+    return hopperFeeder;
+  }
 }

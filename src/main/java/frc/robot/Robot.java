@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.HopperPositionCommand;
 import frc.robot.util.HubTracker;
 
@@ -108,7 +109,10 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousExit(){ 
     degreesOutOfAuto = m_robotContainer.getSwerveDrivetrain().getPose().getRotation().getDegrees();   
-    CommandScheduler.getInstance().schedule(new HopperPositionCommand(m_robotContainer.getHopper(), 50.25));
+    CommandScheduler.getInstance().schedule(new HopperPositionCommand(m_robotContainer.getHopper(), Constants.Hopper_SubSystem_Constants.Hopper_Out_Position));
+    CommandScheduler.getInstance().schedule(new InstantCommand(()->{m_robotContainer.getHopperFeeder().setSpeed(0);}));
+    CommandScheduler.getInstance().schedule(new InstantCommand(()->{m_robotContainer.getShooterFeeder().setSpeed(0);}));
+    CommandScheduler.getInstance().schedule(new InstantCommand(()->{m_robotContainer.getHopperFeeder().setTopRollerSpeed(0);}));
   }
 
   @Override
