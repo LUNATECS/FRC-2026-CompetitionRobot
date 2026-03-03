@@ -29,7 +29,7 @@ public class ShooterSubSystem extends SubsystemBase {
   private TalonFX shooterMotor4;
   public double shooterTargetRPM = 0;
 
-  private final double gearRatio = 1.25;
+  private final double gearRatio = 0.75;
 
   private final VelocityVoltage motorVelocity = new VelocityVoltage(0);
 
@@ -37,7 +37,7 @@ public class ShooterSubSystem extends SubsystemBase {
   public ShooterSubSystem() {
     shooterMotor1 = new TalonFX(Constants.Shooter_SubSystem_Constants.CAN_ID_SHOOTER1 , Constants.CANBUS_Constants.CANIVORE);
     shooterMotor2 = new TalonFX(Constants.Shooter_SubSystem_Constants.CAN_ID_SHOOTER2, Constants.CANBUS_Constants.CANIVORE);
-    //shooterMotor3 = new TalonFX(Constants.Shooter_SubSystem_Constants.CAN_ID_SHOOTER3 , Constants.CANBUS_Constants.CANIVORE);
+    shooterMotor3 = new TalonFX(Constants.Shooter_SubSystem_Constants.CAN_ID_SHOOTER3 , Constants.CANBUS_Constants.CANIVORE);
     shooterMotor4 = new TalonFX(Constants.Shooter_SubSystem_Constants.CAN_ID_SHOOTER4, Constants.CANBUS_Constants.CANIVORE);
 
     var feedbackConfigs = new FeedbackConfigs();
@@ -54,8 +54,8 @@ public class ShooterSubSystem extends SubsystemBase {
 
     var slot0Configs = new Slot0Configs();
     //Slot configs untested but are good base values
-    slot0Configs.kV = 0.22;
-    slot0Configs.kP = 0.57;
+    slot0Configs.kV = 0.095;
+    slot0Configs.kP = 0.29;
     slot0Configs.kI = 0;
     slot0Configs.kD = 0;
     //FOR ADJUSTING, FIRST SET PID VALUES TO 0, AND SEE IF kV is reaching setpoint consistenly across all ranges, then
@@ -73,7 +73,7 @@ public class ShooterSubSystem extends SubsystemBase {
 
     motorVelocity.Slot = 0;
     shooterMotor2.setControl(new Follower(Constants.Shooter_SubSystem_Constants.CAN_ID_SHOOTER1, MotorAlignmentValue.Aligned));
-    //shooterMotor3.setControl(new Follower(Constants.Shooter_SubSystem_Constants.CAN_ID_SHOOTER1, MotorAlignmentValue.Opposed));
+    shooterMotor3.setControl(new Follower(Constants.Shooter_SubSystem_Constants.CAN_ID_SHOOTER1, MotorAlignmentValue.Opposed));
     shooterMotor4.setControl(new Follower(Constants.Shooter_SubSystem_Constants.CAN_ID_SHOOTER1, MotorAlignmentValue.Opposed));
 
   }

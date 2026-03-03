@@ -25,7 +25,7 @@ public class SOTMCalc {
     }
 
     // LUT bounds
-    private static final double MIN_DISTANCE = 1.25;
+    private static final double MIN_DISTANCE = 1.5;
     private static final double MAX_DISTANCE = 12.0;
 
     // Separate LUTs for each field
@@ -41,57 +41,43 @@ public class SOTMCalc {
     // Private constructor to populate LUTs
     private SOTMCalc() {
         // Distance to RPM
-        rpmMap.put(1.5, 900.0);
-        rpmMap.put(1.75, 950.0);
-        rpmMap.put(2.0, 1025.0);
-        rpmMap.put(2.5, 1075.0);
-        rpmMap.put(3.0, 1125.0);
-        rpmMap.put(3.5, 1125.0);
-        rpmMap.put(4.0, 1175.0);
-        rpmMap.put(4.5, 1275.0);
-        rpmMap.put(5.0, 1375.0);
-        rpmMap.put(5.5, 1375.0);
-        rpmMap.put(6.0, 1425.0);
-        rpmMap.put(6.5, 1475.0);
-        rpmMap.put(7.0, 1525.0);
-        rpmMap.put(12.0, 2000.0);
-
-
-
-
-
+        rpmMap.put(1.5, 2800.0);
+        rpmMap.put(1.75, 2900.0);
+        rpmMap.put(2.0, 3000.0);
+        rpmMap.put(2.5, 3150.0);
+        rpmMap.put(3.0, 3400.0);
+        rpmMap.put(3.5, 3460.0);
+        rpmMap.put(4.0, 3660.0);
+        rpmMap.put(4.5, 3850.0);
+        rpmMap.put(5.0, 4100.0);
+        rpmMap.put(6.0, 4300.0);
+        rpmMap.put(12.0, 6500.0);
 
         // Distance to hood angle
-        hoodMap.put(1.5, 7.5);
-        hoodMap.put(1.75, 7.5);
+        hoodMap.put(1.5, 2.5);
+        hoodMap.put(1.75, 5.0);
         hoodMap.put(2.0, 7.5);
         hoodMap.put(2.5, 7.5);
         hoodMap.put(3.0, 7.5);
         hoodMap.put(3.5, 15.0);
         hoodMap.put(4.0, 15.0);
         hoodMap.put(4.5, 15.0);
-        hoodMap.put(5.0, 20.0);
-        hoodMap.put(5.5, 20.0);
-        hoodMap.put(6.0, 20.0);
-        hoodMap.put(6.5, 20.0);
-        hoodMap.put(7.0, 25.0);
-        hoodMap.put(12.0, 32.0);
+        hoodMap.put(5.0, 18.0);
+        hoodMap.put(6.0, 18.0);
+        hoodMap.put(12.0, 27.5);
 
         // distance to TOF
-        tofMap.put(1.5, 0.78);
+        tofMap.put(1.5, 0.84);
         tofMap.put(1.75, 0.9);
-        tofMap.put(2.0, 0.95);
-        tofMap.put(2.5, 1.07);
-        tofMap.put(3.0, 1.13);
-        tofMap.put(3.5, 1.18);
-        tofMap.put(4.0, 1.22);
-        tofMap.put(4.5, 1.27);
-        tofMap.put(5.0, 1.32);
-        tofMap.put(5.5, 1.35);
-        tofMap.put(6.0, 1.4);
-        tofMap.put(6.5, 1.5);
-        tofMap.put(7.0, 1.7);
-        tofMap.put(12.0, 2.25);
+        tofMap.put(2.0, 0.97);
+        tofMap.put(2.5, 1.00);
+        tofMap.put(3.0, 1.07);
+        tofMap.put(3.5, 1.14);
+        tofMap.put(4.0, 1.2);
+        tofMap.put(4.5, 1.24);
+        tofMap.put(5.0, 1.28);
+        tofMap.put(6.0, 1.5);
+        tofMap.put(12.0, 2.625);
 
     }
 
