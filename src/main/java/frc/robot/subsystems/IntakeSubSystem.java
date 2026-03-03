@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -29,13 +30,18 @@ public class IntakeSubSystem extends SubsystemBase {
     motorOutputConfigs.Inverted = InvertedValue.Clockwise_Positive;
 
     var slot0Configs = new Slot0Configs();
-    slot0Configs.kV = 0.15;
+    slot0Configs.kV = 0.05;
     slot0Configs.kP = 0.18;
     slot0Configs.kI = 0;
     slot0Configs.kD = 0;
 
+    var currentLimits = new CurrentLimitsConfigs();
+    currentLimits.SupplyCurrentLimit = 30;   //increase this current limit if necessary (increased from 40)
+    currentLimits.SupplyCurrentLimitEnable = true;
+
     intakeMotor.getConfigurator().apply(motorOutputConfigs);
     intakeMotor.getConfigurator().apply(slot0Configs);
+    intakeMotor.getConfigurator().apply(currentLimits);
     motorVelocity.Slot = 0;
 
   }

@@ -21,6 +21,7 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.HoodSubSystem;
 import frc.robot.subsystems.HopperFeederSubSystem;
 import frc.robot.subsystems.HopperSubSystem;
+import frc.robot.subsystems.IntakeSubSystem;
 import frc.robot.subsystems.ShooterFeederSubSystem;
 import frc.robot.subsystems.ShooterSubSystem;
 import frc.robot.util.AllianceFliputil;
@@ -39,7 +40,8 @@ public class RightTwoCycleAuto {
         ShooterSubSystem shooter, 
         HopperFeederSubSystem hopperFeeder, 
         ShooterFeederSubSystem shooterFeeder,
-        HopperSubSystem hopper) 
+        HopperSubSystem hopper,
+        IntakeSubSystem intake) 
         {
         double directionGoing = AllianceFliputil.getFlipBasedOnAllianceForGoingToCenter();
         double directionComing = AllianceFliputil.getFlipbasedOnAllianceForComingBack();
@@ -72,7 +74,7 @@ public class RightTwoCycleAuto {
                           //hood angle supplier
                            () -> SOTMCalc.getInstance().getParameters(
                       drivetrain.getPose().getTranslation()
-                          .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).hoodAngle())),
+                          .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).hoodAngle(), intake)),
             //drive back over for second cycle.
            new ParallelDeadlineGroup(new DriveOverBumpCommand(drivetrain, heading, driveRequest, directionGoing), 
             new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position),
@@ -94,7 +96,7 @@ public class RightTwoCycleAuto {
                           //hood angle supplier
                            () -> SOTMCalc.getInstance().getParameters(
                       drivetrain.getPose().getTranslation()
-                          .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).hoodAngle())),
+                          .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).hoodAngle(), intake)),
             //reset hopper after shooting
             new ParallelCommandGroup(new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position),
             new InstantCommand(()->{shooter.setSpeed(0);}),

@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.Slot1Configs;
@@ -44,21 +45,32 @@ public class HopperFeederSubSystem extends SubsystemBase {
 
     topFeederMotor.getConfigurator().apply(topFeederMotorOutputConfigs);
 
+    var currentLimits = new CurrentLimitsConfigs();
+    currentLimits.SupplyCurrentLimit = 30;   //increase this current limit if necessary (increased from 40)
+    currentLimits.SupplyCurrentLimitEnable = true;
+
+    topFeederMotor.getConfigurator().apply(currentLimits);
+    hopperFeederMotor.getConfigurator().apply(currentLimits);
+
     var slot0Configs = new Slot0Configs();
     //Slot configs untested but are good base values
-    slot0Configs.kV = 0.2;
-    slot0Configs.kP = 0.4;
+    slot0Configs.kV = 0.05;
+    slot0Configs.kP = 0.2;
     slot0Configs.kI = 0;
     slot0Configs.kD = 0;
     hopperFeederMotor.getConfigurator().apply(slot0Configs);
     hopperMotorVelocity.Slot = 0;
+
+
+
     var slot1Configs = new Slot1Configs();
-   slot1Configs.kV = 0.2;
-    slot1Configs.kP = 0.4;
+   slot1Configs.kV = 0.05;
+    slot1Configs.kP = 0.2;
     slot1Configs.kI = 0;
     slot1Configs.kD = 0;
     topFeederMotor.getConfigurator().apply(slot1Configs);
     topFeederMotorVelocity.Slot = 1;
+
   }
 
   public void setRPMHopper(double rpm){
@@ -84,6 +96,7 @@ public class HopperFeederSubSystem extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Hopper Feeder RPM", hopperFeederMotor.getVelocity().getValueAsDouble()*60);
+    SmartDashboard.putNumber("Top Feeder RPM", topFeederMotor.getVelocity().getValueAsDouble()*60);
     SmartDashboard.putNumber("Top Feeder AMPS", getTopFeederCurrent());
     // This method will be called once per scheduler run
   }

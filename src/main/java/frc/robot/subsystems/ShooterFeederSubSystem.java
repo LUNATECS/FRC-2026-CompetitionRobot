@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -32,6 +33,11 @@ public class ShooterFeederSubSystem extends SubsystemBase {
     motorOutputConfigs.Inverted = InvertedValue.Clockwise_Positive;
 
     shooterFeeder.getConfigurator().apply(motorOutputConfigs);
+
+    var currentLimits = new CurrentLimitsConfigs();
+    currentLimits.SupplyCurrentLimit = 30;   //increase this current limit if necessary (increased from 40)
+    currentLimits.SupplyCurrentLimitEnable = true;
+    shooterFeeder.getConfigurator().apply(currentLimits);
 
     var slot0Configs = new Slot0Configs();
     //Slot configs untested but are good base values

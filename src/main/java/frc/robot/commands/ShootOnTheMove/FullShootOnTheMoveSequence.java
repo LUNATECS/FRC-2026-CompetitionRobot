@@ -18,6 +18,7 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.HoodSubSystem;
 import frc.robot.subsystems.HopperFeederSubSystem;
 import frc.robot.subsystems.HopperSubSystem;
+import frc.robot.subsystems.IntakeSubSystem;
 import frc.robot.subsystems.ShooterFeederSubSystem;
 import frc.robot.subsystems.ShooterSubSystem;
 import frc.robot.util.SOTMSuppliers;
@@ -35,6 +36,7 @@ public class FullShootOnTheMoveSequence extends ParallelCommandGroup {
         HopperFeederSubSystem hopperFeeder,
         ShooterFeederSubSystem shooterFeeder,
         HopperSubSystem hopper,
+        IntakeSubSystem intake,
         Supplier<Translation2d> robotTranslation,
         Supplier<Translation2d> targetPos,
         SwerveRequest.FieldCentric driveRequest,
@@ -58,7 +60,7 @@ public class FullShootOnTheMoveSequence extends ParallelCommandGroup {
       drivetrainCommand,
       shooterCommand,
       hoodCommand,
-      new ShootOnTheMoveShootCommand(hopperFeeder, shooterFeeder, shooter, hoodCommand, drivetrainCommand, fireButton),
+      new ShootOnTheMoveShootCommand(hopperFeeder, shooterFeeder, shooter, hoodCommand, drivetrainCommand, intake, fireButton),
       new HopperAgitateTrigerredCommand(hopper, fireButton, shooter, hoodCommand)
     );
   }

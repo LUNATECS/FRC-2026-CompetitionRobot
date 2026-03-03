@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.HoodDynamicPointCommand;
 import frc.robot.commands.ShooterFeederDynamicCommand;
 import frc.robot.subsystems.HopperFeederSubSystem;
+import frc.robot.subsystems.IntakeSubSystem;
 import frc.robot.subsystems.ShooterFeederSubSystem;
 import frc.robot.subsystems.ShooterSubSystem;
 
@@ -24,6 +25,7 @@ public class ShootOnTheMoveShootCommand extends Command {
   ShootOnTheMoveCommand drivetrainCommand;
   BooleanSupplier fireButton;
   ShooterFeederDynamicCommand feederCommand;
+  IntakeSubSystem intake;
   private final double currentThreshold = 400; // tune this, in amps
   private final double reverseTime = 0.2; //in seconds
 
@@ -35,6 +37,7 @@ public class ShootOnTheMoveShootCommand extends Command {
         ShooterSubSystem shooter,
         HoodDynamicPointCommand hoodCommand,
         ShootOnTheMoveCommand drivetrainCommand,
+        IntakeSubSystem intake,
 
         BooleanSupplier fireButton
   ) {
@@ -75,6 +78,7 @@ public class ShootOnTheMoveShootCommand extends Command {
                       hopperFeeder.setSpeed(-1);
                       hopperFeeder.setTopRollerSpeed(-1);
                       shooterFeeder.setSpeed(-1);
+                      intake.setSpeed(0);
 
                       if (reverseTimer.hasElapsed(reverseTime)) {
                           isReversing = false;
@@ -82,14 +86,19 @@ public class ShootOnTheMoveShootCommand extends Command {
 
                   } else {
                       // Always feed normally when not reversing
-                      hopperFeeder.setSpeed(1);
-                      hopperFeeder.setTopRollerSpeed(1);
+                      //hopperFeeder.setSpeed(1);
+                      //hopperFeeder.setTopRollerSpeed(1);
+                      //setting everything with rpm's now
+                      hopperFeeder.setRPMHopper(6000);
+                      hopperFeeder.setRPMtopFeeder(6000);
+                      intake.setRPM(2000);
                       shooterFeeder.setRPMBasedOnShooter(shooter.getRPM());
                   }
               } else {
                 hopperFeeder.setSpeed(0);
                 hopperFeeder.setTopRollerSpeed(0);
                 shooterFeeder.setSpeed(0);
+                intake.setSpeed(0);
                 isReversing = false;
                 reverseTimer.stop();
             }
@@ -101,6 +110,7 @@ public class ShootOnTheMoveShootCommand extends Command {
                 hopperFeeder.setSpeed(0);
                 hopperFeeder.setTopRollerSpeed(0);
                 shooterFeeder.setSpeed(0);
+                intake.setSpeed(0);
   }
 
   // Returns true when the command should end.

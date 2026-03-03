@@ -77,7 +77,7 @@ public void execute() {
             robotPose.getRotation().getRadians(),
             desiredHeading.getRadians()
     );
-    omega = MathUtil.clamp(omega, -3.0, 3.0);
+    omega = MathUtil.clamp(omega, -4.0, 4.0);
 
     // Get translational movement
     Translation2d translation = translationSupplier.get();

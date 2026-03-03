@@ -25,6 +25,7 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.HoodSubSystem;
 import frc.robot.subsystems.HopperFeederSubSystem;
 import frc.robot.subsystems.HopperSubSystem;
+import frc.robot.subsystems.IntakeSubSystem;
 import frc.robot.subsystems.ShooterFeederSubSystem;
 import frc.robot.subsystems.ShooterSubSystem;
 
@@ -119,7 +120,8 @@ public class AutoFactory {
                 ShooterFeederSubSystem shooterFeeder,
                 HopperFeederSubSystem hopperFeeder,
                 HopperSubSystem hopper,
-                HoodSubSystem hood
+                HoodSubSystem hood,
+                IntakeSubSystem intake
         ) {
             try {
                 PathPlannerPath path = PathPlannerPath.fromPathFile(pathName);
@@ -151,6 +153,7 @@ public class AutoFactory {
                     hopperFeeder,
                     shooterFeeder,
                     hopper,
+                    intake,
                     translationSupplier,
                     targetSupplier,
                     driveRequest,

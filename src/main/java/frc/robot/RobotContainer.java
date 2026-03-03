@@ -36,7 +36,6 @@ import frc.robot.autos.RightOneCycleClimbAuto;
 import frc.robot.autos.RightSweepAuto;
 import frc.robot.autos.RightTwoCycleAuto;
 import frc.robot.commands.AimAndShoot.FaceFieldPointCommand;
-import frc.robot.commands.AimAndShoot.FullShootAUTOSequence;
 import frc.robot.commands.HoodHoldCommand;
 import frc.robot.commands.HopperAgitateCommand;
 import frc.robot.commands.HopperPositionCommand;
@@ -53,7 +52,6 @@ import frc.robot.subsystems.HopperSubSystem;
 import frc.robot.subsystems.IntakeSubSystem;
 import frc.robot.subsystems.ShooterFeederSubSystem;
 import frc.robot.subsystems.ShooterSubSystem;
-import frc.robot.util.SOTMCalc;
 import frc.robot.util.TargetSupplier;
 
 /**
@@ -107,18 +105,18 @@ public class RobotContainer {
         autoChooser.setDefaultOption("DO NOTHING", PracticeAuto.build(drivetrain));
         autoChooser.addOption("Right One Cycle Climb", RightOneCycleClimbAuto.build(drivetrain, drive, hopper));
         //two cycle autos
-        autoChooser.addOption("Right Two Cycle Auto", RightTwoCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper));
-        autoChooser.addOption("Left Two Cycle Auto", LeftTwoCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper));
+        autoChooser.addOption("Right Two Cycle Auto", RightTwoCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        autoChooser.addOption("Left Two Cycle Auto", LeftTwoCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
         //since cycle autos
-        autoChooser.addOption("Right One Cycle Auto", RightOneCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper));
-        autoChooser.addOption("Left One Cycle Auto", LeftOneCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper));
+        autoChooser.addOption("Right One Cycle Auto", RightOneCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        autoChooser.addOption("Left One Cycle Auto", LeftOneCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
         //sweep autos
-        autoChooser.addOption("Left Sweep Auto", LeftSweepAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper));
-        autoChooser.addOption("Right Sweep Auto", RightSweepAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper));
+        autoChooser.addOption("Left Sweep Auto", LeftSweepAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        autoChooser.addOption("Right Sweep Auto", RightSweepAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
 
         //depot autos
-        autoChooser.addOption("Left Depot Auto", LeftDepotAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper));
-        autoChooser.addOption("Right Depot Auto", RightDepotAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper));
+        autoChooser.addOption("Left Depot Auto", LeftDepotAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        autoChooser.addOption("Right Depot Auto", RightDepotAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
 
 
         //practice object detection
@@ -140,14 +138,6 @@ public class RobotContainer {
     NamedCommands.registerCommand("Start Intake Command", new IntakeCommand(intake, 6000));
 
     NamedCommands.registerCommand("StopIntakeCommand", new InstantCommand(()->{intake.setSpeed(0);}, intake));
-
-    NamedCommands.registerCommand("Shoot Auto Command", new FullShootAUTOSequence(drivetrain, shooter, hood, hopperFeeder, shooterFeeder, hopper, () -> TargetSupplier.getTargetBasedOnAlliance(drivetrain), drive, ()->true, () -> SOTMCalc.getInstance().getParameters(
-                      drivetrain.getPose().getTranslation()
-                          .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).rpm(),
-                          //hood angle supplier
-                           () -> SOTMCalc.getInstance().getParameters(
-                      drivetrain.getPose().getTranslation()
-                          .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).hoodAngle()));
 
     // Configure the trigger bindings
     //autoChooser = AutoBuilder.buildAutoChooser();
@@ -203,6 +193,7 @@ public class RobotContainer {
             hopperFeeder, 
             shooterFeeder,
             hopper, 
+            intake,
             () -> new Translation2d(
                     -driver.getLeftY() * MaxSpeed,
                     -driver.getLeftX() * MaxSpeed
@@ -341,11 +332,6 @@ public class RobotContainer {
   tester.povLeft().onTrue(new InstantCommand(()->{shooter.setSpeed(1);}))
   .onFalse(new InstantCommand(()->{shooter.setSpeed(0);}));
 
-  tester.povDown().onTrue(new InstantCommand(()->{shooter.setSpeed(-0.5);}, shooter))
-  .onFalse(new InstantCommand(()->{shooter.setSpeed(0);}, shooter));
-  tester.povRight().onTrue(new InstantCommand(()->{shooter.setSpeed(-1);}, shooter))
-  .onFalse(new InstantCommand(()->{shooter.setSpeed(0);}, shooter));
-
 
   //Hood Testing
   tester.R1().onTrue(new InstantCommand(()->{hood.setSpeed(0.15);}))
@@ -367,9 +353,6 @@ public class RobotContainer {
   tester.circle().onTrue(new ShooterBangBangControlCommand(shooter, 1000));
 
   tester.touchpad().onTrue(new HoodHoldCommand(hood,()->SmartDashboard.getNumber("hoodInputAngle", 0)));
-
-  tester.options().onTrue(new InstantCommand(()->{shooter.setMotor3Speed(0.5);}));
-
 
   }
   /**

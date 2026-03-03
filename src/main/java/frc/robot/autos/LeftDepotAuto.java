@@ -21,6 +21,7 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.HoodSubSystem;
 import frc.robot.subsystems.HopperFeederSubSystem;
 import frc.robot.subsystems.HopperSubSystem;
+import frc.robot.subsystems.IntakeSubSystem;
 import frc.robot.subsystems.ShooterFeederSubSystem;
 import frc.robot.subsystems.ShooterSubSystem;
 import frc.robot.util.AllianceFliputil;
@@ -39,7 +40,8 @@ public class LeftDepotAuto {
         ShooterSubSystem shooter, 
         HopperFeederSubSystem hopperFeeder, 
         ShooterFeederSubSystem shooterFeeder,
-        HopperSubSystem hopper) 
+        HopperSubSystem hopper,
+        IntakeSubSystem intake) 
         {
         double directionGoing = AllianceFliputil.getFlipBasedOnAllianceForGoingToCenter();
         double directionComing = AllianceFliputil.getFlipbasedOnAllianceForComingBack();
@@ -62,7 +64,7 @@ public class LeftDepotAuto {
             new DriveOverBumpCommand(drivetrain, heading, driveRequest, directionComing),
             AutoFactory.followPath("Left Shoot Path"),
             //wait for 5 seconds when we should
-            AutoFactory.makeShootOnTheMovePathCommand(drivetrain, "Depot SOTM Path", ()->TargetSupplier.getTargetBasedOnAlliance(drivetrain), driveRequest, shooter, shooterFeeder, hopperFeeder, hopper, hood),
+            AutoFactory.makeShootOnTheMovePathCommand(drivetrain, "Depot SOTM Path", ()->TargetSupplier.getTargetBasedOnAlliance(drivetrain), driveRequest, shooter, shooterFeeder, hopperFeeder, hopper, hood, intake),
                     new ParallelCommandGroup(AutoFactory.followPath("Get To Depot Intaking"), 
                     new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position),
                     new InstantCommand(()->{shooter.setSpeed(0);}),
@@ -72,7 +74,7 @@ public class LeftDepotAuto {
                     AutoFactory.followPath("Intake At Depot"),
                     AutoFactory.followPath("Shoot From Depot"),
             new ParallelDeadlineGroup( new WaitCommand(3)
-                , new FullShootAUTOSequence(drivetrain, shooter, hood, hopperFeeder, shooterFeeder, hopper, 
+                , new FullShootAUTOSequence(drivetrain, shooter, hood, hopperFeeder, shooterFeeder, hopper,
                     () -> TargetSupplier.getTargetBasedOnAlliance(drivetrain), driveRequest, 
                     ()->true, 
                     () -> SOTMCalc.getInstance().getParameters(
@@ -81,7 +83,7 @@ public class LeftDepotAuto {
                           //hood angle supplier
                            () -> SOTMCalc.getInstance().getParameters(
                       drivetrain.getPose().getTranslation()
-                          .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).hoodAngle())),
+                          .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).hoodAngle(), intake)),
             new ParallelCommandGroup(new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position),
             new InstantCommand(()->{shooter.setSpeed(0);}),
             new InstantCommand(()->{shooterFeeder.setSpeed(0);}),

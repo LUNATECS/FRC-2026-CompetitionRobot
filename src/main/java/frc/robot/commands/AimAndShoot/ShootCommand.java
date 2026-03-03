@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.HoodDynamicPointCommand;
 import frc.robot.commands.ShooterFeederDynamicCommand;
 import frc.robot.subsystems.HopperFeederSubSystem;
+import frc.robot.subsystems.IntakeSubSystem;
 import frc.robot.subsystems.ShooterFeederSubSystem;
 import frc.robot.subsystems.ShooterSubSystem;
 
@@ -22,11 +23,13 @@ public class ShootCommand extends Command {
   HoodDynamicPointCommand hoodCommand;
   BooleanSupplier fireButton;
   ShooterFeederDynamicCommand feederCommand;
+  IntakeSubSystem intake;
   public ShootCommand(
         HopperFeederSubSystem hopperFeeder,
         ShooterFeederSubSystem shooterFeeder,
         ShooterSubSystem shooter,
         HoodDynamicPointCommand hoodCommand,
+        IntakeSubSystem intake,
 
         BooleanSupplier fireButton
   ) {
@@ -35,6 +38,7 @@ public class ShootCommand extends Command {
     this.shooter = shooter;
     this.hoodCommand = hoodCommand;
     this.fireButton = fireButton;
+    this.intake=intake;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooterFeeder, hopperFeeder);
   }
@@ -52,21 +56,28 @@ public class ShootCommand extends Command {
                 //&&drivetrainCommand.isAligned()
                 ) {
 
-                //hopperFeeder.setRPMHopper(6000);
-                //hopperFeeder.setRPMtopFeeder(6000);
-                hopperFeeder.setSpeed(1);
-                hopperFeeder.setTopRollerSpeed(1);
+                hopperFeeder.setRPMHopper(6000);
+                hopperFeeder.setRPMtopFeeder(6000);
+                intake.setRPM(2000);
+                //hopperFeeder.setSpeed(1);
+                //hopperFeeder.setTopRollerSpeed(1);
                 shooterFeeder.setRPMBasedOnShooter(shooter.getRPM());    
               } else {
                 hopperFeeder.setSpeed(0);
                 shooterFeeder.setSpeed(0);
+                intake.setRPM(0);
                 hopperFeeder.setTopRollerSpeed(0);
             }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    hopperFeeder.setSpeed(0);
+                shooterFeeder.setSpeed(0);
+                intake.setRPM(0);
+                hopperFeeder.setTopRollerSpeed(0);
+  }
 
   // Returns true when the command should end.
   @Override

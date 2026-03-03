@@ -16,6 +16,7 @@ import frc.robot.commands.ShooterDynamicVelocityCommand;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.HoodSubSystem;
 import frc.robot.subsystems.HopperFeederSubSystem;
+import frc.robot.subsystems.IntakeSubSystem;
 import frc.robot.subsystems.ShooterFeederSubSystem;
 import frc.robot.subsystems.ShooterSubSystem;
 
@@ -35,7 +36,8 @@ public class FullShootSequence extends ParallelCommandGroup {
         SwerveRequest.FieldCentric driveRequest,
         BooleanSupplier fireButton,
         Supplier<Double> shooterRPMSupplier,
-        Supplier<Double> hoodAngleSupplier
+        Supplier<Double> hoodAngleSupplier,
+        IntakeSubSystem intake
   ) {
     FaceFieldPointCommand drivetrainCommand = new FaceFieldPointCommand(drivetrain, robotTranslation, targetPos, driveRequest);
     HoodDynamicPointCommand hoodCommand = new HoodDynamicPointCommand(hood, hoodAngleSupplier);
@@ -45,7 +47,7 @@ public class FullShootSequence extends ParallelCommandGroup {
       drivetrainCommand,
       new ShooterDynamicVelocityCommand(shooter, shooterRPMSupplier),
       hoodCommand,
-      new ShootCommand(hopperFeeder, shooterFeeder, shooter, hoodCommand, fireButton)
+      new ShootCommand(hopperFeeder, shooterFeeder, shooter, hoodCommand, intake, fireButton)
     );
   }
 }

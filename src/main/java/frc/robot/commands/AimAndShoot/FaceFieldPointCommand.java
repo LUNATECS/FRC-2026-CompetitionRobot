@@ -20,7 +20,7 @@ public class FaceFieldPointCommand extends Command {
     private final SwerveRequest.FieldCentric driveRequest;
 
     private final PIDController thetaController =
-        new PIDController(8.0, 0.0, 0.1);
+        new PIDController(10.0, 0.0, 0.1);
 
     public FaceFieldPointCommand(
         CommandSwerveDrivetrain drivetrain,
@@ -56,7 +56,7 @@ public class FaceFieldPointCommand extends Command {
                 desiredHeading.getRadians()
             );
 
-        omega = MathUtil.clamp(omega, -3.0, 3.0);
+        omega = MathUtil.clamp(omega, -5.0, 5.0);
 
         Translation2d translation = translationSupplier.get();
 
