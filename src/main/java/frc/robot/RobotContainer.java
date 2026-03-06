@@ -41,7 +41,6 @@ import frc.robot.commands.HopperAgitateCommand;
 import frc.robot.commands.HopperPositionCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootOnTheMove.FullShootOnTheMoveSequence;
-import frc.robot.commands.ShooterBangBangControlCommand;
 import frc.robot.commands.ShooterVelocityCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ClimberSubSystem;
@@ -102,7 +101,7 @@ public class RobotContainer {
 
 
 
-  private void setupAutoChooser() {
+  public void setupAutoChooser() {
         autoChooser.setDefaultOption("DO NOTHING", PracticeAuto.build(drivetrain));
         autoChooser.addOption("Right One Cycle Climb", RightOneCycleClimbAuto.build(drivetrain, drive, hopper));
         //two cycle autos
@@ -144,7 +143,7 @@ public class RobotContainer {
     //autoChooser = AutoBuilder.buildAutoChooser();
     //SmartDashboard.putData("Auto Mode FInal", autoChooser);
     configureBindings();
-    setupAutoChooser();
+    //setupAutoChooser();
 
   }
 

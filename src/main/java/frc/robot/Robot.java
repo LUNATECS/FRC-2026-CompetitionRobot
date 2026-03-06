@@ -52,6 +52,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void driverStationConnected() {
+    m_robotContainer.setupAutoChooser();
     Alliance alliance = DriverStation.getAlliance().get();
     double targetRotationDegrees = (alliance == Alliance.Red) ? 180 : 0;
     m_robotContainer.getSwerveDrivetrain().resetRotation(Rotation2d.fromDegrees(targetRotationDegrees));
@@ -88,6 +89,8 @@ public class Robot extends TimedRobot {
         m_robotContainer.getSwerveDrivetrain().getPose().getTranslation(),
         startRotation
     ));
+    m_robotContainer.getSwerveDrivetrain().resetGyro(startRotation.getDegrees());
+
   }
 
   @Override
@@ -103,18 +106,18 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
         var alliance = DriverStation.getAlliance();
 
-    Rotation2d startRotation =
+    Rotation2d autoRotation =
         alliance.isPresent() && alliance.get() == Alliance.Red
             ? Rotation2d.k180deg
             : Rotation2d.kZero;
 
     Pose2d startPose = new Pose2d(
         m_robotContainer.getSwerveDrivetrain().getPose().getTranslation(),
-        startRotation
+        autoRotation
     );
 
     m_robotContainer.getSwerveDrivetrain().resetPose(startPose);
-    m_robotContainer.getSwerveDrivetrain().resetGyro(startRotation.getDegrees());
+    m_robotContainer.getSwerveDrivetrain().resetGyro(autoRotation.getDegrees());
     
     /*var alliance = DriverStation.getAlliance();
 

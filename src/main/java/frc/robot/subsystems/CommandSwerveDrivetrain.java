@@ -504,6 +504,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                    m_hasAppliedOperatorPerspective = true;
                });
            }
+          
            SmartDashboard.putBoolean("Did we operator", m_hasAppliedOperatorPerspective);
 
            SmartDashboard.putString("Operator persepective", getOperatorForwardDirection().toString());
@@ -766,22 +767,13 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                                //HAVE TO ADJUST THESE PID CONFIGS
            ),
                                config,
-                               () -> {
-                                   // Boolean supplier that controls when the path will be mirrored for the red alliance
-                                   // This will flip the path being followed to the red side of the field.
-                                   // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-                                   //still unsure if it flips properly for both side and horizontally
-                    
-                                   var alliance = DriverStation.getAlliance();
-                                   if (alliance.isPresent()) {
-                                     return alliance.get() == DriverStation.Alliance.Red;
-                                   }
-                                   return false;
-                                 },
+                               () -> { 
+                    System.err.printf(
+                        "Alliance color is %s\n", 
+                        !DriverStation.getAlliance().isPresent() ? "Unset" : DriverStation.getAlliance().get()
+                    );
+                    return DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red;},
                                    this);
-
-
-                                  
                }
                catch (Exception ex) {
                    DriverStation.reportError("Error", ex.getStackTrace());

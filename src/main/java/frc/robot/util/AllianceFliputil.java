@@ -17,7 +17,7 @@ public class AllianceFliputil {
     DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue);
         if (alliance == DriverStation.Alliance.Red) {
             direction = -1;
-        } else {
+        } else if (alliance == DriverStation.Alliance.Blue){
             direction = 1;
         }
         SmartDashboard.putNumber("Direction in Auto", direction);
@@ -29,7 +29,7 @@ public class AllianceFliputil {
     DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue);
         if (alliance == DriverStation.Alliance.Red) {
             direction = 1;
-        } else {
+        } else if (alliance == DriverStation.Alliance.Blue){
             direction = -1;
         }
         return direction;
@@ -40,9 +40,11 @@ public class AllianceFliputil {
     DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue);
         if (alliance == DriverStation.Alliance.Red) {
             return Rotation2d.fromDegrees(135);
-        } else {
+        } else if (alliance == DriverStation.Alliance.Blue){
             return Rotation2d.fromDegrees(-45);
-
+        }
+        else {
+            return Rotation2d.fromDegrees(0);
         }
     }
 
@@ -51,8 +53,11 @@ public class AllianceFliputil {
     DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue);
         if (alliance == DriverStation.Alliance.Red) {
             return Rotation2d.fromDegrees(225);
-        } else {
+        } else if (alliance == DriverStation.Alliance.Blue) {
             return Rotation2d.fromDegrees(45);
+        }
+        else {
+            return Rotation2d.fromDegrees(0);
         }
     }
 }
