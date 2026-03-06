@@ -33,6 +33,7 @@ import static edu.wpi.first.units.Units.Degree;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Radian;
 import static edu.wpi.first.units.Units.Radians;
+import static edu.wpi.first.units.Units.Rotation;
 import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Volts;
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -316,6 +317,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         //double robotPitch = getPigeon2().getPitch().refresh().getValueAsDouble();
         //double robotRoll = getPigeon2().getRoll().refresh().getValueAsDouble();
         SmartDashboard.putNumber("pidgeon2 reading", robotYaw);
+
+        Rotation2d robotrotaitonyaw = getPigeon2().getRotation2d();
+        SmartDashboard.putNumber("pidgeon rotatoin2d", robotrotaitonyaw.getDegrees());
         //SmartDashboard.putNumber("pidgeon roll", robotRoll);
         //SmartDashboard.putNumber("pidgeon pitch", robotPitch);
         //SmartDashboard.putNumber("pidgeon aceleration x ", getPigeon2().getAccelerationX().getValueAsDouble()); 
@@ -337,6 +341,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
         //update odometry
         pose.update(getPigeon2().getRotation2d(), getModulePositions());
+        SmartDashboard.putString("Immideate Update", "X:" + pose.getEstimatedPosition().getX() +
+           " Y:" + pose.getEstimatedPosition().getY() +
+          " R:" + pose.getEstimatedPosition().getRotation().getDegrees());
 
         //getting LL measurements
         LimelightHelpers.PoseEstimate frontMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-shooter");
@@ -489,7 +496,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             * This ensures driving behavior doesn't change until an explicit disable event occurs during testing.
             */
             Pose2d startingRed = new Pose2d(getPose().getX(), getPose().getY(), new Rotation2d(Radians.convertFrom(180, Degrees)));
-                        Pose2d startingBlue = new Pose2d(getPose().getX(), getPose().getY(), new Rotation2d(Radians.convertFrom(180, Degrees)));
+                        Pose2d startingBlue = new Pose2d(getPose().getX(), getPose().getY(), new Rotation2d(Radians.convertFrom(0, Degrees)));
 
            if (!m_hasAppliedOperatorPerspective || DriverStation.isDisabled()) {
                DriverStation.getAlliance().ifPresent(allianceColor -> {
@@ -501,15 +508,18 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                    m_hasAppliedOperatorPerspective = true;
                    if (DriverStation.getAlliance().get() == Alliance.Red){
                     resetPose(startingRed);
+                    //resetRotation(Rotation2d.k180deg);
                     resetGyro(startingRed.getRotation().getDegrees());
                    }
                    if(DriverStation.getAlliance().get() == Alliance.Blue){
-                    resetPose(startingBlue);
+                   resetPose(startingBlue);
+                    //resetRotation(Rotation2d.kZero);
                     resetGyro(startingBlue.getRotation().getDegrees());
 
                    }
                });
            }
+           SmartDashboard.putBoolean("Did we operator", m_hasAppliedOperatorPerspective);
 
            SmartDashboard.putString("Operator persepective", getOperatorForwardDirection().toString());
            SmartDashboard.putString("Robot Pose", pose.toString());
@@ -519,9 +529,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         SmartDashboard.putString("Swerve Robot Pose", getState().Pose.toString());
 
 
-             SmartDashboard.putString("Robot Pose Total", "X:" + getPose().getX() +
-           " Y:" + getPose().getY() +
-          " R:" + getPose().getRotation().getDegrees());
+             SmartDashboard.putString("Robot Pose Total", "X:" + pose.getEstimatedPosition().getX() +
+           " Y:" + pose.getEstimatedPosition().getY() +
+          " R:" + pose.getEstimatedPosition().getRotation().getDegrees());
           Pose2d currentPose = getPose();
 
           //field pose logging
