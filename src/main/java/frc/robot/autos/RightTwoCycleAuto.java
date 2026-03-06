@@ -5,7 +5,6 @@
 package frc.robot.autos;
 
 import com.ctre.phoenix6.swerve.SwerveRequest;
-import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -16,7 +15,6 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.commands.AimAndShoot.FullShootAUTOSequence;
-import frc.robot.commands.HoodHoldCommand;
 import frc.robot.commands.HopperPositionCommand;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.HoodSubSystem;
@@ -49,15 +47,15 @@ public class RightTwoCycleAuto {
         Rotation2d heading = AllianceFliputil.getHeadingBasedOnAllianceForBumpRIGHT();
         
             return Commands.sequence(
-                Commands.runOnce(() -> {
-                try {
-                    var path1 = PathPlannerPath.fromPathFile("Starting Path Right");
-                    //have the make a starting path for these authos
-                    drivetrain.resetPose(path1.getStartingHolonomicPose().get());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }),
+            //     Commands.runOnce(() -> {
+            //     try {
+            //         var path1 = PathPlannerPath.fromPathFile("Starting Path Right");
+            //         //have the make a starting path for these authos
+            //         drivetrain.resetPose(path1.getStartingHolonomicPose().get());
+            //     } catch (Exception e) {
+            //         e.printStackTrace();
+            //     }
+            // }),
 
              new ParallelDeadlineGroup(new DriveOverBumpCommand(drivetrain, heading, driveRequest, directionGoing), 
             new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position)),
