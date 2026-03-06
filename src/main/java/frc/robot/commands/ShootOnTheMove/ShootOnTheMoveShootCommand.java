@@ -87,11 +87,9 @@ public class ShootOnTheMoveShootCommand extends Command {
 
                   } else {
                       // Always feed normally when not reversing
-                      //hopperFeeder.setSpeed(1);
-                      //hopperFeeder.setTopRollerSpeed(1);
+                      hopperFeeder.setSpeed(1);
+                      hopperFeeder.setTopRollerSpeed(1);
                       //setting everything with rpm's now
-                      hopperFeeder.setRPMHopper(6000);
-                      hopperFeeder.setRPMtopFeeder(6000);
                       intake.setRPM(2000);
                       shooterFeeder.setRPMBasedOnShooter(shooter.getRPM());
                   }

@@ -38,6 +38,10 @@ public class HopperSubSystem extends SubsystemBase {
     return hopperMotor.getPosition().getValueAsDouble();
   }
 
+  public double getCurrent(){
+    return hopperMotor.getStatorCurrent().getValueAsDouble();
+  }
+
 
   @Override
   public void periodic() {

@@ -74,7 +74,8 @@ public class RobotContainer {
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandPS5Controller driver = new CommandPS5Controller(Constants.DriverConstants.DRIVER_CONTROLLER_PORT);
-  private final CommandPS5Controller tester = new CommandPS5Controller(1);
+  private final CommandPS5Controller operator = new CommandPS5Controller(1);
+  private final CommandPS5Controller tester = new CommandPS5Controller(2);
 
   private final double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
@@ -169,6 +170,7 @@ public class RobotContainer {
         );
 
       shooter.setDefaultCommand(new ShooterVelocityCommand(shooter, ()->3000.0));
+      hood.setDefaultCommand(new HoodHoldCommand(hood, ()->1.5));
 
         // Idle while the robot is disabled. This ensures the configured
         // neutral mode is applied to the drive motors while disabled.
@@ -295,6 +297,60 @@ public class RobotContainer {
                 drive
             )
         );
+
+    //operator controls
+    //Hood Testing
+    operator.R1().onTrue(new InstantCommand(()->{hood.setSpeed(0.15);}, hood))
+      .onFalse(new InstantCommand(()->{hood.setSpeed(0);}, hood));
+
+    operator.L1().onTrue(new InstantCommand(()->{hood.setSpeed(-0.15);}, hood))
+      .onFalse(new InstantCommand(()->{hood.setSpeed(0);}, hood));
+
+
+
+    operator.R2().onTrue(new InstantCommand(()->{hopper.setSpeed(0.5);}, hopper))
+      .onFalse(new InstantCommand(()->{hopper.setSpeed(0);}, hopper));
+
+    operator.L2().onTrue(new InstantCommand(()->{hopper.setSpeed(-0.5);}, hopper))
+      .onFalse(new InstantCommand(()->{hopper.setSpeed(0);}, hopper));  
+
+    operator.triangle().onTrue(new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position));
+    operator.cross().onTrue(new HopperAgitateCommand(hopper));
+
+    operator.povLeft().onTrue(new ShooterVelocityCommand(shooter, ()->3000));
+    operator.povUp().onTrue(new ShooterVelocityCommand(shooter, ()->3250));
+    operator.povRight().onTrue(new ShooterVelocityCommand(shooter, ()->3500));
+
+    operator.povDown().onTrue(new InstantCommand(()->{shooter.setRPM(0);}, shooter));
+
+
+
+    operator.square().onTrue(new InstantCommand(() -> {
+    hopperFeeder.setSpeed(1);
+    //intake.setSpeed(1);
+    shooterFeeder.setSpeed(0.6);
+    hopperFeeder.setTopRollerSpeed(1);
+  }, hopperFeeder, shooterFeeder, intake))
+    .onFalse(new InstantCommand(()->{
+      hopperFeeder.setSpeed(0);
+      //intake.setSpeed(0);
+      shooterFeeder.setSpeed(0);
+          hopperFeeder.setTopRollerSpeed(0);
+
+  }, hopperFeeder, shooterFeeder, intake));
+
+  operator.circle().onTrue(new InstantCommand(() -> {
+    hopperFeeder.setSpeed(-1.5);
+    intake.setSpeed(-1);
+    shooterFeeder.setSpeed(-1);
+  }, hopperFeeder, shooterFeeder, intake))
+    .onFalse(new InstantCommand(()->{
+      hopperFeeder.setSpeed(0);
+      intake.setSpeed(0);
+      shooterFeeder.setSpeed(0);
+  }, hopperFeeder, shooterFeeder, intake));
+
+      
 
     //TESTER CONTROLS:
 
