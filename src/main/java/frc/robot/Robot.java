@@ -6,14 +6,12 @@ package frc.robot;
 
 import com.pathplanner.lib.commands.PathfindingCommand;
 
-import static edu.wpi.first.units.Units.Seconds;
-
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import static edu.wpi.first.units.Units.Seconds;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -41,8 +39,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-    double degreesOutOfAuto = 0;
-    this.degreesOutOfAuto = degreesOutOfAuto;
+    this.degreesOutOfAuto = 0;
   }
 
   /**
@@ -54,8 +51,12 @@ public class Robot extends TimedRobot {
    */
 
   @Override
-  public void driverStationConnected(){
+  public void driverStationConnected() {
+    Alliance alliance = DriverStation.getAlliance().get();
+    double targetRotationDegrees = (alliance == Alliance.Red) ? 180 : 0;
+    m_robotContainer.getSwerveDrivetrain().resetRotation(Rotation2d.fromDegrees(targetRotationDegrees));
   }
+
   @Override
   public void robotPeriodic() {
     SmartDashboard.putNumber("Match Timer", DriverStation.getMatchTime());
@@ -81,6 +82,12 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledInit() {
+    Alliance alliance = DriverStation.getAlliance().get();
+    Rotation2d startRotation = (alliance == Alliance.Red) ? Rotation2d.fromDegrees(180) : Rotation2d.fromDegrees(0);
+    m_robotContainer.getSwerveDrivetrain().resetPose(new Pose2d(
+        m_robotContainer.getSwerveDrivetrain().getPose().getTranslation(),
+        startRotation
+    ));
   }
 
   @Override
@@ -94,6 +101,21 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+        var alliance = DriverStation.getAlliance();
+
+    Rotation2d startRotation =
+        alliance.isPresent() && alliance.get() == Alliance.Red
+            ? Rotation2d.k180deg
+            : Rotation2d.kZero;
+
+    Pose2d startPose = new Pose2d(
+        m_robotContainer.getSwerveDrivetrain().getPose().getTranslation(),
+        startRotation
+    );
+
+    m_robotContainer.getSwerveDrivetrain().resetPose(startPose);
+    m_robotContainer.getSwerveDrivetrain().resetGyro(startRotation.getDegrees());
+    
     /*var alliance = DriverStation.getAlliance();
 
     if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red) {
@@ -125,8 +147,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    //m_robotContainer.getSwerveDrivetrain().resetGyro(m_robotContainer.getSwerveDrivetrain().getPose().getRotation().getDegrees());
-    //m_robotContainer.getSwerveDrivetrain().resetGyro(degreesOutOfAuto);
+    m_robotContainer.getSwerveDrivetrain().resetRotation(Rotation2d.fromDegrees(degreesOutOfAuto));
+    m_robotContainer.getSwerveDrivetrain().resetGyro(degreesOutOfAuto);
+
     //puts the hopper out at the beginning of teleop.
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to

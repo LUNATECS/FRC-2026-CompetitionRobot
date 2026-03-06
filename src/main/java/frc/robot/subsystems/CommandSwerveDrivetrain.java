@@ -28,12 +28,8 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-
-import static edu.wpi.first.units.Units.Degree;
 import static edu.wpi.first.units.Units.Degrees;
-import static edu.wpi.first.units.Units.Radian;
 import static edu.wpi.first.units.Units.Radians;
-import static edu.wpi.first.units.Units.Rotation;
 import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Volts;
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -498,7 +494,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             Pose2d startingRed = new Pose2d(getPose().getX(), getPose().getY(), new Rotation2d(Radians.convertFrom(180, Degrees)));
                         Pose2d startingBlue = new Pose2d(getPose().getX(), getPose().getY(), new Rotation2d(Radians.convertFrom(0, Degrees)));
 
-           if (!m_hasAppliedOperatorPerspective || DriverStation.isDisabled()) {
+           if (!m_hasAppliedOperatorPerspective && (DriverStation.isFMSAttached() || DriverStation.isDSAttached())) {
                DriverStation.getAlliance().ifPresent(allianceColor -> {
                    setOperatorPerspectiveForward(
                        allianceColor == Alliance.Red
@@ -506,17 +502,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                           : kBlueAlliancePerspectiveRotation
                   );
                    m_hasAppliedOperatorPerspective = true;
-                   if (DriverStation.getAlliance().get() == Alliance.Red){
-                    resetPose(startingRed);
-                    //resetRotation(Rotation2d.k180deg);
-                    resetGyro(startingRed.getRotation().getDegrees());
-                   }
-                   if(DriverStation.getAlliance().get() == Alliance.Blue){
-                   resetPose(startingBlue);
-                    //resetRotation(Rotation2d.kZero);
-                    resetGyro(startingBlue.getRotation().getDegrees());
-
-                   }
                });
            }
            SmartDashboard.putBoolean("Did we operator", m_hasAppliedOperatorPerspective);
@@ -570,10 +555,12 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
          public Pose2d getPose() {
            return pose.getEstimatedPosition();
          }
+         @Override
          public void resetPose(Pose2d rpose) {
            pose.resetPose(rpose);
            super.resetPose(rpose);
-           this.seedFieldCentric(rpose.getRotation());
+           //this.seedFieldCentric(rpose.getRotation());
+           //removed this for now
          }
 
          public Rotation2d getRotationToFacePoint(Translation2d fieldTarget) {
