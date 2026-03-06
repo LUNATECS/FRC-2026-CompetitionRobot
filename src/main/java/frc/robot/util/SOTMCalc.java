@@ -5,13 +5,14 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
-import frc.robot.commands.HoodDynamicPointCommand;
 
 /**
  * LUT-based Shoot-On-The-Move (SOTM) calculator.
  * Maps distance (meters) → shooter parameters (RPM, hood angle, time of flight).
  * Provides methods to calculate adjusted RPM and hood angle for moving targets.
  */
+
+//calc short for calculator for those of you who are new.
 public class SOTMCalc {
 
     // Singleton instance
@@ -34,7 +35,7 @@ public class SOTMCalc {
     private final InterpolatingDoubleTreeMap tofMap = new InterpolatingDoubleTreeMap();
     public static final Transform2d ROBOT_TO_LAUNCHER =
     new Transform2d(
-        new Translation2d(0.1607, 0.0), // 6.325 inches forward
+        new Translation2d(-0.1607, 0.0), // 6.325 inches forward, but its technically backward because the intake is the front.
         new Rotation2d()
     );
 
@@ -43,7 +44,7 @@ public class SOTMCalc {
         // Distance to RPM
         rpmMap.put(1.5, 2800.0);
         rpmMap.put(1.75, 2900.0);
-        rpmMap.put(2.0, 3500.0);
+        rpmMap.put(2.0, 3050.0);
         rpmMap.put(2.5, 3150.0);
         rpmMap.put(3.0, 3400.0);
         rpmMap.put(3.5, 3460.0);
@@ -56,7 +57,7 @@ public class SOTMCalc {
         // Distance to hood angle
         hoodMap.put(1.5, 2.5);
         hoodMap.put(1.75, 5.0);
-        hoodMap.put(2.0, 1.5);
+        hoodMap.put(2.0, 7.5);
         hoodMap.put(2.5, 7.5);
         hoodMap.put(3.0, 7.5);
         hoodMap.put(3.5, 15.0);
