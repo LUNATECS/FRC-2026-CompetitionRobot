@@ -75,7 +75,7 @@ public class RobotContainer {
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandPS5Controller driver = new CommandPS5Controller(Constants.DriverConstants.DRIVER_CONTROLLER_PORT);
   private final CommandPS5Controller operator = new CommandPS5Controller(1);
-  private final CommandPS5Controller tester = new CommandPS5Controller(2);
+  //private final CommandPS5Controller tester = new CommandPS5Controller(2);
 
   private final double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
@@ -359,6 +359,7 @@ public class RobotContainer {
     //  .onTrue(new ExampleCommand(m_exampleSubsystem));
 
     //TESTING SUBSYSTEMS WITH TESTER CONTROLLER
+    /* 
     tester.square().onTrue(new InstantCommand(() -> {
     hopperFeeder.setSpeed(1);
     //intake.setSpeed(1);
@@ -412,6 +413,7 @@ public class RobotContainer {
   tester.circle().onTrue(new ShooterBangBangControlCommand(shooter, 1000));
 
   tester.touchpad().onTrue(new HoodHoldCommand(hood,()->SmartDashboard.getNumber("hoodInputAngle", 0)));
+  */
 
   }
   /**

@@ -7,8 +7,12 @@ package frc.robot;
 import com.pathplanner.lib.commands.PathfindingCommand;
 
 import static edu.wpi.first.units.Units.Seconds;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -47,6 +51,10 @@ public class Robot extends TimedRobot {
    * <p>This runs after the mode specific periodic functions, but before LiveWindow and
    * SmartDashboard integrated updating.
    */
+
+  @Override
+  public void driverStationConnected(){
+  }
   @Override
   public void robotPeriodic() {
     SmartDashboard.putNumber("Match Timer", DriverStation.getMatchTime());
@@ -54,6 +62,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("Hub Active", HubTracker.isActive());
     SmartDashboard.putString("Current Shift", HubTracker.getCurrentShift().toString());
     SmartDashboard.putNumber("Time left in Current Shift", HubTracker.timeRemainingInCurrentShift().orElse(Seconds.zero()).in(Seconds));
+    SmartDashboard.putString("Alliance", DriverStation.getAlliance().get().toString());
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
@@ -76,24 +85,33 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
     var alliance = DriverStation.getAlliance();
-
-    if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red) {
-        m_robotContainer.getSwerveDrivetrain().resetGyro(180);
+    if (alliance.isPresent() && alliance.get() == Alliance.Red) {
+      Pose2d newPose = new Pose2d(
+                    m_robotContainer.getSwerveDrivetrain().getPose().getTranslation(),
+                    Rotation2d.k180deg);
+        m_robotContainer.getSwerveDrivetrain().resetPose(newPose);
+        m_robotContainer.getSwerveDrivetrain().resetGyro(newPose.getRotation().getDegrees());
     } else {
-        m_robotContainer.getSwerveDrivetrain().resetGyro(0);
+        Pose2d newPose = new Pose2d(
+                    m_robotContainer.getSwerveDrivetrain().getPose().getTranslation(),
+                    Rotation2d.kZero
+                );
+        m_robotContainer.getSwerveDrivetrain().resetPose(newPose);
+        m_robotContainer.getSwerveDrivetrain().resetGyro(newPose.getRotation().getDegrees());
     }
   }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    var alliance = DriverStation.getAlliance();
+    /*var alliance = DriverStation.getAlliance();
 
     if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red) {
         m_robotContainer.getSwerveDrivetrain().resetGyro(180);
     } else {
         m_robotContainer.getSwerveDrivetrain().resetGyro(0);
     }
+        */
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
@@ -117,8 +135,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    m_robotContainer.getSwerveDrivetrain().resetGyro(degreesOutOfAuto);
-
+    m_robotContainer.getSwerveDrivetrain().resetGyro(m_robotContainer.getSwerveDrivetrain().getPose().getRotation().getDegrees());
+    //m_robotContainer.getSwerveDrivetrain().resetGyro(degreesOutOfAuto);
     //puts the hopper out at the beginning of teleop.
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to

@@ -307,14 +307,14 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         SmartDashboard.putNumber("drivetrain distance to target", pose.getEstimatedPosition().getTranslation()
                                 .getDistance(TargetSupplier.getTargetBasedOnAlliance(this)));
         //Setting Rotations
-        double robotYaw = getPigeon2().getYaw().refresh().getValueAsDouble();
-        double robotPitch = getPigeon2().getPitch().refresh().getValueAsDouble();
-        double robotRoll = getPigeon2().getRoll().refresh().getValueAsDouble();
+        double robotYaw = getPigeon2().getYaw().getValueAsDouble();
+        //double robotPitch = getPigeon2().getPitch().refresh().getValueAsDouble();
+        //double robotRoll = getPigeon2().getRoll().refresh().getValueAsDouble();
         SmartDashboard.putNumber("pidgeon2 reading", robotYaw);
-        SmartDashboard.putNumber("pidgeon roll", robotRoll);
-        SmartDashboard.putNumber("pidgeon pitch", robotPitch);
-        SmartDashboard.putNumber("pidgeon aceleration x ", getPigeon2().getAccelerationX().getValueAsDouble()); 
-        SmartDashboard.putNumber("pidgeon aceleration y ", getPigeon2().getAccelerationY().getValueAsDouble()); 
+        //SmartDashboard.putNumber("pidgeon roll", robotRoll);
+        //SmartDashboard.putNumber("pidgeon pitch", robotPitch);
+        //SmartDashboard.putNumber("pidgeon aceleration x ", getPigeon2().getAccelerationX().getValueAsDouble()); 
+        //SmartDashboard.putNumber("pidgeon aceleration y ", getPigeon2().getAccelerationY().getValueAsDouble()); 
 
         Translation2d rawVel = getFieldVelocity();
             filteredVelocity = new Translation2d(
@@ -339,6 +339,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
         //boolean useFront = false;
         //boolean useBack = false;
+        
 
         //only use camera if it sees atleast one tag
         /*if (frontMeasurement != null && frontMeasurement.tagCount > 0) {
@@ -487,11 +488,13 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                    setOperatorPerspectiveForward(
                        allianceColor == Alliance.Red
                            ? kRedAlliancePerspectiveRotation
-                           : kBlueAlliancePerspectiveRotation
-                   );
+                          : kBlueAlliancePerspectiveRotation
+                  );
                    m_hasAppliedOperatorPerspective = true;
                });
            }
+
+           SmartDashboard.putString("Operator persepective", getOperatorForwardDirection().toString());
            SmartDashboard.putString("Robot Pose", pose.toString());
 
 
@@ -508,20 +511,11 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
           fieldLogging.setRobotPose(pose.getEstimatedPosition());
           SmartDashboard.putData("RobotPoseOnField", fieldLogging);
           Pose2d targetPose = new Pose2d(TargetSupplier.getTargetBasedOnAlliance(this), new Rotation2d(0));
+          SmartDashboard.putBoolean("Are we on red", DriverStation.getAlliance().get() == Alliance.Red);
           fieldLogging.getObject("TargetPose").setPose(targetPose);
 
           SmartDashboard.putNumber("Target pose X", targetPose.getX());
           SmartDashboard.putNumber("Target pose Y", targetPose.getY());
-
-
-          Pose2d detectedFuels = getDetectedGamePiecePose();
-
-          if (detectedFuels != null) {
-              fieldLogging.getObject("DetectedFuel").setPose(detectedFuels);
-          } else {
-              fieldLogging.getObject("DetectedFuel")
-                  .setPose(new Pose2d(0, 0, new Rotation2d()));
-          }
        }
   
        private void startSimThread() {

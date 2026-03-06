@@ -18,7 +18,7 @@ public class HopperPositionCommand extends Command {
   public HopperPositionCommand(HopperSubSystem hopper, double setpoint) {
     this.setpoint = setpoint;
     this.hopper = hopper;
-    pid = new PIDController(0.03, 0, 0);
+    pid = new PIDController(0.035, 0, 0);
     pid.setTolerance(1);
     addRequirements(hopper);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -36,7 +36,7 @@ public class HopperPositionCommand extends Command {
   public void execute() {
     double output = pid.calculate(hopper.getPosition());
     //cURRENTLY CLAMPED TO LESS THAN MAX SPEED
-    output = MathUtil.clamp(output, -0.5, 0.5);
+    output = MathUtil.clamp(output, -1, 1);
     hopper.setSpeed(output);
 
   }

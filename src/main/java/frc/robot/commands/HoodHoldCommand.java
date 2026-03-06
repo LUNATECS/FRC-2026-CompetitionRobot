@@ -25,6 +25,7 @@ public class HoodHoldCommand extends Command {
     pid = new PIDController(0.125, 0, 0); //0.2125
     pid.setTolerance(0.25);
     SmartDashboard.putNumber("INPUT hood setpoint", 0);
+    addRequirements(hood);
     //SETPOINT should be in degrees
   }
 
