@@ -28,6 +28,11 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+
+import static edu.wpi.first.units.Units.Degree;
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Radian;
+import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Volts;
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -483,6 +488,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             * Otherwise, only check and apply the operator perspective if the DS is disabled.
             * This ensures driving behavior doesn't change until an explicit disable event occurs during testing.
             */
+            Pose2d startingRed = new Pose2d(getPose().getX(), getPose().getY(), new Rotation2d(Radians.convertFrom(180, Degrees)));
+                        Pose2d startingBlue = new Pose2d(getPose().getX(), getPose().getY(), new Rotation2d(Radians.convertFrom(180, Degrees)));
+
            if (!m_hasAppliedOperatorPerspective || DriverStation.isDisabled()) {
                DriverStation.getAlliance().ifPresent(allianceColor -> {
                    setOperatorPerspectiveForward(
@@ -491,6 +499,15 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                           : kBlueAlliancePerspectiveRotation
                   );
                    m_hasAppliedOperatorPerspective = true;
+                   if (DriverStation.getAlliance().get() == Alliance.Red){
+                    resetPose(startingRed);
+                    resetGyro(startingRed.getRotation().getDegrees());
+                   }
+                   if(DriverStation.getAlliance().get() == Alliance.Blue){
+                    resetPose(startingBlue);
+                    resetGyro(startingBlue.getRotation().getDegrees());
+
+                   }
                });
            }
 
