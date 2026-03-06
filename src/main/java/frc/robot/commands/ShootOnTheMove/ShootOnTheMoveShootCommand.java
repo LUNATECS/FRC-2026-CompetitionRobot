@@ -47,6 +47,7 @@ public class ShootOnTheMoveShootCommand extends Command {
     this.hoodCommand = hoodCommand;
     this.drivetrainCommand = drivetrainCommand;
     this.fireButton = fireButton;
+    this.intake = intake;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooterFeeder, hopperFeeder);
   }

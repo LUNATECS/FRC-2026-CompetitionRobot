@@ -211,6 +211,9 @@ public class RobotContainer {
         driver.L2().onTrue(new InstantCommand(()->{hopperFeeder.setTopRollerSpeed(-0.5);}))
           .onFalse(new InstantCommand(()->{hopperFeeder.setTopRollerSpeed(0);}));
 
+        driver.L2().onTrue(new InstantCommand(()->{shooterFeeder.setSpeed(-0.5);}))
+          .onFalse(new InstantCommand(()->{shooterFeeder.setSpeed(0);}));
+
         /*driver.R1().whileTrue(
             new FullShootSequence(
                 drivetrain,

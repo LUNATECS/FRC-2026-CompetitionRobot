@@ -49,7 +49,7 @@ public class ShooterSubSystem extends SubsystemBase {
     motorOutputShooterConfigs.Inverted = InvertedValue.CounterClockwise_Positive;
 
     var currentLimits = new CurrentLimitsConfigs();
-    currentLimits.SupplyCurrentLimit = 60;   //increase this current limit if necessary (increased from 40)
+    currentLimits.SupplyCurrentLimit = 30;   //increase this current limit if necessary (increased from 40)
     currentLimits.SupplyCurrentLimitEnable = true;
 
 
@@ -106,7 +106,7 @@ public class ShooterSubSystem extends SubsystemBase {
 
 
   public boolean atSpeed() {
-  return Math.abs(getRPM() - shooterTargetRPM) < 100
+  return Math.abs(getRPM() - shooterTargetRPM) < 150
        && shooterTargetRPM > 0;
   // TO ADD FOR LATER: Check Recovery time/Consistentcy
   }

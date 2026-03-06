@@ -54,20 +54,20 @@ public class HopperFeederSubSystem extends SubsystemBase {
 
     var slot0Configs = new Slot0Configs();
     //Slot configs untested but are good base values
-    slot0Configs.kV = 0.05;
-    slot0Configs.kP = 0.2;
+    slot0Configs.kV = 0.08;
+    slot0Configs.kP = 0.006;
     slot0Configs.kI = 0;
-    slot0Configs.kD = 0;
+    slot0Configs.kD = 0.015;
     hopperFeederMotor.getConfigurator().apply(slot0Configs);
     hopperMotorVelocity.Slot = 0;
 
 
 
     var slot1Configs = new Slot1Configs();
-   slot1Configs.kV = 0.05;
-    slot1Configs.kP = 0.2;
+   slot1Configs.kV = 0.08;
+    slot1Configs.kP = 0.006;
     slot1Configs.kI = 0;
-    slot1Configs.kD = 0;
+    slot1Configs.kD = 0.015;
     topFeederMotor.getConfigurator().apply(slot1Configs);
     topFeederMotorVelocity.Slot = 1;
 

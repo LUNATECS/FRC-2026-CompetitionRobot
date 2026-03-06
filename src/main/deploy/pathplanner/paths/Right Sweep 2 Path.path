@@ -3,44 +3,44 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.873,
+        "x": 5.872928571428571,
         "y": 2.5
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.389812154134115,
-        "y": 1.0123627534089268
+        "x": 6.208914015884042,
+        "y": 1.5436476951090832
       },
       "isLocked": false,
       "linkedName": "Middle Pose After Bump RIGHT"
     },
     {
       "anchor": {
-        "x": 8.55,
-        "y": 1.4
+        "x": 8.6,
+        "y": 1.3027853590917515
       },
       "prevControl": {
-        "x": 8.614520905671297,
-        "y": 0.14313289161964704
+        "x": 8.529647732177061,
+        "y": 1.0628883845127262
       },
       "nextControl": {
-        "x": 8.536970070175126,
-        "y": 1.6538230059079035
+        "x": 8.67152214996675,
+        "y": 1.546671560963646
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.55,
+        "x": 8.6,
         "y": 3.75
       },
       "prevControl": {
-        "x": 8.645605148217683,
+        "x": 8.695605148217682,
         "y": 3.5190029099008497
       },
       "nextControl": {
-        "x": 8.454394851782318,
+        "x": 8.504394851782317,
         "y": 3.9809970900991503
       },
       "isLocked": false,
@@ -119,13 +119,13 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 1.5,
+    "velocity": 0,
     "rotation": -45.0
   },
   "reversed": false,
   "folder": "Right 1 Cycle Auto Climb",
   "idealStartingState": {
-    "velocity": 1.5,
+    "velocity": 0,
     "rotation": -45.0
   },
   "useDefaultConstraints": false

@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.commands.AimAndShoot.FullShootAUTOSequence;
+import frc.robot.commands.HoodHoldCommand;
 import frc.robot.commands.HopperPositionCommand;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.HoodSubSystem;
@@ -59,7 +60,8 @@ public class RightTwoCycleAuto {
             }),
 
              new ParallelDeadlineGroup(new DriveOverBumpCommand(drivetrain, heading, driveRequest, directionGoing), 
-            new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position)),
+            new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position),
+            new HoodHoldCommand(hood, ()->1.5)),
             AutoFactory.followPath("Right Sweep 1 Path"),
             new DriveOverBumpCommand(drivetrain, heading, driveRequest, directionComing),
             AutoFactory.followPath("Right Shoot Path"),
