@@ -4,6 +4,8 @@
 
 package frc.robot.autos;
 
+import java.util.Set;
+
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -42,6 +44,7 @@ public class LeftTwoCycleAuto {
         HopperSubSystem hopper,
         IntakeSubSystem intake) 
         {
+        return Commands.defer(()->{
         double directionGoing = AllianceFliputil.getFlipBasedOnAllianceForGoingToCenter();
         double directionComing = AllianceFliputil.getFlipbasedOnAllianceForComingBack();
         Rotation2d heading = AllianceFliputil.getHeadingBasedOnAllianceForBumpLEFT();
@@ -106,5 +109,7 @@ public class LeftTwoCycleAuto {
 
             
         );
+         }, Set.of(drivetrain));
+
     }
 }

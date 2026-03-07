@@ -15,9 +15,9 @@ public class AllianceFliputil {
     public static double getFlipBasedOnAllianceForGoingToCenter() {
         DriverStation.Alliance alliance =
     DriverStation.getAlliance().get();
-        if (alliance == DriverStation.Alliance.Red && DriverStation.isDSAttached()) {
+        if (alliance == DriverStation.Alliance.Red && DriverStation.getAlliance().isPresent()) {
             direction = -1;
-        } else if (alliance == DriverStation.Alliance.Blue && DriverStation.isDSAttached()){
+        } else if (alliance == DriverStation.Alliance.Blue && DriverStation.getAlliance().isPresent()){
             direction = 1;
         }
         SmartDashboard.putNumber("Direction in Auto", direction);
@@ -27,9 +27,9 @@ public class AllianceFliputil {
     public static double getFlipbasedOnAllianceForComingBack() {
         DriverStation.Alliance alliance =
     DriverStation.getAlliance().get();
-        if (alliance == DriverStation.Alliance.Red && DriverStation.isDSAttached()) {
+        if (alliance == DriverStation.Alliance.Red && DriverStation.getAlliance().isPresent()) {
             direction = 1;
-        } else if (alliance == DriverStation.Alliance.Blue && DriverStation.isDSAttached()){
+        } else if (alliance == DriverStation.Alliance.Blue && DriverStation.getAlliance().isPresent()){
             direction = -1;
         }
         return direction;
@@ -38,9 +38,9 @@ public class AllianceFliputil {
     public static Rotation2d getHeadingBasedOnAllianceForBumpRIGHT() {
         DriverStation.Alliance alliance =
     DriverStation.getAlliance().get();
-        if (alliance == DriverStation.Alliance.Red && DriverStation.isDSAttached()) {
+        if (alliance == DriverStation.Alliance.Red && DriverStation.getAlliance().isPresent()) {
             return Rotation2d.fromDegrees(135);
-        } else if (alliance == DriverStation.Alliance.Blue && DriverStation.isDSAttached()){
+        } else if (alliance == DriverStation.Alliance.Blue && DriverStation.getAlliance().isPresent()){
             return Rotation2d.fromDegrees(-45);
         }
         else {
@@ -51,9 +51,9 @@ public class AllianceFliputil {
     public static Rotation2d getHeadingBasedOnAllianceForBumpLEFT() {
         DriverStation.Alliance alliance =
     DriverStation.getAlliance().get();
-        if (alliance == DriverStation.Alliance.Red && DriverStation.isDSAttached()) {
+        if (alliance == DriverStation.Alliance.Red && DriverStation.getAlliance().isPresent()) {
             return Rotation2d.fromDegrees(225);
-        } else if (alliance == DriverStation.Alliance.Blue && DriverStation.isDSAttached()) {
+        } else if (alliance == DriverStation.Alliance.Blue && DriverStation.getAlliance().isPresent()) {
             return Rotation2d.fromDegrees(45);
         }
         else {
