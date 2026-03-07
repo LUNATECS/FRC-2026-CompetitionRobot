@@ -51,6 +51,8 @@ public class ShooterSubSystem extends SubsystemBase {
     var currentLimits = new CurrentLimitsConfigs();
     currentLimits.SupplyCurrentLimit = 30;   //increase this current limit if necessary (increased from 40)
     currentLimits.SupplyCurrentLimitEnable = true;
+    currentLimits.StatorCurrentLimit = 30;
+    currentLimits.StatorCurrentLimitEnable = true;
 
 
     var slot0Configs = new Slot0Configs();
@@ -73,6 +75,9 @@ public class ShooterSubSystem extends SubsystemBase {
     shooterMotor1.getConfigurator().apply(feedbackConfigs);
     shooterMotor1.getConfigurator().apply(motorOutputShooterConfigs);
     shooterMotor1.getConfigurator().apply(currentLimits);
+    shooterMotor2.getConfigurator().apply(currentLimits);
+    shooterMotor3.getConfigurator().apply(currentLimits);
+    shooterMotor4.getConfigurator().apply(currentLimits);
     shooterMotor1.getConfigurator().apply(ramp);
     shooterMotor1.getConfigurator().apply(voltageConfigs);
 

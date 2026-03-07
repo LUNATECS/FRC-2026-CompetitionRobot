@@ -9,7 +9,7 @@
       "prevControl": null,
       "nextControl": {
         "x": 6.62985048308196,
-        "y": 0.3806624970612704
+        "y": 0.38066249706127087
       },
       "isLocked": false,
       "linkedName": "Middle Pose After Bump RIGHT"
@@ -76,8 +76,8 @@
       "minWaypointRelativePos": 0.843717513545867,
       "maxWaypointRelativePos": 2.3922236749896175,
       "constraints": {
-        "maxVelocity": 1.5,
-        "maxAcceleration": 1.5,
+        "maxVelocity": 2.0,
+        "maxAcceleration": 2.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,

@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.HopperPositionCommand;
+import frc.robot.util.AllianceFliputil;
 import frc.robot.util.HubTracker;
 
 /**
@@ -54,8 +55,12 @@ public class Robot extends TimedRobot {
   public void driverStationConnected() {
     m_robotContainer.setupAutoChooser();
     Alliance alliance = DriverStation.getAlliance().get();
-    double targetRotationDegrees = (alliance == Alliance.Red) ? 180 : 0;
-    m_robotContainer.getSwerveDrivetrain().resetRotation(Rotation2d.fromDegrees(targetRotationDegrees));
+    Rotation2d startRotation = (alliance == Alliance.Red) ? Rotation2d.fromDegrees(180) : Rotation2d.fromDegrees(0);
+    m_robotContainer.getSwerveDrivetrain().resetPose(new Pose2d(
+        m_robotContainer.getSwerveDrivetrain().getPose().getTranslation(),
+        startRotation
+    ));
+    m_robotContainer.getSwerveDrivetrain().resetGyro(startRotation.getDegrees());
   }
 
   @Override
@@ -66,6 +71,12 @@ public class Robot extends TimedRobot {
     SmartDashboard.putString("Current Shift", HubTracker.getCurrentShift().toString());
     SmartDashboard.putNumber("Time left in Current Shift", HubTracker.timeRemainingInCurrentShift().orElse(Seconds.zero()).in(Seconds));
     SmartDashboard.putString("Alliance", DriverStation.getAlliance().get().toString());
+
+        SmartDashboard.putNumber("Alliance drive value", RobotContainer.AllianceDriveValue);
+
+    SmartDashboard.putNumber("Alliance Flip util Forward Backward", AllianceFliputil.getFlipBasedOnAllianceForGoingToCenter());
+    SmartDashboard.putNumber("Alliance Flip util Going rotation", AllianceFliputil.getHeadingBasedOnAllianceForBumpRIGHT().getDegrees());
+
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
@@ -95,6 +106,14 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
+    if (DriverStation.getAlliance().get() == Alliance.Red){
+      RobotContainer.AllianceDriveValue = 1;
+    }
+    else if (DriverStation.getAlliance().get() == Alliance.Blue){
+      RobotContainer.AllianceDriveValue = 1;
+    }
+    //SmartDashboard.putNumber("Alliance drive value", RobotContainer.AllianceDriveValue);
+
     //if (DriverStation.getAlliance().get() == Alliance.Red){
       //m_robotContainer.getSwerveDrivetrain().resetPose(new Pose2d(m_robotContainer.getSwerveDrivetrain().getPose().getX(), m_robotContainer.getSwerveDrivetrain().getPose().getY(), Rotation2d.k180deg));
     //}

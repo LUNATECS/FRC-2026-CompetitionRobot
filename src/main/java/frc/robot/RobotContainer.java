@@ -15,10 +15,14 @@ import edu.wpi.first.math.geometry.Translation2d;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
+
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -99,6 +103,8 @@ public class RobotContainer {
 
     public static Field2d virtualTargetField = new Field2d();
 
+    public static double AllianceDriveValue = 0;
+
 
 
   public void setupAutoChooser() {
@@ -162,8 +168,8 @@ public class RobotContainer {
     drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(-driver.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-                    .withVelocityY(-driver.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+                drive.withVelocityX(-driver.getLeftY() * MaxSpeed * AllianceDriveValue) // Drive forward with negative Y (forward)
+                    .withVelocityY(-driver.getLeftX() * MaxSpeed * AllianceDriveValue) // Drive left with negative X (left)
                     .withRotationalRate(-driver.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
@@ -324,7 +330,7 @@ public class RobotContainer {
 
 
 
-    operator.square().onTrue(new InstantCommand(() -> {
+    operator.square().whileTrue(new InstantCommand(() -> {
     hopperFeeder.setSpeed(1);
     //intake.setSpeed(1);
     shooterFeeder.setSpeed(0.6);
@@ -338,7 +344,7 @@ public class RobotContainer {
 
   }, hopperFeeder, shooterFeeder, intake));
 
-  operator.circle().onTrue(new InstantCommand(() -> {
+  operator.circle().whileTrue(new InstantCommand(() -> {
     hopperFeeder.setSpeed(-1.5);
     intake.setSpeed(-1);
     shooterFeeder.setSpeed(-1);
@@ -348,6 +354,10 @@ public class RobotContainer {
       intake.setSpeed(0);
       shooterFeeder.setSpeed(0);
   }, hopperFeeder, shooterFeeder, intake));
+
+  operator.touchpad().onTrue(
+    new InstantCommand(()->{RobotContainer.AllianceDriveValue = RobotContainer.AllianceDriveValue*-1;})
+  );
 
       
 
