@@ -306,18 +306,17 @@ public class RobotContainer {
 
     //operator controls
     //Hood Testing
-    operator.R1().onTrue(new InstantCommand(()->{hood.setSpeed(0.15);}, hood))
-      .onFalse(new InstantCommand(()->{hood.setSpeed(0);}, hood));
+    operator.R1().onTrue(new HoodHoldCommand(hood, ()->7.5));
 
-    operator.L1().onTrue(new InstantCommand(()->{hood.setSpeed(-0.15);}, hood))
-      .onFalse(new InstantCommand(()->{hood.setSpeed(0);}, hood));
+    operator.R1().onTrue(new HoodHoldCommand(hood, ()->15));
 
 
 
-    operator.R2().onTrue(new InstantCommand(()->{hopper.setSpeed(0.5);}, hopper))
+
+    operator.R2().whileTrue(new InstantCommand(()->{hopper.setSpeed(0.5);}, hopper))
       .onFalse(new InstantCommand(()->{hopper.setSpeed(0);}, hopper));
 
-    operator.L2().onTrue(new InstantCommand(()->{hopper.setSpeed(-0.5);}, hopper))
+    operator.L2().whileTrue(new InstantCommand(()->{hopper.setSpeed(-0.5);}, hopper))
       .onFalse(new InstantCommand(()->{hopper.setSpeed(0);}, hopper));  
 
     operator.triangle().onTrue(new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position));
