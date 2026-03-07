@@ -171,6 +171,12 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     m_robotContainer.getSwerveDrivetrain().resetRotation(Rotation2d.fromDegrees(degreesOutOfAuto));
     m_robotContainer.getSwerveDrivetrain().resetGyro(degreesOutOfAuto);
+    Pose2d endAutoPose = new Pose2d(
+        m_robotContainer.getSwerveDrivetrain().getPose().getTranslation(),
+        Rotation2d.fromDegrees(degreesOutOfAuto)
+    );
+    m_robotContainer.getSwerveDrivetrain().resetPose(endAutoPose);
+
 
     //puts the hopper out at the beginning of teleop.
     // This makes sure that the autonomous stops running when
