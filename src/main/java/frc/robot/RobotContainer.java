@@ -15,19 +15,16 @@ import edu.wpi.first.math.geometry.Translation2d;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
-
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.autos.AllianceTuningAuto;
 import frc.robot.autos.DriveOverBumpCommand;
 import frc.robot.autos.LeftDepotAuto;
 import frc.robot.autos.LeftOneCycleAuto;
@@ -123,6 +120,10 @@ public class RobotContainer {
         //depot autos
         autoChooser.addOption("Left Depot Auto", LeftDepotAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
         autoChooser.addOption("Right Depot Auto", RightDepotAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+
+
+        //alliance tune auto
+        autoChooser.addOption("Alliance Tuning Auto", AllianceTuningAuto.build(drivetrain, drive));
 
 
         //practice object detection
