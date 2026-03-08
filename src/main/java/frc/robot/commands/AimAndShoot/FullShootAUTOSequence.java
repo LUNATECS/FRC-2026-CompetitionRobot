@@ -52,6 +52,6 @@ public class FullShootAUTOSequence extends ParallelCommandGroup {
       drivetrainCommand,
       new ShootCommand(hopperFeeder, shooterFeeder, shooter, hoodCommand, intake, fireButton),
       new HopperAgitateTrigerredCommand(hopper, fireButton, shooter, hoodCommand)
-    );
+    ); 
   }
 }

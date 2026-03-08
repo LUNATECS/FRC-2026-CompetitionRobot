@@ -17,11 +17,11 @@
     {
       "anchor": {
         "x": 1.5686904065167466,
-        "y": 3.0
+        "y": 3.75
       },
       "prevControl": {
         "x": 1.5686770793773515,
-        "y": 3.4138010146529583
+        "y": 4.163801014652958
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -45.0
   },
   "reversed": false,
   "folder": "Tuning",

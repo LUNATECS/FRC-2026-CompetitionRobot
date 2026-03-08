@@ -26,16 +26,19 @@ import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autos.AllianceTuningAuto;
 import frc.robot.autos.DriveOverBumpCommand;
+import frc.robot.autos.DrivingOverBumpTestAuto;
 import frc.robot.autos.LeftDepotAuto;
 import frc.robot.autos.LeftOneCycleAuto;
 import frc.robot.autos.LeftSweepAuto;
 import frc.robot.autos.LeftTwoCycleAuto;
+import frc.robot.autos.LeftTwoCycleSTEALAuto;
 import frc.robot.autos.PracticeAuto;
 import frc.robot.autos.RightDepotAuto;
 import frc.robot.autos.RightOneCycleAuto;
 import frc.robot.autos.RightOneCycleClimbAuto;
 import frc.robot.autos.RightSweepAuto;
 import frc.robot.autos.RightTwoCycleAuto;
+import frc.robot.autos.RightTwoCycleSTEALAuto;
 import frc.robot.commands.AimAndShoot.FaceFieldPointCommand;
 import frc.robot.commands.HoodHoldCommand;
 import frc.robot.commands.HopperAgitateCommand;
@@ -110,20 +113,25 @@ public class RobotContainer {
         //two cycle autos
         autoChooser.addOption("Right Two Cycle Auto", RightTwoCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
         autoChooser.addOption("Left Two Cycle Auto", LeftTwoCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
-        //since cycle autos
-        autoChooser.addOption("Right One Cycle Auto", RightOneCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
-        autoChooser.addOption("Left One Cycle Auto", LeftOneCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        //one cycle autos
+        //autoChooser.addOption("Right One Cycle Auto", RightOneCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        //autoChooser.addOption("Left One Cycle Auto", LeftOneCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
         //sweep autos
         autoChooser.addOption("Left Sweep Auto", LeftSweepAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
         autoChooser.addOption("Right Sweep Auto", RightSweepAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
 
         //depot autos
-        autoChooser.addOption("Left Depot Auto", LeftDepotAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
-        autoChooser.addOption("Right Depot Auto", RightDepotAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        //autoChooser.addOption("Left Depot Auto", LeftDepotAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        //autoChooser.addOption("Right Depot Auto", RightDepotAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
 
 
         //alliance tune auto
-        autoChooser.addOption("Alliance Tuning Auto", AllianceTuningAuto.build(drivetrain, drive));
+        //autoChooser.addOption("Alliance Tuning Auto", AllianceTuningAuto.build(drivetrain, drive));
+        //autoChooser.addOption("Driver over bump test", DrivingOverBumpTestAuto.build(drivetrain, drive));
+
+        //steal autos
+        autoChooser.addOption("Right Two Cycle STEAL Auto", RightTwoCycleSTEALAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        autoChooser.addOption("Left Two Cycle STEAL Auto", LeftTwoCycleSTEALAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
 
 
         //practice object detection
@@ -176,7 +184,7 @@ public class RobotContainer {
         );
 
       shooter.setDefaultCommand(new ShooterVelocityCommand(shooter, ()->3000.0));
-      hood.setDefaultCommand(new HoodHoldCommand(hood, ()->1.5));
+      //hood.setDefaultCommand(new HoodHoldCommand(hood, ()->1.5));
 
         // Idle while the robot is disabled. This ensures the configured
         // neutral mode is applied to the drive motors while disabled.
@@ -325,8 +333,10 @@ public class RobotContainer {
     operator.povLeft().onTrue(new ShooterVelocityCommand(shooter, ()->3000));
     operator.povUp().onTrue(new ShooterVelocityCommand(shooter, ()->3250));
     operator.povRight().onTrue(new ShooterVelocityCommand(shooter, ()->3500));
+    operator.povDown().onTrue(new ShooterVelocityCommand(shooter, ()->1000));
 
-    operator.povDown().onTrue(new InstantCommand(()->{shooter.setRPM(0);}, shooter));
+
+    //operator.povDown().onTrue(new InstantCommand(()->{shooter.setRPM(0);}, shooter));
 
 
 

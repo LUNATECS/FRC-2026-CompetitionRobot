@@ -16,7 +16,7 @@ public class AllianceFliputil {
         DriverStation.Alliance alliance =
     DriverStation.getAlliance().get();
         if (alliance == DriverStation.Alliance.Red && DriverStation.getAlliance().isPresent()) {
-            direction = -1;
+            direction = 1;
         } else if (alliance == DriverStation.Alliance.Blue && DriverStation.getAlliance().isPresent()){
             direction = 1;
         }
@@ -28,7 +28,7 @@ public class AllianceFliputil {
         DriverStation.Alliance alliance =
     DriverStation.getAlliance().get();
         if (alliance == DriverStation.Alliance.Red && DriverStation.getAlliance().isPresent()) {
-            direction = 1;
+            direction = -1;
         } else if (alliance == DriverStation.Alliance.Blue && DriverStation.getAlliance().isPresent()){
             direction = -1;
         }

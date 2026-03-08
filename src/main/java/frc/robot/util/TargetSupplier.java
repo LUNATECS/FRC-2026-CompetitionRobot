@@ -26,7 +26,7 @@ public class TargetSupplier {
                      targetPose = new Translation2d(11.91, 4.03);
                 } else if(robotPose.getX() < 11){
                     if(robotPose.getY() < 4){
-                        targetPose = new Translation2d(5, 2);
+                        targetPose = new Translation2d(14.5, 2);
                     } else if(robotPose.getY() > 4){
                         targetPose = new Translation2d(14.5, 6);
                     }

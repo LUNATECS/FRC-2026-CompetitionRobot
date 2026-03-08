@@ -27,7 +27,7 @@ public class SOTMCalc {
 
     // LUT bounds
     private static final double MIN_DISTANCE = 1.5;
-    private static final double MAX_DISTANCE = 12.0;
+    private static final double MAX_DISTANCE = 14.0;
 
     // Separate LUTs for each field
     private final InterpolatingDoubleTreeMap rpmMap = new InterpolatingDoubleTreeMap();
@@ -42,17 +42,18 @@ public class SOTMCalc {
     // Private constructor to populate LUTs
     private SOTMCalc() {
         // Distance to RPM
-        rpmMap.put(1.5, 2800.0);
-        rpmMap.put(1.75, 2900.0);
-        rpmMap.put(2.0, 3050.0);
-        rpmMap.put(2.5, 3200.0);
-        rpmMap.put(3.0, 3450.0);
-        rpmMap.put(3.5, 3550.0);
-        rpmMap.put(4.0, 3750.0);
-        rpmMap.put(4.5, 3950.0);
-        rpmMap.put(5.0, 4200.0);
-        rpmMap.put(6.0, 4400.0);
-        rpmMap.put(12.0, 6650.0);
+        rpmMap.put(1.5, 2825.0);
+        rpmMap.put(1.75, 2925.0);
+        rpmMap.put(2.0, 3075.0);
+        rpmMap.put(2.5, 3225.0);
+        rpmMap.put(3.0, 3475.0);
+        rpmMap.put(3.5, 3575.0);
+        rpmMap.put(4.0, 3775.0);
+        rpmMap.put(4.5, 3975.0);
+        rpmMap.put(5.0, 4225.0);
+        rpmMap.put(6.0, 4425.0);
+        rpmMap.put(12.0, 6675.0);
+        rpmMap.put(15.0, 7225.0);
 
         // Distance to hood angle
         hoodMap.put(1.5, 2.5);
@@ -66,6 +67,8 @@ public class SOTMCalc {
         hoodMap.put(5.0, 18.0);
         hoodMap.put(6.0, 18.0);
         hoodMap.put(12.0, 27.5);
+        hoodMap.put(15.0, 27.5);
+
 
         // distance to TOF
         tofMap.put(1.5, 0.84);
@@ -79,6 +82,7 @@ public class SOTMCalc {
         tofMap.put(5.0, 1.32);
         tofMap.put(6.0, 1.55);
         tofMap.put(12.0, 2.625);
+        tofMap.put(15.0, 2.875);
 
     }
 

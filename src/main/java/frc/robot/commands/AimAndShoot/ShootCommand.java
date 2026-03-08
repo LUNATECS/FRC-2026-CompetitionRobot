@@ -51,8 +51,8 @@ public class ShootCommand extends Command {
   @Override
   public void execute() {
     if (fireButton.getAsBoolean() &&
-                shooter.atSpeed() &&
-                hoodCommand.atSetpoint() 
+                shooter.atSpeed() 
+                //&&hoodCommand.atSetpoint() 
                 //&&drivetrainCommand.isAligned()
                 ) {
                 intake.setRPM(2000);

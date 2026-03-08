@@ -16,7 +16,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.commands.HoodHoldCommand;
 import frc.robot.commands.HopperPositionCommand;
+import frc.robot.subsystems.HoodSubSystem;
 import frc.robot.util.AllianceFliputil;
 import frc.robot.util.HubTracker;
 
@@ -31,6 +33,7 @@ public class Robot extends TimedRobot {
   private final RobotContainer m_robotContainer;
 
   private double degreesOutOfAuto;
+  private boolean alreadySetForStartOfAuto;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -41,6 +44,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     this.degreesOutOfAuto = 0;
+    this.alreadySetForStartOfAuto = false;
   }
 
   /**
@@ -94,6 +98,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledInit() {
+    if (!alreadySetForStartOfAuto && DriverStation.getAlliance().isPresent()){
     Alliance alliance = DriverStation.getAlliance().get();
     Rotation2d startRotation = (alliance == Alliance.Red) ? Rotation2d.fromDegrees(180) : Rotation2d.fromDegrees(0);
     m_robotContainer.getSwerveDrivetrain().resetPose(new Pose2d(
@@ -101,7 +106,8 @@ public class Robot extends TimedRobot {
         startRotation
     ));
     m_robotContainer.getSwerveDrivetrain().resetGyro(startRotation.getDegrees());
-
+    alreadySetForStartOfAuto = true;
+    }
   }
 
   @Override
@@ -146,6 +152,8 @@ public class Robot extends TimedRobot {
         m_robotContainer.getSwerveDrivetrain().resetGyro(0);
     }
         */
+
+    CommandScheduler.getInstance().schedule(new HoodHoldCommand(new HoodSubSystem(), ()->1.5));
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
