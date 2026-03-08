@@ -1,0 +1,132 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 5.872928571428571,
+        "y": 2.5
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 6.8256025820131665,
+        "y": 2.530819597597475
+      },
+      "isLocked": false,
+      "linkedName": "Middle Pose After Bump RIGHT"
+    },
+    {
+      "anchor": {
+        "x": 8.45,
+        "y": 2.625
+      },
+      "prevControl": {
+        "x": 8.309224846733942,
+        "y": 2.3990163856788924
+      },
+      "nextControl": {
+        "x": 8.584383984387275,
+        "y": 2.8407239952799976
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.45,
+        "y": 4.5
+      },
+      "prevControl": {
+        "x": 8.525171897508976,
+        "y": 4.2615693270048975
+      },
+      "nextControl": {
+        "x": 8.278218744348596,
+        "y": 5.044856811523438
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.872928571428571,
+        "y": 2.5
+      },
+      "prevControl": {
+        "x": 6.524201123272932,
+        "y": 3.509468861897786
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.9624531802297562,
+      "rotationDegrees": 82.7016737138958
+    },
+    {
+      "waypointRelativePos": 2.054037608953245,
+      "rotationDegrees": 80.1457909615896
+    }
+  ],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 1.028522319178427,
+      "maxWaypointRelativePos": 2.1506303045836797,
+      "constraints": {
+        "maxVelocity": 2.5,
+        "maxAcceleration": 2.5,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "Intake",
+      "waypointRelativePos": 0.34315668150436035,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Start Intake Command"
+        }
+      }
+    },
+    {
+      "name": "stop intake",
+      "waypointRelativePos": 2.5926091900695605,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "StopIntakeCommand"
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 4.0,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 2.5,
+    "rotation": -45.0
+  },
+  "reversed": false,
+  "folder": "Right 1 Cycle Auto Climb",
+  "idealStartingState": {
+    "velocity": 2.5,
+    "rotation": -45.0
+  },
+  "useDefaultConstraints": false
+}

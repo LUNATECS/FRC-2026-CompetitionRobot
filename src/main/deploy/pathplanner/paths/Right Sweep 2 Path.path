@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.312431791221829,
-        "y": 0.5113641755634624
+        "x": 7.569829002097801,
+        "y": 0.7018065750687208
       },
       "isLocked": false,
       "linkedName": "Middle Pose After Bump RIGHT"
@@ -119,13 +119,13 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
+    "velocity": 2.5,
     "rotation": -45.0
   },
   "reversed": false,
   "folder": "Right 1 Cycle Auto Climb",
   "idealStartingState": {
-    "velocity": 0,
+    "velocity": 2.5,
     "rotation": -45.0
   },
   "useDefaultConstraints": false

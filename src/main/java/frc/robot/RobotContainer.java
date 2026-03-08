@@ -24,20 +24,16 @@ import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.autos.AllianceTuningAuto;
 import frc.robot.autos.DriveOverBumpCommand;
-import frc.robot.autos.DrivingOverBumpTestAuto;
-import frc.robot.autos.LeftDepotAuto;
-import frc.robot.autos.LeftOneCycleAuto;
 import frc.robot.autos.LeftSweepAuto;
 import frc.robot.autos.LeftTwoCycleAuto;
+import frc.robot.autos.LeftTwoCycleGriefAuto;
 import frc.robot.autos.LeftTwoCycleSTEALAuto;
 import frc.robot.autos.PracticeAuto;
-import frc.robot.autos.RightDepotAuto;
-import frc.robot.autos.RightOneCycleAuto;
 import frc.robot.autos.RightOneCycleClimbAuto;
 import frc.robot.autos.RightSweepAuto;
 import frc.robot.autos.RightTwoCycleAuto;
+import frc.robot.autos.RightTwoCycleGriefAuto;
 import frc.robot.autos.RightTwoCycleSTEALAuto;
 import frc.robot.commands.AimAndShoot.FaceFieldPointCommand;
 import frc.robot.commands.HoodHoldCommand;
@@ -132,6 +128,11 @@ public class RobotContainer {
         //steal autos
         autoChooser.addOption("Right Two Cycle STEAL Auto", RightTwoCycleSTEALAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
         autoChooser.addOption("Left Two Cycle STEAL Auto", LeftTwoCycleSTEALAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+
+
+        //grief autos
+        autoChooser.addOption("Left Two Cycle Grief Auto", LeftTwoCycleGriefAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        autoChooser.addOption("Right Two Cycle Grief Auto", RightTwoCycleGriefAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
 
 
         //practice object detection
