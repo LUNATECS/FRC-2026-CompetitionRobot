@@ -13,6 +13,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.HoodDynamicPointCommand;
 import frc.robot.commands.HopperAgitateTrigerredCommand;
+import frc.robot.commands.HopperAutoAgitateCommand;
 import frc.robot.commands.ShooterDynamicVelocityCommand;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.HoodSubSystem;
@@ -51,7 +52,7 @@ public class FullShootAUTOSequence extends ParallelCommandGroup {
       hoodCommand,
       drivetrainCommand,
       new ShootCommand(hopperFeeder, shooterFeeder, shooter, hoodCommand, intake, fireButton),
-      new HopperAgitateTrigerredCommand(hopper, fireButton, shooter, hoodCommand)
+      new HopperAutoAgitateCommand(hopper, fireButton, shooter, hoodCommand)
     ); 
   }
 }

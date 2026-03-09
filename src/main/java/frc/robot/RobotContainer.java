@@ -29,12 +29,14 @@ import frc.robot.autos.LeftSweepAuto;
 import frc.robot.autos.LeftTwoCycleAuto;
 import frc.robot.autos.LeftTwoCycleGriefAuto;
 import frc.robot.autos.LeftTwoCycleSTEALAuto;
+import frc.robot.autos.LeftTwoCycleSweepAuto;
 import frc.robot.autos.PracticeAuto;
 import frc.robot.autos.RightOneCycleClimbAuto;
 import frc.robot.autos.RightSweepAuto;
 import frc.robot.autos.RightTwoCycleAuto;
 import frc.robot.autos.RightTwoCycleGriefAuto;
 import frc.robot.autos.RightTwoCycleSTEALAuto;
+import frc.robot.autos.RightTwoCycleSweepAuto;
 import frc.robot.commands.AimAndShoot.FaceFieldPointCommand;
 import frc.robot.commands.HoodHoldCommand;
 import frc.robot.commands.HopperAgitateCommand;
@@ -116,6 +118,10 @@ public class RobotContainer {
         autoChooser.addOption("Left Sweep Auto", LeftSweepAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
         autoChooser.addOption("Right Sweep Auto", RightSweepAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
 
+        //double sweep auto
+        autoChooser.addOption("Double Left Sweep Auto", LeftTwoCycleSweepAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        autoChooser.addOption("Double Right Sweep Auto", RightTwoCycleSweepAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+
         //depot autos
         //autoChooser.addOption("Left Depot Auto", LeftDepotAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
         //autoChooser.addOption("Right Depot Auto", RightDepotAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
@@ -135,7 +141,7 @@ public class RobotContainer {
         autoChooser.addOption("Right Two Cycle Grief Auto", RightTwoCycleGriefAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
 
 
-        //practice object detection
+        //practice object detection 
         //autoChooser.addOption("Fuel Loop Auto Obj.Detec", DriveToFuelLoopAuto.build(drivetrain, intake));
 
         // Put the chooser on SmartDashboard
@@ -356,19 +362,21 @@ public class RobotContainer {
   }, hopperFeeder, shooterFeeder, intake));
 
   operator.circle().whileTrue(new InstantCommand(() -> {
-    hopperFeeder.setSpeed(-1.5);
+    hopperFeeder.setSpeed(-1);
     intake.setSpeed(-1);
-    shooterFeeder.setSpeed(-1);
+    hopperFeeder.setTopRollerSpeed(-1);
   }, hopperFeeder, shooterFeeder, intake))
     .onFalse(new InstantCommand(()->{
       hopperFeeder.setSpeed(0);
       intake.setSpeed(0);
-      shooterFeeder.setSpeed(0);
+      hopperFeeder.setTopRollerSpeed(0);
   }, hopperFeeder, shooterFeeder, intake));
 
   operator.touchpad().onTrue(
     new InstantCommand(()->{RobotContainer.AllianceDriveValue = RobotContainer.AllianceDriveValue*-1;})
   );
+
+  
 
       
 

@@ -120,7 +120,7 @@ public class DriveOverBumpCommand extends Command {
                 break;
 
             case DONE:
-                driveSpeed = 0.5;
+                driveSpeed = 1.5;
                 break;
                 //change drivespeed based on whether or not we use this in auto or not.
         }
