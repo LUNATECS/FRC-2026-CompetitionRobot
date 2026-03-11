@@ -3,6 +3,7 @@ package frc.robot.generated;
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.OpenLoopRampsConfigs;
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -82,6 +83,10 @@ public class TunerConstants {
             .withSupplyCurrentLimit(40)
             .withSupplyCurrentLimitEnable(true)
         );
+    private static final TalonFXConfiguration rateLimiter = new TalonFXConfiguration().withOpenLoopRamps(
+        new OpenLoopRampsConfigs().withDutyCycleOpenLoopRampPeriod(0.25)
+
+    );
     private static final TalonFXConfiguration steerInitialConfigs = new TalonFXConfiguration()
         .withCurrentLimits(
             new CurrentLimitsConfigs()
