@@ -20,6 +20,7 @@ import frc.robot.commands.HoodHoldCommand;
 import frc.robot.commands.HopperPositionCommand;
 import frc.robot.subsystems.HoodSubSystem;
 import frc.robot.util.AllianceFliputil;
+import frc.robot.util.BallLaneDetector;
 import frc.robot.util.HubTracker;
 
 /**
@@ -80,6 +81,9 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putNumber("Alliance Flip util Forward Backward", AllianceFliputil.getFlipBasedOnAllianceForGoingToCenter());
     SmartDashboard.putNumber("Alliance Flip util Going rotation", AllianceFliputil.getHeadingBasedOnAllianceForBumpRIGHT().getDegrees());
+
+
+    SmartDashboard.putString("best sweep lane", BallLaneDetector.getBestLane("limelight-hopper"));
 
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
