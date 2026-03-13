@@ -60,8 +60,8 @@ public class FullShootOnTheMoveSequence extends ParallelCommandGroup {
       drivetrainCommand,
       shooterCommand,
       hoodCommand,
-      new ShootOnTheMoveShootCommand(hopperFeeder, shooterFeeder, shooter, hoodCommand, drivetrainCommand, intake, fireButton),
-      new HopperAgitateTrigerredCommand(hopper, fireButton, shooter, hoodCommand)
+      new ShootOnTheMoveShootCommand(hopperFeeder, shooterFeeder, shooter, hoodCommand, drivetrainCommand, intake, fireButton)
+      //new HopperAgitateTrigerredCommand(hopper, fireButton, shooter, hoodCommand)
     );
   }
 }
