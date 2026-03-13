@@ -82,11 +82,9 @@ public class TunerConstants {
             .withStatorCurrentLimitEnable(true)
             .withSupplyCurrentLimit(40)
             .withSupplyCurrentLimitEnable(true)
-        );
-    private static final TalonFXConfiguration rateLimiter = new TalonFXConfiguration().withOpenLoopRamps(
-        new OpenLoopRampsConfigs().withDutyCycleOpenLoopRampPeriod(0.25)
-
-    );
+        )
+        .withOpenLoopRamps(new OpenLoopRampsConfigs().withDutyCycleOpenLoopRampPeriod(0.25))
+        ;
     private static final TalonFXConfiguration steerInitialConfigs = new TalonFXConfiguration()
         .withCurrentLimits(
             new CurrentLimitsConfigs()
