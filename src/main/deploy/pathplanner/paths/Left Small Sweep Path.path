@@ -37,7 +37,7 @@
       },
       "prevControl": {
         "x": 6.653189318648947,
-        "y": 2.85525338521075
+        "y": 2.8552533852107502
       },
       "nextControl": {
         "x": 6.421115384615385,
@@ -48,12 +48,12 @@
     },
     {
       "anchor": {
-        "x": 5.872928571428571,
-        "y": 2.5
+        "x": 6.126,
+        "y": 2.4511453450520833
       },
       "prevControl": {
-        "x": 6.200179487179489,
-        "y": 2.325653846153847
+        "x": 6.453250915750918,
+        "y": 2.2767991912059298
       },
       "nextControl": null,
       "isLocked": false,
@@ -123,7 +123,7 @@
     "rotation": -45.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Sweep Paths",
   "idealStartingState": {
     "velocity": 2.0,
     "rotation": 45.0

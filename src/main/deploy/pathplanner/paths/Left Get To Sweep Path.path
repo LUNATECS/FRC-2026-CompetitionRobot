@@ -1,0 +1,68 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 6.126,
+        "y": 5.5
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 6.142010545518664,
+        "y": 7.9381085504602495
+      },
+      "isLocked": false,
+      "linkedName": "Middle Pose After Bump LEFT"
+    },
+    {
+      "anchor": {
+        "x": 7.42881807994895,
+        "y": 7.455483212636619
+      },
+      "prevControl": {
+        "x": 7.426049671314381,
+        "y": 7.733002850002713
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Left Before Sweep"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.55,
+      "maxWaypointRelativePos": 0.8,
+      "constraints": {
+        "maxVelocity": 2.5,
+        "maxAcceleration": 2.5,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.0,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 2.0,
+    "rotation": -89.80104339518016
+  },
+  "reversed": false,
+  "folder": "Dynamic Left Sweep Paths",
+  "idealStartingState": {
+    "velocity": 2.0,
+    "rotation": 45.0
+  },
+  "useDefaultConstraints": false
+}

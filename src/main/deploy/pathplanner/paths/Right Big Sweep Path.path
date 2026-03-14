@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.872928571428571,
-        "y": 2.5
+        "x": 6.126,
+        "y": 2.4511453450520833
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.72344871794872,
-        "y": 0.18606410256410388
+        "x": 6.9765201465201505,
+        "y": 0.13720944761618714
       },
       "isLocked": false,
       "linkedName": "Middle Pose After Bump RIGHT"
@@ -123,7 +123,7 @@
     "rotation": 45.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Sweep Paths",
   "idealStartingState": {
     "velocity": 2.0,
     "rotation": -45.0

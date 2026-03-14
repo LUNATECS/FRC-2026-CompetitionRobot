@@ -31,7 +31,6 @@ import frc.robot.autos.LeftTwoCycleGriefAuto;
 import frc.robot.autos.LeftTwoCycleSTEALAuto;
 import frc.robot.autos.LeftTwoCycleSweepAuto;
 import frc.robot.autos.PracticeAuto;
-import frc.robot.autos.RightOneCycleClimbAuto;
 import frc.robot.autos.RightSweepAuto;
 import frc.robot.autos.RightTwoCycleAuto;
 import frc.robot.autos.RightTwoCycleGriefAuto;
@@ -107,7 +106,7 @@ public class RobotContainer {
 
   public void setupAutoChooser() {
         autoChooser.setDefaultOption("DO NOTHING", PracticeAuto.build(drivetrain));
-        autoChooser.addOption("Right One Cycle Climb", RightOneCycleClimbAuto.build(drivetrain, drive, hopper));
+        //autoChooser.addOption("Right One Cycle Climb", RightOneCycleClimbAuto.build(drivetrain, drive, hopper));
         //two cycle autos
         autoChooser.addOption("Right Two Cycle Auto", RightTwoCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
         autoChooser.addOption("Left Two Cycle Auto", LeftTwoCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
