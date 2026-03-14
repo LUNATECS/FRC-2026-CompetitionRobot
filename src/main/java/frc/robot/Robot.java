@@ -11,6 +11,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import static edu.wpi.first.units.Units.Seconds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -35,7 +36,7 @@ public class Robot extends TimedRobot {
 
   private double degreesOutOfAuto;
   private boolean alreadySetForStartOfAuto;
-
+  
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -85,11 +86,13 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putString("best sweep lane", BallLaneDetector.getBestLane("limelight-hopper"));
 
+
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -202,7 +205,13 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    if(HubTracker.timeRemainingInCurrentShift().orElse(Seconds.zero()).in(Seconds) < 10 && HubTracker.timeRemainingInCurrentShift().orElse(Seconds.zero()).in(Seconds) < 9){
+      this.m_robotContainer.getController().getHID().setRumble(RumbleType.kBothRumble, 0.5);
+    } else if(HubTracker.timeRemainingInCurrentShift().orElse(Seconds.zero()).in(Seconds) < 5 && HubTracker.timeRemainingInCurrentShift().orElse(Seconds.zero()).in(Seconds) < 4){
+      this.m_robotContainer.getController().getHID().setRumble(RumbleType.kBothRumble, 1);
+    }
+  }
 
   @Override
   public void testInit() {

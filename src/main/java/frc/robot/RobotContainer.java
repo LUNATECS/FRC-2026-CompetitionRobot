@@ -15,6 +15,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
+
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -45,7 +46,6 @@ import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootOnTheMove.FullShootOnTheMoveSequence;
 import frc.robot.commands.ShooterVelocityCommand;
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.ClimberSubSystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.HoodSubSystem;
 import frc.robot.subsystems.HopperFeederSubSystem;
@@ -70,7 +70,6 @@ public class RobotContainer {
   private final HopperSubSystem hopper = new HopperSubSystem();
   private final HopperFeederSubSystem hopperFeeder = new HopperFeederSubSystem();
   private final HoodSubSystem hood = new HoodSubSystem();
-  private final ClimberSubSystem climber = new ClimberSubSystem();
   private final IntakeSubSystem intake = new IntakeSubSystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -167,6 +166,10 @@ public class RobotContainer {
     configureBindings();
     //setupAutoChooser();
 
+  }
+
+  public CommandPS5Controller getController(){
+    return driver;
   }
 
   /**
@@ -318,6 +321,7 @@ public class RobotContainer {
                 drive
             )
         );
+
 
     //operator controls
     //Hood Testing
