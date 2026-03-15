@@ -217,8 +217,8 @@ public class RobotContainer {
         //    point.withModuleDirection(new Rotation2d(-driver.getLeftY(), -driver.getLeftX()))
         //));
 
-        driver.povUp().onTrue(new DriveOverBumpCommand(drivetrain, Rotation2d.fromDegrees(-45), drive, 1));
-                driver.povDown().onTrue(new DriveOverBumpCommand(drivetrain, Rotation2d.fromDegrees(-45), drive, -1));
+        //driver.povUp().onTrue(new DriveOverBumpCommand(drivetrain, Rotation2d.fromDegrees(-45), drive, 1));
+                //driver.povDown().onTrue(new DriveOverBumpCommand(drivetrain, Rotation2d.fromDegrees(-45), drive, -1));
 
         driver.L1().whileTrue(
           new FullShootOnTheMoveSequence(
