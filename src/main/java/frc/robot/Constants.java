@@ -21,7 +21,8 @@ public final class Constants {
 
 
   public static class Intake_SubSystem_Constants{
-    public static final int CAN_ID_INTAKE = 10;
+    public static final int CAN_ID_INTAKE_LEAD = 10;
+    public static final int CAN_ID_INTAKE_FOLLOW = 25;
   }
 
   public static class Hopper_SubSystem_Constants{

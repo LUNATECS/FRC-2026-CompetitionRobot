@@ -7,9 +7,11 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,16 +20,21 @@ import frc.robot.Constants;
 
 public class IntakeSubSystem extends SubsystemBase {
   
-  private TalonFX intakeMotor;
-    private final VelocityVoltage motorVelocity = new VelocityVoltage(0);
+  private TalonFX intakeLeadRightMotor;
+  private TalonFX intakeFollowLeftMotor;
+  private final VelocityVoltage motorVelocity = new VelocityVoltage(0);
 
   /** Creates a new IntakeSubSystem. */ 
   public IntakeSubSystem() {
-    intakeMotor = new TalonFX(Constants.Intake_SubSystem_Constants.CAN_ID_INTAKE, Constants.CANBUS_Constants.CANIVORE);
+    intakeLeadRightMotor = new TalonFX(Constants.Intake_SubSystem_Constants.CAN_ID_INTAKE_LEAD, Constants.CANBUS_Constants.CANIVORE);
+    intakeFollowLeftMotor = new TalonFX(Constants.Intake_SubSystem_Constants.CAN_ID_INTAKE_FOLLOW, Constants.CANBUS_Constants.CANIVORE);
 
-    var motorOutputConfigs = new MotorOutputConfigs();
-    motorOutputConfigs.NeutralMode = NeutralModeValue.Brake;
-    motorOutputConfigs.Inverted = InvertedValue.Clockwise_Positive;
+    var leadMotorOutputConfigs = new MotorOutputConfigs();
+    leadMotorOutputConfigs.NeutralMode = NeutralModeValue.Brake;
+    leadMotorOutputConfigs.Inverted = InvertedValue.Clockwise_Positive;
+
+    var followMotorOutConfigs = new MotorOutputConfigs();
+    followMotorOutConfigs.NeutralMode = NeutralModeValue.Brake;
 
     var slot0Configs = new Slot0Configs();
     slot0Configs.kV = 0.05;
@@ -39,27 +46,31 @@ public class IntakeSubSystem extends SubsystemBase {
     currentLimits.SupplyCurrentLimit = Constants.Current_Limit_Constants.CurrentLimit;   //increase this current limit if necessary (increased from 40)
     currentLimits.SupplyCurrentLimitEnable = true;
 
-    intakeMotor.getConfigurator().apply(motorOutputConfigs);
-    intakeMotor.getConfigurator().apply(slot0Configs);
-    intakeMotor.getConfigurator().apply(currentLimits);
+    intakeLeadRightMotor.getConfigurator().apply(leadMotorOutputConfigs);
+    intakeLeadRightMotor.getConfigurator().apply(slot0Configs);
+    intakeLeadRightMotor.getConfigurator().apply(currentLimits);
+    intakeFollowLeftMotor.getConfigurator().apply(followMotorOutConfigs);
+    intakeFollowLeftMotor.getConfigurator().apply(currentLimits);
+
+    intakeFollowLeftMotor.setControl(new Follower(Constants.Intake_SubSystem_Constants.CAN_ID_INTAKE_LEAD, MotorAlignmentValue.Opposed));
     motorVelocity.Slot = 0;
 
   }
 
   public double getRPM(){
-    return intakeMotor.getVelocity().getValueAsDouble()*60;
+    return intakeLeadRightMotor.getVelocity().getValueAsDouble()*60;
   }
 
   public void setRPM(double rpm){
-    intakeMotor.setControl(motorVelocity.withVelocity(rpm/60));
+    intakeLeadRightMotor.setControl(motorVelocity.withVelocity(rpm/60));
   } 
 
   public void setSpeed(double speed){
-    intakeMotor.set(speed);
+    intakeLeadRightMotor.set(speed);
   }
 
   public void setVoltage(double volts){
-    intakeMotor.setVoltage(volts);
+    intakeLeadRightMotor.setVoltage(volts);
   }
 
   @Override
@@ -67,7 +78,7 @@ public class IntakeSubSystem extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Intake rpm", getRPM());
     if (Constants.Current_Limit_Constants.PlotCurrentLimits){
-      SmartDashboard.putNumber("intake current", intakeMotor.getStatorCurrent().getValueAsDouble());
+      SmartDashboard.putNumber("intake current", intakeLeadRightMotor.getStatorCurrent().getValueAsDouble());
     }
   }
 }

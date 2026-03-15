@@ -36,7 +36,7 @@ public class Robot extends TimedRobot {
 
   private double degreesOutOfAuto;
   private boolean alreadySetForStartOfAuto;
-  
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -206,11 +206,18 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    if(HubTracker.timeRemainingInCurrentShift().orElse(Seconds.zero()).in(Seconds) < 10 && HubTracker.timeRemainingInCurrentShift().orElse(Seconds.zero()).in(Seconds) < 9){
+    /* 
+    SmartDashboard.putString("Teleop Time", ""+HubTracker.timeRemainingInCurrentShift().orElse(Seconds.zero()).in(Seconds));
+    if(HubTracker.timeRemainingInCurrentShift().orElse(Seconds.zero()).in(Seconds) < 10.0 && HubTracker.timeRemainingInCurrentShift().orElse(Seconds.zero()).in(Seconds) > 9.0){
       this.m_robotContainer.getController().getHID().setRumble(RumbleType.kBothRumble, 0.5);
-    } else if(HubTracker.timeRemainingInCurrentShift().orElse(Seconds.zero()).in(Seconds) < 5 && HubTracker.timeRemainingInCurrentShift().orElse(Seconds.zero()).in(Seconds) < 4){
+    } else if(HubTracker.timeRemainingInCurrentShift().orElse(Seconds.zero()).in(Seconds) < 9.0 && HubTracker.timeRemainingInCurrentShift().orElse(Seconds.zero()).in(Seconds) > 8.0){
+      this.m_robotContainer.getController().getHID().setRumble(RumbleType.kBothRumble, 0);
+    } else if(HubTracker.timeRemainingInCurrentShift().orElse(Seconds.zero()).in(Seconds) < 5.0 && HubTracker.timeRemainingInCurrentShift().orElse(Seconds.zero()).in(Seconds) > 4.0){
       this.m_robotContainer.getController().getHID().setRumble(RumbleType.kBothRumble, 1);
-    }
+    } else if(HubTracker.timeRemainingInCurrentShift().orElse(Seconds.zero()).in(Seconds) < 4.0 && HubTracker.timeRemainingInCurrentShift().orElse(Seconds.zero()).in(Seconds) > 3.0){
+      this.m_robotContainer.getController().getHID().setRumble(RumbleType.kBothRumble, 0);
+    } 
+      */
   }
 
   @Override
