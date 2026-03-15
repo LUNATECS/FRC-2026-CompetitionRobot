@@ -15,7 +15,6 @@ import edu.wpi.first.math.geometry.Translation2d;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
-
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,15 +27,19 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autos.DriveOverBumpCommand;
 import frc.robot.autos.LeftSweepAuto;
 import frc.robot.autos.LeftTwoCycleAuto;
+import frc.robot.autos.LeftTwoCycleDynamicAuto;
 import frc.robot.autos.LeftTwoCycleGriefAuto;
 import frc.robot.autos.LeftTwoCycleSTEALAuto;
 import frc.robot.autos.LeftTwoCycleSweepAuto;
+import frc.robot.autos.LeftTwoSweepDynamicAuto;
 import frc.robot.autos.PracticeAuto;
 import frc.robot.autos.RightSweepAuto;
 import frc.robot.autos.RightTwoCycleAuto;
+import frc.robot.autos.RightTwoCycleDynamicAuto;
 import frc.robot.autos.RightTwoCycleGriefAuto;
 import frc.robot.autos.RightTwoCycleSTEALAuto;
 import frc.robot.autos.RightTwoCycleSweepAuto;
+import frc.robot.autos.RightTwoSweepDynamicAuto;
 import frc.robot.commands.AimAndShoot.FaceFieldPointCommand;
 import frc.robot.commands.HoodHoldCommand;
 import frc.robot.commands.HopperAgitateCommand;
@@ -141,6 +144,13 @@ public class RobotContainer {
 
         //practice object detection 
         //autoChooser.addOption("Fuel Loop Auto Obj.Detec", DriveToFuelLoopAuto.build(drivetrain, intake));
+        //Dynamic Sweep Autos
+        autoChooser.addOption("Right Two Sweep Dynamic Auto", RightTwoSweepDynamicAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        autoChooser.addOption("Left Two Sweep Dynamic Auto", LeftTwoSweepDynamicAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+
+        //Dynamic two cycle autos
+        autoChooser.addOption("Right Two Cycle Dynamic Auto", RightTwoCycleDynamicAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        autoChooser.addOption("Left Two Cycle Dynamic Auto", LeftTwoCycleDynamicAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
 
         // Put the chooser on SmartDashboard
         SmartDashboard.putData("Autonomous Mode FINAL", autoChooser);

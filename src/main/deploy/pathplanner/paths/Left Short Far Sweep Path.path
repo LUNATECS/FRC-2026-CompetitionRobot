@@ -1,0 +1,132 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.42881807994895,
+        "y": 7.455483212636619
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 7.844139100029356,
+        "y": 7.188535669417608
+      },
+      "isLocked": false,
+      "linkedName": "Left Before Sweep"
+    },
+    {
+      "anchor": {
+        "x": 8.46039658682687,
+        "y": 6.813097270329794
+      },
+      "prevControl": {
+        "x": 8.38192035193725,
+        "y": 7.05046087444287
+      },
+      "nextControl": {
+        "x": 8.53887282171649,
+        "y": 6.5757336662167125
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.46039658682687,
+        "y": 4.322445254552933
+      },
+      "prevControl": {
+        "x": 8.582594296696767,
+        "y": 4.5405455060487805
+      },
+      "nextControl": {
+        "x": 8.338198876956971,
+        "y": 4.104345003057085
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 6.126,
+        "y": 5.5
+      },
+      "prevControl": {
+        "x": 6.315534515288555,
+        "y": 5.336976481714041
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Middle Pose After Bump LEFT"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": -80.41755059425792
+    },
+    {
+      "waypointRelativePos": 2,
+      "rotationDegrees": -74.12076730289552
+    }
+  ],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.8429360694554086,
+      "maxWaypointRelativePos": 2.093831117691532,
+      "constraints": {
+        "maxVelocity": 2.0,
+        "maxAcceleration": 2.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "Intake",
+      "waypointRelativePos": 0.8227182695942541,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Start Intake Command"
+        }
+      }
+    },
+    {
+      "name": "stop intake",
+      "waypointRelativePos": 2.179722939768146,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "StopIntakeCommand"
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 4.0,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 2.0,
+    "rotation": 45.0
+  },
+  "reversed": false,
+  "folder": "Dynamic Left Short Path",
+  "idealStartingState": {
+    "velocity": 2.0,
+    "rotation": -89.80104339518016
+  },
+  "useDefaultConstraints": false
+}

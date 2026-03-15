@@ -4,11 +4,13 @@
   "holonomicMode": true,
   "pathFolders": [
     "Depot Auto",
+    "Dynamic Left Short Path",
     "Dynamic Left Sweep Paths",
     "Dynamic Right Sweep Paths",
     "Left 2 Cycle Auto",
-    "Sweep Paths",
+    "Dynamic Right Short Path",
     "Right 1 Cycle Auto Climb",
+    "Sweep Paths",
     "Tuning"
   ],
   "autoFolders": [],
