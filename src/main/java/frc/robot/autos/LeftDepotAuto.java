@@ -68,7 +68,6 @@ public class LeftDepotAuto {
                     new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position),
                     new InstantCommand(()->{shooter.setSpeed(0);}),
                     new InstantCommand(()->{shooterFeeder.setSpeed(0);}),
-                    new InstantCommand(()->{hopperFeeder.setRPMtopFeeder(0);}),
                     new InstantCommand(()->{hopperFeeder.setRPMHopper(0);})),
                     AutoFactory.followPath("Intake At Depot"),
                     AutoFactory.followPath("Shoot From Depot"),
@@ -86,7 +85,6 @@ public class LeftDepotAuto {
             new ParallelCommandGroup(new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position),
             new InstantCommand(()->{shooter.setSpeed(0);}),
             new InstantCommand(()->{shooterFeeder.setSpeed(0);}),
-            new InstantCommand(()->{hopperFeeder.setRPMtopFeeder(0);}),
             new InstantCommand(()->{hopperFeeder.setRPMHopper(0);}))
 
         );

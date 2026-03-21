@@ -57,13 +57,13 @@ public class ShootCommand extends Command {
                 ) {
                 intake.setRPM(2000);
                 hopperFeeder.setSpeed(1);
-                hopperFeeder.setTopRollerSpeed(1);
+                //hopperFeeder.setTopRollerSpeed(1);
                 shooterFeeder.setRPMBasedOnShooter(shooter.getRPM());    
               } else {
                 hopperFeeder.setSpeed(0);
                 shooterFeeder.setSpeed(0);
                 intake.setRPM(0);
-                hopperFeeder.setTopRollerSpeed(0);
+                //hopperFeeder.setTopRollerSpeed(0);
             }
   }
 
@@ -73,7 +73,7 @@ public class ShootCommand extends Command {
     hopperFeeder.setSpeed(0);
                 shooterFeeder.setSpeed(0);
                 intake.setRPM(0);
-                hopperFeeder.setTopRollerSpeed(0);
+                //hopperFeeder.setTopRollerSpeed(0);
   }
 
   // Returns true when the command should end.

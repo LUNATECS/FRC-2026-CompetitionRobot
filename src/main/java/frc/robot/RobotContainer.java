@@ -77,6 +77,7 @@ public class RobotContainer {
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandPS5Controller driver = new CommandPS5Controller(Constants.DriverConstants.DRIVER_CONTROLLER_PORT);
   private final CommandPS5Controller operator = new CommandPS5Controller(1);
+  private final CommandPS5Controller tester = new CommandPS5Controller(2);
   //private final CommandPS5Controller tester = new CommandPS5Controller(2);
 
   private final double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -243,8 +244,6 @@ public class RobotContainer {
         driver.L2().onTrue(new InstantCommand(()->{hopperFeeder.setSpeed(-0.5);}))
           .onFalse(new InstantCommand(()->{hopperFeeder.setSpeed(0);}));
 
-        driver.L2().onTrue(new InstantCommand(()->{hopperFeeder.setTopRollerSpeed(-0.5);}))
-          .onFalse(new InstantCommand(()->{hopperFeeder.setTopRollerSpeed(0);}));
 
         driver.L2().onTrue(new InstantCommand(()->{shooterFeeder.setSpeed(-0.5);}))
           .onFalse(new InstantCommand(()->{shooterFeeder.setSpeed(0);}));
@@ -364,25 +363,21 @@ public class RobotContainer {
     hopperFeeder.setSpeed(1);
     //intake.setSpeed(1);
     shooterFeeder.setSpeed(0.6);
-    hopperFeeder.setTopRollerSpeed(1);
   }, hopperFeeder, shooterFeeder, intake))
     .onFalse(new InstantCommand(()->{
       hopperFeeder.setSpeed(0);
       //intake.setSpeed(0);
       shooterFeeder.setSpeed(0);
-          hopperFeeder.setTopRollerSpeed(0);
 
   }, hopperFeeder, shooterFeeder, intake));
 
   operator.circle().whileTrue(new InstantCommand(() -> {
     hopperFeeder.setSpeed(-1);
     intake.setSpeed(-1);
-    hopperFeeder.setTopRollerSpeed(-1);
   }, hopperFeeder, shooterFeeder, intake))
     .onFalse(new InstantCommand(()->{
       hopperFeeder.setSpeed(0);
       intake.setSpeed(0);
-      hopperFeeder.setTopRollerSpeed(0);
   }, hopperFeeder, shooterFeeder, intake));
 
   operator.touchpad().onTrue(
@@ -400,18 +395,16 @@ public class RobotContainer {
     //  .onTrue(new ExampleCommand(m_exampleSubsystem));
 
     //TESTING SUBSYSTEMS WITH TESTER CONTROLLER
-    /* 
+     
     tester.square().onTrue(new InstantCommand(() -> {
     hopperFeeder.setSpeed(1);
     //intake.setSpeed(1);
     shooterFeeder.setSpeed(0.6);
-    hopperFeeder.setTopRollerSpeed(1);
   }))
     .onFalse(new InstantCommand(()->{
       hopperFeeder.setSpeed(0);
       //intake.setSpeed(0);
       shooterFeeder.setSpeed(0);
-          hopperFeeder.setTopRollerSpeed(0);
 
   }));
 
@@ -451,10 +444,9 @@ public class RobotContainer {
 
   //shooter commands testing
   tester.cross().onTrue(new ShooterVelocityCommand(shooter, ()->SmartDashboard.getNumber("shooterRPMInput", 0)));
-  tester.circle().onTrue(new ShooterBangBangControlCommand(shooter, 1000));
 
   tester.touchpad().onTrue(new HoodHoldCommand(hood,()->SmartDashboard.getNumber("hoodInputAngle", 0)));
-  */
+  
 
   }
   /**

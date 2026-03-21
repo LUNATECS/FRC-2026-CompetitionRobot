@@ -179,7 +179,6 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().schedule(new HopperPositionCommand(m_robotContainer.getHopper(), Constants.Hopper_SubSystem_Constants.Hopper_Out_Position));
     CommandScheduler.getInstance().schedule(new InstantCommand(()->{m_robotContainer.getHopperFeeder().setSpeed(0);}));
     CommandScheduler.getInstance().schedule(new InstantCommand(()->{m_robotContainer.getShooterFeeder().setSpeed(0);}));
-    CommandScheduler.getInstance().schedule(new InstantCommand(()->{m_robotContainer.getHopperFeeder().setTopRollerSpeed(0);}));
   }
 
   @Override

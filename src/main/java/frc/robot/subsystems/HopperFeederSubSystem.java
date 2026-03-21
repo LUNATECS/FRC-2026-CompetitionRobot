@@ -8,9 +8,11 @@ import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.Slot1Configs;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -20,37 +22,28 @@ import frc.robot.Constants;
 public class HopperFeederSubSystem extends SubsystemBase {
   /** Creates a new HopperFeederSubSystem. */
 
-  private TalonFX hopperFeederMotor;
-  private TalonFX topFeederMotor;
+  private TalonFX feederMotor1;
+  private TalonFX feederMotor2;
   private final VelocityVoltage hopperMotorVelocity = new VelocityVoltage(0);
-  private final VelocityVoltage topFeederMotorVelocity = new VelocityVoltage(0);
-  private double hopperDiameterWheels;
-  private double topDiameterWheels;
+
 
 
   public HopperFeederSubSystem() {
-
-    hopperFeederMotor = new TalonFX(Constants.Hopper_Feeder_SubSystem_Constants.CAN_ID_FEEDER_BELTS, Constants.CANBUS_Constants.CANIVORE);
-    topFeederMotor = new TalonFX(Constants.Hopper_Feeder_SubSystem_Constants.CAN_ID_TOP_FEEDER_MOTOR, Constants.CANBUS_Constants.CANIVORE);
+    feederMotor1 = new TalonFX(Constants.Hopper_Feeder_SubSystem_Constants.CAN_ID_FEEDER1, Constants.CANBUS_Constants.CANIVORE);
+    feederMotor2 = new TalonFX(Constants.Hopper_Feeder_SubSystem_Constants.CAN_ID_FEEDER2, Constants.CANBUS_Constants.CANIVORE);
 
     var hopperMotorOutputConfigs = new MotorOutputConfigs();
     hopperMotorOutputConfigs.NeutralMode = NeutralModeValue.Brake;
     hopperMotorOutputConfigs.Inverted = InvertedValue.CounterClockwise_Positive;
 
-    hopperFeederMotor.getConfigurator().apply(hopperMotorOutputConfigs);
-
-    var topFeederMotorOutputConfigs = new MotorOutputConfigs();
-    topFeederMotorOutputConfigs.NeutralMode = NeutralModeValue.Brake;
-    topFeederMotorOutputConfigs.Inverted = InvertedValue.Clockwise_Positive;
-
-    topFeederMotor.getConfigurator().apply(topFeederMotorOutputConfigs);
+    feederMotor1.getConfigurator().apply(hopperMotorOutputConfigs);
 
     var currentLimits = new CurrentLimitsConfigs();
     currentLimits.SupplyCurrentLimit = Constants.Current_Limit_Constants.CurrentLimit;   //increase this current limit if necessary (increased from 40)
     currentLimits.SupplyCurrentLimitEnable = true;
 
-    topFeederMotor.getConfigurator().apply(currentLimits);
-    hopperFeederMotor.getConfigurator().apply(currentLimits);
+    feederMotor1.getConfigurator().apply(currentLimits);
+    feederMotor2.getConfigurator().apply(currentLimits);
 
     var slot0Configs = new Slot0Configs();
     //Slot configs untested but are good base values
@@ -58,52 +51,29 @@ public class HopperFeederSubSystem extends SubsystemBase {
     slot0Configs.kP = 0.006;
     slot0Configs.kI = 0;
     slot0Configs.kD = 0.015;
-    hopperFeederMotor.getConfigurator().apply(slot0Configs);
+    feederMotor1.getConfigurator().apply(slot0Configs);
     hopperMotorVelocity.Slot = 0;
 
+    feederMotor2.setControl(new Follower(Constants.Hopper_Feeder_SubSystem_Constants.CAN_ID_FEEDER1, MotorAlignmentValue.Opposed));
 
 
-    var slot1Configs = new Slot1Configs();
-   slot1Configs.kV = 0.08;
-    slot1Configs.kP = 0.006;
-    slot1Configs.kI = 0;
-    slot1Configs.kD = 0.015;
-    topFeederMotor.getConfigurator().apply(slot1Configs);
-    topFeederMotorVelocity.Slot = 1;
 
   }
 
   public void setRPMHopper(double rpm){
-    hopperFeederMotor.setControl(hopperMotorVelocity.withVelocity(rpm));
+    feederMotor1.setControl(hopperMotorVelocity.withVelocity(rpm));
 }
-  public void setRPMtopFeeder(double rpm){
-    topFeederMotor.setControl(topFeederMotorVelocity.withVelocity(rpm));
-  }
    public void setSpeed(double speed){
-    hopperFeederMotor.set(speed);
+    feederMotor1.set(speed);
   }
 
-  public void setTopRollerSpeed(double speed){
-    topFeederMotor.set(speed);
+  public double getFeederCurrent(){
+    return feederMotor1.getStatorCurrent().getValueAsDouble();
   }
   //get current for motor stalling
 
-  public double getTopFeederCurrent() {
-    return topFeederMotor.getStatorCurrent().getValueAsDouble();
-  }
-
-  public double getHopperFeederCurrent() {
-    return hopperFeederMotor.getStatorCurrent().getValueAsDouble();
-  }
-
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Hopper Feeder RPM", hopperFeederMotor.getVelocity().getValueAsDouble()*60);
-    SmartDashboard.putNumber("Top Feeder RPM", topFeederMotor.getVelocity().getValueAsDouble()*60);
-    if (Constants.Current_Limit_Constants.PlotCurrentLimits){
-    SmartDashboard.putNumber("Top Feeder AMPS", getTopFeederCurrent());
-    SmartDashboard.putNumber("Hopper Feeder Curent", getHopperFeederCurrent());
-    }
     // This method will be called once per scheduler run
   }
 }

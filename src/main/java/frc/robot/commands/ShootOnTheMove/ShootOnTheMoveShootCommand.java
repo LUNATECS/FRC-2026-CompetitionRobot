@@ -59,7 +59,7 @@ public class ShootOnTheMoveShootCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double hopperCurrent = hopperFeeder.getTopFeederCurrent();
+    double hopperCurrent = hopperFeeder.getFeederCurrent();
     double shooterFeederCurrent = shooterFeeder.getCurrent();
 
     boolean jamDetected = hopperCurrent > currentThreshold ||
@@ -77,7 +77,7 @@ public class ShootOnTheMoveShootCommand extends Command {
                   // If reversing just keep reversing until timer ends
                   if (isReversing) {
                       hopperFeeder.setSpeed(-1);
-                      hopperFeeder.setTopRollerSpeed(-1);
+                      //hopperFeeder.setTopRollerSpeed(-1);
                       shooterFeeder.setSpeed(-1);
                       intake.setSpeed(0);
 
@@ -88,14 +88,14 @@ public class ShootOnTheMoveShootCommand extends Command {
                   } else {
                       // Always feed normally when not reversing
                       hopperFeeder.setSpeed(1);
-                      hopperFeeder.setTopRollerSpeed(1);
+                      //hopperFeeder.setTopRollerSpeed(1);
                       //setting everything with rpm's now
                       intake.setRPM(2000);
                       shooterFeeder.setRPMBasedOnShooter(shooter.getRPM());
                   }
               } else {
                 hopperFeeder.setSpeed(0);
-                hopperFeeder.setTopRollerSpeed(0);
+                //hopperFeeder.setTopRollerSpeed(0);
                 shooterFeeder.setSpeed(0);
                 intake.setSpeed(0);
                 isReversing = false;
@@ -107,7 +107,7 @@ public class ShootOnTheMoveShootCommand extends Command {
   @Override
   public void end(boolean interrupted) {
                 hopperFeeder.setSpeed(0);
-                hopperFeeder.setTopRollerSpeed(0);
+                //hopperFeeder.setTopRollerSpeed(0);
                 shooterFeeder.setSpeed(0);
                 intake.setSpeed(0);
   }

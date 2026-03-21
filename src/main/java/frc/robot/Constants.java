@@ -31,8 +31,8 @@ public final class Constants {
   }
 
   public static class Hopper_Feeder_SubSystem_Constants{
-    public static final int CAN_ID_FEEDER_BELTS = 12;
-     public static final int CAN_ID_TOP_FEEDER_MOTOR = 9;
+    public static final int CAN_ID_FEEDER1 = 12;
+     public static final int CAN_ID_FEEDER2 = 9;
   }
 
   public static class Shooter_Feeder_SubSystem_Constants{
