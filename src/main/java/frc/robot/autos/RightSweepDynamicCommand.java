@@ -16,8 +16,15 @@ public class RightSweepDynamicCommand {
 
     public static Command build(CommandSwerveDrivetrain drivetrain) 
         {
-        return Commands.defer(()->{        
-            String lane = drivetrain.getBallLaneFull();
+        GetBallLaneCommand detect = new GetBallLaneCommand(drivetrain);
+
+    return detect.andThen(Commands.defer(() -> {
+
+        String lane = detect.getResult();
+
+        if (lane == null) {
+            lane = "unknown";
+        }
 
             switch (lane) {
                 case "left":
@@ -32,6 +39,6 @@ public class RightSweepDynamicCommand {
                 default:
                     return AutoFactory.followPath("Right Far Sweep Path");
             }
-        }, Set.of(drivetrain));
+        }, Set.of(drivetrain)));
     }
 }

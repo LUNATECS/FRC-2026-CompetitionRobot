@@ -11,7 +11,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import static edu.wpi.first.units.Units.Seconds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -84,7 +83,13 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Alliance Flip util Going rotation", AllianceFliputil.getHeadingBasedOnAllianceForBumpRIGHT().getDegrees());
 
 
-    SmartDashboard.putString("best sweep lane", BallLaneDetector.getBestLane("limelight-hopper"));
+    //SmartDashboard.putString("best sweep lane", BallLaneDetector.getBestLane("limelight-hopper"));
+    //m_robotContainer.getSwerveDrivetrain().setHopperLimelightPipeline(1); // force neural
+    //ONLY UNCOMMENT THAT LINE WHEN WE ARE TESTING THE LIMELIGHT PIPELINE
+    String lane = BallLaneDetector.getBestLane("limelight-hopper");
+
+    // log final decision
+    SmartDashboard.putString("Best Sweep Lane", lane);
 
 
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled

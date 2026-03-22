@@ -45,7 +45,6 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 import frc.robot.subsystems.vision.LimelightHelpers;
-import frc.robot.util.BallLaneDetector;
 import frc.robot.util.TargetSupplier;
 /**
 * Class that extends the Phoenix 6 SwerveDrivetrain class and implements
@@ -715,13 +714,26 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      public Command stopPathFollowState() {
        return new InstantCommand(() -> otfFollowing = false);
      }
-
+     /* 
      public String getBallLaneFull(){
-      setHopperLimelightPipeline(1);
-      String chosenPipeline = BallLaneDetector.getBestLane("limelight-hopper");
-      setHopperLimelightPipeline(0);
-      return chosenPipeline;
-     }
+        setHopperLimelightPipeline(1);
+
+        double start = Timer.getFPGATimestamp();
+        while (Timer.getFPGATimestamp() - start < 0.15) {
+            // wait ~100ms
+        }
+
+        String lane = BallLaneDetector.getBestLane("limelight-hopper");
+
+        if (lane == null || lane.isEmpty()) {
+            lane = "middle"; // fallback
+        }
+        SmartDashboard.putString("AUTO DETECTED LANE", lane);
+
+        setHopperLimelightPipeline(0);
+        return lane;
+    }
+        */
    //   public boolean getTV() {
    //     return m_limelight.getEntry("tv").getDouble(0.0) == 1.0;
    //   }
