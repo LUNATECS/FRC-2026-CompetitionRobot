@@ -1,5 +1,6 @@
 package frc.robot.util;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.vision.LimelightHelpers;
 import frc.robot.subsystems.vision.LimelightHelpers.RawDetection;
 
@@ -27,6 +28,9 @@ public class BallLaneDetector {
                 middleCount++;
             }
         }
+        SmartDashboard.putNumber("LL Left Count", leftCount);
+        SmartDashboard.putNumber("LL Middle Count", middleCount);
+        SmartDashboard.putNumber("LL Right Count", rightCount);
 
         if (leftCount >= middleCount && leftCount >= rightCount) {
             return "left";

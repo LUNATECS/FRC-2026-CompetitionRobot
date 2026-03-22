@@ -14,24 +14,33 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 /** Add your docs here. */
 public class LeftShortSweepDynamicCommand {
 
-    public static Command build(CommandSwerveDrivetrain drivetrain) 
-        {
-        return Commands.defer(()->{        
-            String lane = drivetrain.getBallLaneFull();
+    public static Command build(CommandSwerveDrivetrain drivetrain) {
 
-            switch (lane) {
-                case "left":
-                    return AutoFactory.followPath("Left Short Far Sweep Path");
+    GetBallLaneCommand detect = new GetBallLaneCommand(drivetrain);
 
-                case "middle":
-                    return AutoFactory.followPath("Left Short Middle Sweep Path");
+    return detect.andThen(Commands.defer(() -> {
 
-                case "right":
-                    return AutoFactory.followPath("Left Short Close Sweep Path");
+        String lane = detect.getResult();
 
-                default:
-                    return AutoFactory.followPath("Left Short Far Sweep Path");
-            }
-        }, Set.of(drivetrain));
-    }
+        if (lane == null) {
+            lane = "unknown";
+        }
+
+
+        switch (lane) {
+            case "left":
+                return AutoFactory.followPath("Left Short Far Sweep Path");
+
+            case "middle":
+                return AutoFactory.followPath("Left Short Middle Sweep Path");
+
+            case "right":
+                return AutoFactory.followPath("Left Short Close Sweep Path");
+
+            default:
+                return AutoFactory.followPath("Left Short Far Sweep Path");
+        }
+
+    }, Set.of(drivetrain)));
+}
 }

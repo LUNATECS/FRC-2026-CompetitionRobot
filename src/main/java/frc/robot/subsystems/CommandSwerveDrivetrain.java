@@ -37,6 +37,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -717,11 +718,23 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      }
 
      public String getBallLaneFull(){
-      setHopperLimelightPipeline(1);
-      String chosenPipeline = BallLaneDetector.getBestLane("limelight-hopper");
-      setHopperLimelightPipeline(0);
-      return chosenPipeline;
-     }
+        setHopperLimelightPipeline(1);
+
+        double start = Timer.getFPGATimestamp();
+        while (Timer.getFPGATimestamp() - start < 0.15) {
+            // wait ~100ms
+        }
+
+        String lane = BallLaneDetector.getBestLane("limelight-hopper");
+
+        if (lane == null || lane.isEmpty()) {
+            lane = "middle"; // fallback
+        }
+        SmartDashboard.putString("AUTO DETECTED LANE", lane);
+
+        setHopperLimelightPipeline(0);
+        return lane;
+    }
    //   public boolean getTV() {
    //     return m_limelight.getEntry("tv").getDouble(0.0) == 1.0;
    //   }
