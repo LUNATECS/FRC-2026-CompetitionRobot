@@ -160,7 +160,7 @@ public class Robot extends TimedRobot {
     }
         */
 
-    CommandScheduler.getInstance().schedule(new HoodHoldCommand(new HoodSubSystem(), ()->1.5));
+    //CommandScheduler.getInstance().schedule(new HoodHoldCommand(new HoodSubSystem(), ()->1.5));
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)

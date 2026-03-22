@@ -46,7 +46,7 @@ public class ShooterSubSystem extends SubsystemBase {
 
     var motorOutputShooterConfigs = new MotorOutputConfigs();
     motorOutputShooterConfigs.NeutralMode = NeutralModeValue.Coast;
-    motorOutputShooterConfigs.Inverted = InvertedValue.CounterClockwise_Positive;
+    motorOutputShooterConfigs.Inverted = InvertedValue.Clockwise_Positive;
 
     var currentLimits = new CurrentLimitsConfigs();
     currentLimits.SupplyCurrentLimit = 30;   //increase this current limit if necessary (increased from 40)
@@ -57,8 +57,8 @@ public class ShooterSubSystem extends SubsystemBase {
 
     var slot0Configs = new Slot0Configs();
     //Slot configs untested but are good base values
-    slot0Configs.kV = 0.095;
-    slot0Configs.kP = 0.29;
+    slot0Configs.kV = 0.090;
+    slot0Configs.kP = 0.27;
     slot0Configs.kI = 0;
     slot0Configs.kD = 0;
     //FOR ADJUSTING, FIRST SET PID VALUES TO 0, AND SEE IF kV is reaching setpoint consistenly across all ranges, then

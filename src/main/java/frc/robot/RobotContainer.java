@@ -399,14 +399,23 @@ public class RobotContainer {
     tester.square().onTrue(new InstantCommand(() -> {
     hopperFeeder.setSpeed(1);
     //intake.setSpeed(1);
-    shooterFeeder.setSpeed(0.6);
-  }))
-    .onFalse(new InstantCommand(()->{
-      hopperFeeder.setSpeed(0);
-      //intake.setSpeed(0);
-      shooterFeeder.setSpeed(0);
-
+    shooterFeeder.setRPMBasedOnShooter(shooter.getRPM());
   }));
+
+    tester.circle().onTrue(
+      new InstantCommand(()->{
+        hopperFeeder.setSpeed(0);
+        shooterFeeder.setRPMBasedOnShooter(0);
+      })
+    );
+
+
+    //.onFalse(new InstantCommand(()->{
+      //hopperFeeder.setSpeed(0);
+      //intake.setSpeed(0);
+      //shooterFeeder.setSpeed(0);
+
+  //}));
 
   tester.triangle().onTrue(new InstantCommand(() -> {
     hopperFeeder.setSpeed(-1.5);

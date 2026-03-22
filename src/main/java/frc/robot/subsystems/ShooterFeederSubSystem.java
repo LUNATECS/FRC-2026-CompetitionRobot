@@ -23,7 +23,7 @@ public class ShooterFeederSubSystem extends SubsystemBase {
   /** Creates a new ShooterFeederSubSystem. */
     private final VelocityVoltage motorVelocity = new VelocityVoltage(0);
 
-    private double feederMotortoShooterMotorRatio = 2.96296;
+    private double feederMotortoShooterMotorRatio = 3;
 
   public ShooterFeederSubSystem() {
     shooterFeeder = new TalonFX(Constants.Shooter_Feeder_SubSystem_Constants.CAN_ID_SHOOTER_FEEDER, Constants.CANBUS_Constants.CANIVORE);
@@ -42,7 +42,7 @@ public class ShooterFeederSubSystem extends SubsystemBase {
     var slot0Configs = new Slot0Configs();
     //Slot configs untested but are good base values
     slot0Configs.kV = 0.08;
-    slot0Configs.kP = 0.29;
+    slot0Configs.kP = 0.9;
     slot0Configs.kI = 0;
     slot0Configs.kD = 0;
     shooterFeeder.getConfigurator().apply(slot0Configs);
