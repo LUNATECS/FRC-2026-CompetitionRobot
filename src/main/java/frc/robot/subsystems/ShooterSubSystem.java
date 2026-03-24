@@ -12,6 +12,7 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.VoltageConfigs;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
@@ -32,7 +33,7 @@ public class ShooterSubSystem extends SubsystemBase {
 
   private final double gearRatio = 0.75;
 
-  private final VelocityVoltage motorVelocity = new VelocityVoltage(0);
+  private final VelocityVoltage motorVelocity = new VelocityVoltage(0).withEnableFOC(true);
 
   
   public ShooterSubSystem() {
@@ -41,6 +42,8 @@ public class ShooterSubSystem extends SubsystemBase {
     shooterMotor3 = new TalonFX(Constants.Shooter_SubSystem_Constants.CAN_ID_SHOOTER3 , Constants.CANBUS_Constants.CANIVORE);
     shooterMotor4 = new TalonFX(Constants.Shooter_SubSystem_Constants.CAN_ID_SHOOTER4, Constants.CANBUS_Constants.CANIVORE);
 
+    
+
     var feedbackConfigs = new FeedbackConfigs();
     feedbackConfigs.SensorToMechanismRatio = gearRatio;
 
@@ -48,10 +51,13 @@ public class ShooterSubSystem extends SubsystemBase {
     motorOutputShooterConfigs.NeutralMode = NeutralModeValue.Coast;
     motorOutputShooterConfigs.Inverted = InvertedValue.Clockwise_Positive;
 
+    var coastOutputShooterConfigs = new MotorOutputConfigs();
+    coastOutputShooterConfigs.NeutralMode = NeutralModeValue.Coast;
+
     var currentLimits = new CurrentLimitsConfigs();
-    currentLimits.SupplyCurrentLimit = 30;   //increase this current limit if necessary (increased from 40)
+    currentLimits.SupplyCurrentLimit = 50;   //increase this current limit if necessary (increased from 40)
     currentLimits.SupplyCurrentLimitEnable = true;
-    currentLimits.StatorCurrentLimit = 30;
+    currentLimits.StatorCurrentLimit = 50;
     currentLimits.StatorCurrentLimitEnable = true;
 
 
@@ -73,11 +79,18 @@ public class ShooterSubSystem extends SubsystemBase {
 
     shooterMotor1.getConfigurator().apply(slot0Configs);
     shooterMotor1.getConfigurator().apply(feedbackConfigs);
+    shooterMotor2.getConfigurator().apply(feedbackConfigs);
+    shooterMotor3.getConfigurator().apply(feedbackConfigs);
+    shooterMotor4.getConfigurator().apply(feedbackConfigs);
+
     shooterMotor1.getConfigurator().apply(motorOutputShooterConfigs);
     shooterMotor1.getConfigurator().apply(currentLimits);
     shooterMotor2.getConfigurator().apply(currentLimits);
+    shooterMotor2.getConfigurator().apply(coastOutputShooterConfigs);
     shooterMotor3.getConfigurator().apply(currentLimits);
+    shooterMotor3.getConfigurator().apply(coastOutputShooterConfigs);
     shooterMotor4.getConfigurator().apply(currentLimits);
+    shooterMotor4.getConfigurator().apply(coastOutputShooterConfigs);
     shooterMotor1.getConfigurator().apply(ramp);
     shooterMotor1.getConfigurator().apply(voltageConfigs);
 
@@ -111,7 +124,7 @@ public class ShooterSubSystem extends SubsystemBase {
 
 
   public boolean atSpeed() {
-  return Math.abs(getRPM() - shooterTargetRPM) < 150
+  return Math.abs(getRPM() - shooterTargetRPM) < 300
        && shooterTargetRPM > 0;
   // TO ADD FOR LATER: Check Recovery time/Consistentcy
   }

@@ -238,7 +238,8 @@ public class RobotContainer {
             drive,
             () -> driver.R2().getAsBoolean() 
             )
-        ).onFalse(new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position));
+        );//
+        //.onFalse(new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position));
         //after command is over, then reset hoppery back to position)
 
         driver.L2().onTrue(new InstantCommand(()->{hopperFeeder.setSpeed(-0.5);}))

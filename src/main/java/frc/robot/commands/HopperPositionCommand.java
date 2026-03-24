@@ -18,8 +18,8 @@ public class HopperPositionCommand extends Command {
   public HopperPositionCommand(HopperSubSystem hopper, double setpoint) {
     this.setpoint = setpoint;
     this.hopper = hopper;
-    pid = new PIDController(0.035, 0, 0);
-    pid.setTolerance(1);
+    pid = new PIDController(0.04, 0, 0);
+    pid.setTolerance(0.5);
     addRequirements(hopper);
     // Use addRequirements() here to declare subsystem dependencies.
   }

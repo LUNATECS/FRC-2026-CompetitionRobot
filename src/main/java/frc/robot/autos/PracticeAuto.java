@@ -17,8 +17,7 @@ public class PracticeAuto {
         return Commands.sequence(
             Commands.runOnce(() -> {
             try {
-                var path1 = PathPlannerPath.fromPathFile("StraightlineTune");
-                drivetrain.resetPose(path1.getStartingHolonomicPose().get());
+                drivetrain.resetPose(drivetrain.getPose());
             } catch (Exception e) {
                 e.printStackTrace();
             }

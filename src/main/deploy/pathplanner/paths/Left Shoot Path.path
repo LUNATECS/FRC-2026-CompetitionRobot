@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 2.9846108430785625,
-        "y": 5.36903756437506
+        "x": 3.1486239620403325,
+        "y": 5.5
       },
       "prevControl": {
-        "x": 3.231430749790091,
-        "y": 5.522382826451284
+        "x": 3.395443868751861,
+        "y": 5.653345262076224
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 139.01174712475103
+    "rotation": 130.72117145268226
   },
   "reversed": false,
   "folder": "Left 2 Cycle Auto",

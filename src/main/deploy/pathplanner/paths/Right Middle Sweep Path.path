@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.460362954598886,
-        "y": 0.7435943332248269
+        "x": 7.592170818505339,
+        "y": 0.7480664294187431
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.376085200557003,
-        "y": 1.3933672157570172
+        "x": 7.507893064463456,
+        "y": 1.3978393119509334
       },
       "isLocked": false,
       "linkedName": "Right Before Sweep"
@@ -76,8 +76,8 @@
       "minWaypointRelativePos": 1.1804338209699876,
       "maxWaypointRelativePos": 2.1530438823084688,
       "constraints": {
-        "maxVelocity": 2.5,
-        "maxAcceleration": 2.5,
+        "maxVelocity": 1.5,
+        "maxAcceleration": 1.5,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,

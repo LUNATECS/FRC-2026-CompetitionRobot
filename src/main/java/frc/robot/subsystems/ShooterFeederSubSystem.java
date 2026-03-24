@@ -21,9 +21,9 @@ public class ShooterFeederSubSystem extends SubsystemBase {
   private TalonFX shooterFeeder;
   
   /** Creates a new ShooterFeederSubSystem. */
-    private final VelocityVoltage motorVelocity = new VelocityVoltage(0);
+    private final VelocityVoltage motorVelocity = new VelocityVoltage(0).withEnableFOC(true);
 
-    private double feederMotortoShooterMotorRatio = 3;
+    private double feederMotortoShooterMotorRatio = 2.496;
 
   public ShooterFeederSubSystem() {
     shooterFeeder = new TalonFX(Constants.Shooter_Feeder_SubSystem_Constants.CAN_ID_SHOOTER_FEEDER, Constants.CANBUS_Constants.CANIVORE);
@@ -41,10 +41,10 @@ public class ShooterFeederSubSystem extends SubsystemBase {
 
     var slot0Configs = new Slot0Configs();
     //Slot configs untested but are good base values
-    slot0Configs.kV = 0.08;
-    slot0Configs.kP = 0.9;
-    slot0Configs.kI = 0;
-    slot0Configs.kD = 0;
+    slot0Configs.kV = 0.095;
+    slot0Configs.kP = 13.0;
+    slot0Configs.kI = 0.3;
+    slot0Configs.kD = 0.1;
     shooterFeeder.getConfigurator().apply(slot0Configs);
     motorVelocity.Slot = 0;
   }
@@ -65,7 +65,7 @@ public double getCurrent() {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Shooter Feeder RPM", shooterFeeder.getVelocity().getValueAsDouble()/60);
+    SmartDashboard.putNumber("Shooter Feeder RPM", shooterFeeder.getVelocity().getValueAsDouble()*60);
     if (Constants.Current_Limit_Constants.PlotCurrentLimits){
     SmartDashboard.putNumber("Shooter Feeder AMPS", getCurrent());
     }

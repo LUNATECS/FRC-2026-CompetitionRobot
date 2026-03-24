@@ -27,7 +27,7 @@ public final class Constants {
 
   public static class Hopper_SubSystem_Constants{
     public static final int CAN_ID_HOPPER = 11;
-    public static final double Hopper_Out_Position = 70.0;
+    public static final double Hopper_Out_Position = 71.0;
   }
 
   public static class Hopper_Feeder_SubSystem_Constants{
@@ -61,7 +61,7 @@ public final class Constants {
   }
 
   public static class Current_Limit_Constants{
-    public static final double CurrentLimit = 30; //this is in amps btw
+    public static final double CurrentLimit = 40; //this is in amps btw
     public static final boolean PlotCurrentLimits = false;
   }
 }
