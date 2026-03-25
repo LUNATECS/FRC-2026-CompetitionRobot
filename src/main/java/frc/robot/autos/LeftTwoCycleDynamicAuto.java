@@ -62,12 +62,11 @@ public class LeftTwoCycleDynamicAuto {
 
             new ParallelDeadlineGroup(new DriveOverBumpCommand(drivetrain, heading, driveRequest, directionGoing), 
             new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position)),
-            AutoFactory.followPath("Left Get To Sweep Path"),
-            AutoFactory.followPath("Left Short Middle Sweep Path"),
+            AutoFactory.followPath("FIRST Left Sweep Path"),
             new DriveOverBumpCommand(drivetrain, heading, driveRequest, directionComing),
             AutoFactory.followPath("Left Shoot Path"),
             //wait for 5 seconds when we should
-            new ParallelDeadlineGroup(new WaitCommand(2.75)
+            new ParallelDeadlineGroup(new WaitCommand(3.25)
                 , new FullShootAUTOSequence(drivetrain, shooter, hood, hopperFeeder, shooterFeeder, hopper, 
                     () -> TargetSupplier.getTargetBasedOnAlliance(drivetrain), driveRequest, 
                     ()->true, 

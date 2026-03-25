@@ -9,11 +9,12 @@
     "Dynamic Right Short Path",
     "Dynamic Right Sweep Paths",
     "Left 2 Cycle Auto",
-    "V2 Right Auto",
+    "First Sweep Paths",
     "Right 1 Cycle Auto Climb",
     "Sweep Paths",
     "Tuning",
-    "V2 Left Auto"
+    "V2 Left Auto",
+    "V2 Right Auto"
   ],
   "autoFolders": [],
   "defaultMaxVel": 3.0,

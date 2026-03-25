@@ -62,8 +62,7 @@ public class RightTwoCycleDynamicAuto {
 
              new ParallelDeadlineGroup(new DriveOverBumpCommand(drivetrain, heading, driveRequest, directionGoing), 
             new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position)),
-            AutoFactory.followPath("Right Get To Sweep Path"),
-            AutoFactory.followPath("Right Short Middle Sweep Path"),
+            AutoFactory.followPath("FIRST Right Sweep Path"),
             new DriveOverBumpCommand(drivetrain, heading, driveRequest, directionComing),
             AutoFactory.followPath("Right Shoot Path"),
             //wait for 5 seconds when we should
@@ -89,7 +88,7 @@ public class RightTwoCycleDynamicAuto {
             new DriveOverBumpCommand(drivetrain, heading, driveRequest, directionComing),
             AutoFactory.followPath("Right Shoot Path"),
             //Same wait for 5 seconds to shoot
-            new ParallelDeadlineGroup(new WaitCommand(4)
+            new ParallelDeadlineGroup(new WaitCommand(3.5)
                 , new FullShootAUTOSequence(drivetrain, shooter, hood, hopperFeeder, shooterFeeder, hopper, 
                     () -> TargetSupplier.getTargetBasedOnAlliance(drivetrain), driveRequest, 
                     ()->true, 

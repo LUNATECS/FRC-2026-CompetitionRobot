@@ -29,8 +29,6 @@ import frc.robot.autos.LeftLimeAuto;
 import frc.robot.autos.LeftSweepAuto;
 import frc.robot.autos.LeftTwoCycleAuto;
 import frc.robot.autos.LeftTwoCycleDynamicAuto;
-import frc.robot.autos.LeftTwoCycleGriefAuto;
-import frc.robot.autos.LeftTwoCycleSTEALAuto;
 import frc.robot.autos.LeftTwoCycleSweepAuto;
 import frc.robot.autos.LeftTwoSweepDynamicAuto;
 import frc.robot.autos.PracticeAuto;
@@ -38,8 +36,6 @@ import frc.robot.autos.RightLimeAuto;
 import frc.robot.autos.RightSweepAuto;
 import frc.robot.autos.RightTwoCycleAuto;
 import frc.robot.autos.RightTwoCycleDynamicAuto;
-import frc.robot.autos.RightTwoCycleGriefAuto;
-import frc.robot.autos.RightTwoCycleSTEALAuto;
 import frc.robot.autos.RightTwoCycleSweepAuto;
 import frc.robot.autos.RightTwoSweepDynamicAuto;
 import frc.robot.commands.AimAndShoot.FaceFieldPointCommand;
@@ -136,13 +132,13 @@ public class RobotContainer {
         //autoChooser.addOption("Driver over bump test", DrivingOverBumpTestAuto.build(drivetrain, drive));
 
         //steal autos
-        autoChooser.addOption("Right Two Cycle STEAL Auto", RightTwoCycleSTEALAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
-        autoChooser.addOption("Left Two Cycle STEAL Auto", LeftTwoCycleSTEALAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        //autoChooser.addOption("Right Two Cycle STEAL Auto", RightTwoCycleSTEALAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        //autoChooser.addOption("Left Two Cycle STEAL Auto", LeftTwoCycleSTEALAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
 
 
         //grief autos
-        autoChooser.addOption("Left Two Cycle Grief Auto", LeftTwoCycleGriefAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
-        autoChooser.addOption("Right Two Cycle Grief Auto", RightTwoCycleGriefAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        //autoChooser.addOption("Left Two Cycle Grief Auto", LeftTwoCycleGriefAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        //autoChooser.addOption("Right Two Cycle Grief Auto", RightTwoCycleGriefAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
 
 
         //practice object detection 
