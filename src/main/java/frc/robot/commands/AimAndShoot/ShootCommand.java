@@ -30,7 +30,6 @@ public class ShootCommand extends Command {
         ShooterSubSystem shooter,
         HoodDynamicPointCommand hoodCommand,
         IntakeSubSystem intake,
-
         BooleanSupplier fireButton
   ) {
     this.hopperFeeder = hopperFeeder;

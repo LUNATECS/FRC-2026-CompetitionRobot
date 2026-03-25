@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.543,
+        "y": 5.5
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.308632078476889,
+        "y": 5.412984614228651
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.201654266408702,
+        "y": 5.5
+      },
+      "prevControl": {
+        "x": 3.4504139209321907,
+        "y": 5.475127640213389
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "V2 Shoot From Left"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 130.72117145268226
+  },
+  "reversed": false,
+  "folder": "V2 Left Auto",
+  "idealStartingState": {
+    "velocity": 2.0,
+    "rotation": 135.0
+  },
+  "useDefaultConstraints": true
+}

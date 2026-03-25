@@ -20,12 +20,12 @@
         "y": 3.0582307692307698
       },
       "prevControl": {
-        "x": 5.921114897436302,
-        "y": 2.812918564100497
+        "x": 5.886122593408614,
+        "y": 2.8085791764379517
       },
       "nextControl": {
-        "x": 5.781564102564103,
-        "y": 3.523358974358975
+        "x": 5.8557979250307435,
+        "y": 3.382369471232097
       },
       "isLocked": false,
       "linkedName": null
@@ -36,12 +36,12 @@
         "y": 4.011743589743591
       },
       "prevControl": {
-        "x": 5.698567623907428,
-        "y": 3.8325837170613166
+        "x": 5.800704969600462,
+        "y": 3.7724033479559327
       },
       "nextControl": {
-        "x": 6.235064102564104,
-        "y": 4.383846153846154
+        "x": 6.022931956821806,
+        "y": 4.5088365845575265
       },
       "isLocked": false,
       "linkedName": null
@@ -107,7 +107,7 @@
     },
     {
       "waypointRelativePos": 4.210526315789477,
-      "rotationDegrees": -179.87886503181522
+      "rotationDegrees": -179.87886503181525
     }
   ],
   "constraintZones": [
@@ -140,7 +140,7 @@
     },
     {
       "name": "stop intake",
-      "waypointRelativePos": 3.9,
+      "waypointRelativePos": 4.793841086352783,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",

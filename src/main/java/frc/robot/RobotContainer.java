@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autos.DriveOverBumpCommand;
+import frc.robot.autos.LeftLimeAuto;
 import frc.robot.autos.LeftSweepAuto;
 import frc.robot.autos.LeftTwoCycleAuto;
 import frc.robot.autos.LeftTwoCycleDynamicAuto;
@@ -33,6 +34,7 @@ import frc.robot.autos.LeftTwoCycleSTEALAuto;
 import frc.robot.autos.LeftTwoCycleSweepAuto;
 import frc.robot.autos.LeftTwoSweepDynamicAuto;
 import frc.robot.autos.PracticeAuto;
+import frc.robot.autos.RightLimeAuto;
 import frc.robot.autos.RightSweepAuto;
 import frc.robot.autos.RightTwoCycleAuto;
 import frc.robot.autos.RightTwoCycleDynamicAuto;
@@ -153,6 +155,10 @@ public class RobotContainer {
         autoChooser.addOption("Right Two Cycle Dynamic Auto", RightTwoCycleDynamicAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
         autoChooser.addOption("Left Two Cycle Dynamic Auto", LeftTwoCycleDynamicAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
 
+        //limey citrus circuits type autos
+        LeftLimeAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake);
+        RightLimeAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake);
+
         // Put the chooser on SmartDashboard
         SmartDashboard.putData("Autonomous Mode FINAL", autoChooser);
     }
@@ -164,7 +170,7 @@ public class RobotContainer {
     SmartDashboard.putData(virtualTargetField);
 
     NamedCommands.registerCommand("Drive Over Bump RIGHT", new DriveOverBumpCommand(drivetrain, Rotation2d.fromDegrees(-45), drive, 1.0));
-        NamedCommands.registerCommand("Drive Over Bump LEFT", new DriveOverBumpCommand(drivetrain, Rotation2d.fromDegrees(-45), drive, -1.0));
+    NamedCommands.registerCommand("Drive Over Bump LEFT", new DriveOverBumpCommand(drivetrain, Rotation2d.fromDegrees(-45), drive, -1.0));
 
     NamedCommands.registerCommand("Start Intake Command", new IntakeCommand(intake, 6000));
 
