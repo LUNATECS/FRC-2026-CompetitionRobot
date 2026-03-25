@@ -16,9 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.commands.HoodHoldCommand;
 import frc.robot.commands.HopperPositionCommand;
-import frc.robot.subsystems.HoodSubSystem;
 import frc.robot.util.AllianceFliputil;
 import frc.robot.util.BallLaneDetector;
 import frc.robot.util.HubTracker;
@@ -103,6 +101,8 @@ public class Robot extends TimedRobot {
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void robotInit() {
+    //Pathfinding.setPathfinder(new CustomPathfinder());
+    //ONLY ENABLE THE CUSTOM PATHFINDER WHEN WE ARE READY TO, DON'T DO IT BEFORE DCMP
     //MAKE SURE TO CHANGE THIS ON STARTUP IF WE CHANGE THE AUTO STARTING ORIENTATION
     //we need the warmup command, so there is is, using the non-depracated version
     CommandScheduler.getInstance().schedule(PathfindingCommand.warmupCommand());
