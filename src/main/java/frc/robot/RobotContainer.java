@@ -156,8 +156,8 @@ public class RobotContainer {
         autoChooser.addOption("Left Two Cycle Dynamic Auto", LeftTwoCycleDynamicAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
 
         //limey citrus circuits type autos
-        LeftLimeAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake);
-        RightLimeAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake);
+        autoChooser.addOption("Left Limey Auto", LeftLimeAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        autoChooser.addOption("Right Limey Auto", RightLimeAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
 
         // Put the chooser on SmartDashboard
         SmartDashboard.putData("Autonomous Mode FINAL", autoChooser);
