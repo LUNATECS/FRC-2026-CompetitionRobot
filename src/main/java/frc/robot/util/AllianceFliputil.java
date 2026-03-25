@@ -60,4 +60,32 @@ public class AllianceFliputil {
             return Rotation2d.fromDegrees(0);
         }
     }
+
+
+
+    public static Rotation2d getHeadingBasedOnAllianceForBumpRIGHTHeadingBack() {
+        DriverStation.Alliance alliance =
+    DriverStation.getAlliance().get();
+        if (alliance == DriverStation.Alliance.Red && DriverStation.getAlliance().isPresent()) {
+            return Rotation2d.fromDegrees(45);
+        } else if (alliance == DriverStation.Alliance.Blue && DriverStation.getAlliance().isPresent()){
+            return Rotation2d.fromDegrees(-135);
+        }
+        else {
+            return Rotation2d.fromDegrees(0);
+        }
+    }
+
+    public static Rotation2d getHeadingBasedOnAllianceForBumpLEFTHeadingBack() {
+        DriverStation.Alliance alliance =
+    DriverStation.getAlliance().get();
+        if (alliance == DriverStation.Alliance.Red && DriverStation.getAlliance().isPresent()) {
+            return Rotation2d.fromDegrees(225);
+        } else if (alliance == DriverStation.Alliance.Blue && DriverStation.getAlliance().isPresent()) {
+            return Rotation2d.fromDegrees(45);
+        }
+        else {
+            return Rotation2d.fromDegrees(0);
+        }
+    }
 }
