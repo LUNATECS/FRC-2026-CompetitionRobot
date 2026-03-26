@@ -251,9 +251,6 @@ public class RobotContainer {
         driver.L2().onTrue(new InstantCommand(()->{shooterFeeder.setSpeed(-0.5);}))
           .onFalse(new InstantCommand(()->{shooterFeeder.setSpeed(0);}));
 
-        driver.L2().onTrue(new InstantCommand(()->{intake.setSpeed(-0.5);}))
-          .onFalse(new InstantCommand(()->{intake.setSpeed(0);}));
-
         /*driver.R1().whileTrue(
             new FullShootSequence(
                 drivetrain,
@@ -356,35 +353,47 @@ public class RobotContainer {
     operator.cross().onTrue(new HopperAgitateCommand(hopper));
 
     operator.povLeft().onTrue(new ShooterVelocityCommand(shooter, ()->3000));
-    operator.povUp().onTrue(new ShooterVelocityCommand(shooter, ()->3250));
-    operator.povRight().onTrue(new ShooterVelocityCommand(shooter, ()->3500));
-    operator.povDown().onTrue(new ShooterVelocityCommand(shooter, ()->1000));
+    operator.povUp().onTrue(new ShooterVelocityCommand(shooter, ()->3500));
+    operator.povRight().onTrue(new ShooterVelocityCommand(shooter, ()->3150));
+    operator.povDown().onTrue(new ShooterVelocityCommand(shooter, ()->3300));
 
 
     //operator.povDown().onTrue(new InstantCommand(()->{shooter.setRPM(0);}, shooter));
 
 
 
-    operator.square().whileTrue(new InstantCommand(() -> {
+    operator.square().onTrue(new InstantCommand(() -> {
     hopperFeeder.setSpeed(1);
     //intake.setSpeed(1);
-    shooterFeeder.setSpeed(0.6);
-  }, hopperFeeder, shooterFeeder, intake))
-    .onFalse(new InstantCommand(()->{
-      hopperFeeder.setSpeed(0);
-      //intake.setSpeed(0);
-      shooterFeeder.setSpeed(0);
+    shooterFeeder.setRPMBasedOnShooter(shooter.getRPM());
+  }));
 
-  }, hopperFeeder, shooterFeeder, intake));
+    operator.circle().onTrue(
+      new InstantCommand(()->{
+        hopperFeeder.setSpeed(0);
+        shooterFeeder.setSpeed(0);
+      })
+    );
+  //   operator.square().whileTrue(new InstantCommand(() -> {
+  //   hopperFeeder.setSpeed(1);
+  //   //intake.setSpeed(1);
+  //   shooterFeeder.setSpeed(0.6);
+  // }, hopperFeeder, shooterFeeder, intake))
+  //   .onFalse(new InstantCommand(()->{
+  //     hopperFeeder.setSpeed(0);
+  //     //intake.setSpeed(0);
+  //     shooterFeeder.setSpeed(0);
 
-  operator.circle().whileTrue(new InstantCommand(() -> {
-    hopperFeeder.setSpeed(-1);
-    intake.setSpeed(-1);
-  }, hopperFeeder, shooterFeeder, intake))
-    .onFalse(new InstantCommand(()->{
-      hopperFeeder.setSpeed(0);
-      intake.setSpeed(0);
-  }, hopperFeeder, shooterFeeder, intake));
+  // }, hopperFeeder, shooterFeeder, intake));
+
+  // operator.circle().whileTrue(new InstantCommand(() -> {
+  //   hopperFeeder.setSpeed(-1);
+  //   intake.setSpeed(-1);
+  // }, hopperFeeder, shooterFeeder, intake))
+  //   .onFalse(new InstantCommand(()->{
+  //     hopperFeeder.setSpeed(0);
+  //     intake.setSpeed(0);
+  // }, hopperFeeder, shooterFeeder, intake));
 
   operator.touchpad().onTrue(
     new InstantCommand(()->{RobotContainer.AllianceDriveValue = RobotContainer.AllianceDriveValue*-1;})
