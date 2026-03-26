@@ -168,7 +168,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("Drive Over Bump RIGHT", new DriveOverBumpCommand(drivetrain, Rotation2d.fromDegrees(-45), drive, 1.0));
     NamedCommands.registerCommand("Drive Over Bump LEFT", new DriveOverBumpCommand(drivetrain, Rotation2d.fromDegrees(-45), drive, -1.0));
 
-    NamedCommands.registerCommand("Start Intake Command", new IntakeCommand(intake, 6000));
+    NamedCommands.registerCommand("Start Intake Command", new IntakeCommand(intake, 6500));
 
     NamedCommands.registerCommand("StopIntakeCommand", new InstantCommand(()->{intake.setSpeed(0);}, intake));
 
@@ -251,6 +251,9 @@ public class RobotContainer {
         driver.L2().onTrue(new InstantCommand(()->{shooterFeeder.setSpeed(-0.5);}))
           .onFalse(new InstantCommand(()->{shooterFeeder.setSpeed(0);}));
 
+        driver.L2().onTrue(new InstantCommand(()->{intake.setSpeed(-0.5);}))
+          .onFalse(new InstantCommand(()->{intake.setSpeed(0);}));
+
         /*driver.R1().whileTrue(
             new FullShootSequence(
                 drivetrain,
@@ -298,7 +301,7 @@ public class RobotContainer {
         // Reset the field-centric heading on left bumper press.
         //driver.circle().onTrue(drivetrain.runOnce(() -> drivetrain.resetRotation(Rotation2d.fromDegrees(0))));
 
-        driver.R1().onTrue(new IntakeCommand(intake, 6000))
+        driver.R1().onTrue(new IntakeCommand(intake, 6500))
           .onFalse(new InstantCommand(()->{intake.setSpeed(0);}, intake) );
         driver.triangle().onTrue(new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position));
 
@@ -408,7 +411,7 @@ public class RobotContainer {
     tester.circle().onTrue(
       new InstantCommand(()->{
         hopperFeeder.setSpeed(0);
-        shooterFeeder.setRPMBasedOnShooter(0);
+        shooterFeeder.setSpeed(0);
       })
     );
 

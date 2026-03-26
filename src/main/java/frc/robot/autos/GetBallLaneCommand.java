@@ -24,14 +24,14 @@ public class GetBallLaneCommand extends Command {
 
     @Override
     public void execute() {
-        if (result == null && Timer.getFPGATimestamp() - startTime > 0.1) {
+        if (result == null && Timer.getFPGATimestamp() - startTime > 0.125) {
         result = BallLaneDetector.getBestLane("limelight-hopper");
         }
     }
 
    @Override
     public boolean isFinished() {
-        return result != null || Timer.getFPGATimestamp() - startTime > 0.5;
+        return result != null || Timer.getFPGATimestamp() - startTime > 0.25;
     }
 
     @Override

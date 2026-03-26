@@ -113,14 +113,14 @@ public class DriveOverBumpCommand extends Command {
                     double timeStayedFlat =
                         edu.wpi.first.wpilibj.Timer.getFPGATimestamp() - flatStartTime;
 
-                    if (timeStayedFlat > -0.35) {
+                    if (timeStayedFlat > -0.25) {
                         currentState = State.DONE;
                     }
                 }
                 break;
 
             case DONE:
-                driveSpeed = 1.5;
+                driveSpeed = 2.0;
                 break;
                 //change drivespeed based on whether or not we use this in auto or not.
         }
