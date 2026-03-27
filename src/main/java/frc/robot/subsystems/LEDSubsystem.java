@@ -18,11 +18,11 @@ public class LEDSubsystem extends SubsystemBase {
   private final CANdle candle;
 
   private static final int START_IDX = 8;
-  private static final int END_IDX = 100;
+  private static final int END_IDX = 200;
   private LEDState currentState = LEDState.IDLE;
   private LEDState lastState = null;
 
-  private RGBWColor neonGreen = new RGBWColor(57, 255, 20, 0);
+  private final RGBWColor neonGreen = new RGBWColor(57, 255, 20, 0);
 
   public LEDSubsystem() {
     candle = new CANdle(0, CANBus.roboRIO());
