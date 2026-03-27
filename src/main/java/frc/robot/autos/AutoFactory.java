@@ -26,6 +26,7 @@ import frc.robot.subsystems.HoodSubSystem;
 import frc.robot.subsystems.HopperFeederSubSystem;
 import frc.robot.subsystems.HopperSubSystem;
 import frc.robot.subsystems.IntakeSubSystem;
+import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ShooterFeederSubSystem;
 import frc.robot.subsystems.ShooterSubSystem;
 
@@ -121,7 +122,8 @@ public class AutoFactory {
                 HopperFeederSubSystem hopperFeeder,
                 HopperSubSystem hopper,
                 HoodSubSystem hood,
-                IntakeSubSystem intake
+                IntakeSubSystem intake,
+                LEDSubsystem led
         ) {
             try {
                 PathPlannerPath path = PathPlannerPath.fromPathFile(pathName);
@@ -154,6 +156,7 @@ public class AutoFactory {
                     shooterFeeder,
                     hopper,
                     intake,
+                    led,
                     translationSupplier,
                     targetSupplier,
                     driveRequest,

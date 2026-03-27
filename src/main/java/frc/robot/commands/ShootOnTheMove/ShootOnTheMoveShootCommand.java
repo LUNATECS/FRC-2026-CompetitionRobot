@@ -12,6 +12,8 @@ import frc.robot.commands.HoodDynamicPointCommand;
 import frc.robot.commands.ShooterFeederDynamicCommand;
 import frc.robot.subsystems.HopperFeederSubSystem;
 import frc.robot.subsystems.IntakeSubSystem;
+import frc.robot.subsystems.LEDSubsystem;
+import frc.robot.subsystems.LEDSubsystem.LEDState;
 import frc.robot.subsystems.ShooterFeederSubSystem;
 import frc.robot.subsystems.ShooterSubSystem;
 
@@ -26,6 +28,7 @@ public class ShootOnTheMoveShootCommand extends Command {
   BooleanSupplier fireButton;
   ShooterFeederDynamicCommand feederCommand;
   IntakeSubSystem intake;
+  LEDSubsystem led;
   private final double currentThreshold = 400; // tune this, in amps
   private final double reverseTime = 0.2; //in seconds
 
@@ -38,6 +41,7 @@ public class ShootOnTheMoveShootCommand extends Command {
         HoodDynamicPointCommand hoodCommand,
         ShootOnTheMoveCommand drivetrainCommand,
         IntakeSubSystem intake,
+        LEDSubsystem led,
 
         BooleanSupplier fireButton
   ) {
@@ -48,8 +52,9 @@ public class ShootOnTheMoveShootCommand extends Command {
     this.drivetrainCommand = drivetrainCommand;
     this.fireButton = fireButton;
     this.intake = intake;
+    this.led = led;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(shooterFeeder, hopperFeeder);
+    addRequirements(shooterFeeder, hopperFeeder, led);
   }
 
   // Called when the command is initially scheduled.
@@ -64,6 +69,20 @@ public class ShootOnTheMoveShootCommand extends Command {
 
     boolean jamDetected = hopperCurrent > currentThreshold ||
                         shooterFeederCurrent > currentThreshold;
+    LEDState desiredState = LEDState.IDLE;
+
+   if (shooter.atSpeed() && hoodCommand.atSetpoint()) {
+    desiredState = LEDState.AIMED;
+    }
+
+    else if (fireButton.getAsBoolean() &&
+        shooter.atSpeed() &&
+        hoodCommand.atSetpoint()) {
+        desiredState = LEDState.SHOOTING;
+    }
+    else {
+    desiredState = LEDState.IDLE;
+    }
     if (fireButton.getAsBoolean() &&
                 shooter.atSpeed() &&
                 hoodCommand.atSetpoint() 
@@ -101,11 +120,13 @@ public class ShootOnTheMoveShootCommand extends Command {
                 isReversing = false;
                 reverseTimer.stop();
             }
+            led.setState(desiredState);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+                led.setState(LEDState.IDLE);
                 hopperFeeder.setSpeed(0);
                 //hopperFeeder.setTopRollerSpeed(0);
                 shooterFeeder.setSpeed(0);

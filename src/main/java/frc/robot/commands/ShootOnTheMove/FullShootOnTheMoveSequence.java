@@ -12,13 +12,13 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.HoodDynamicPointCommand;
-import frc.robot.commands.HopperAgitateTrigerredCommand;
 import frc.robot.commands.ShooterDynamicVelocityCommand;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.HoodSubSystem;
 import frc.robot.subsystems.HopperFeederSubSystem;
 import frc.robot.subsystems.HopperSubSystem;
 import frc.robot.subsystems.IntakeSubSystem;
+import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ShooterFeederSubSystem;
 import frc.robot.subsystems.ShooterSubSystem;
 import frc.robot.util.SOTMSuppliers;
@@ -37,6 +37,7 @@ public class FullShootOnTheMoveSequence extends ParallelCommandGroup {
         ShooterFeederSubSystem shooterFeeder,
         HopperSubSystem hopper,
         IntakeSubSystem intake,
+        LEDSubsystem led,
         Supplier<Translation2d> robotTranslation,
         Supplier<Translation2d> targetPos,
         SwerveRequest.FieldCentric driveRequest,
@@ -60,7 +61,7 @@ public class FullShootOnTheMoveSequence extends ParallelCommandGroup {
       drivetrainCommand,
       shooterCommand,
       hoodCommand,
-      new ShootOnTheMoveShootCommand(hopperFeeder, shooterFeeder, shooter, hoodCommand, drivetrainCommand, intake, fireButton)
+      new ShootOnTheMoveShootCommand(hopperFeeder, shooterFeeder, shooter, hoodCommand, drivetrainCommand, intake, led, fireButton)
       //new HopperAgitateTrigerredCommand(hopper, fireButton, shooter, hoodCommand)
     );
   }

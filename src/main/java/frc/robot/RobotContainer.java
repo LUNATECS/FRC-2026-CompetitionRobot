@@ -51,6 +51,7 @@ import frc.robot.subsystems.HoodSubSystem;
 import frc.robot.subsystems.HopperFeederSubSystem;
 import frc.robot.subsystems.HopperSubSystem;
 import frc.robot.subsystems.IntakeSubSystem;
+import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ShooterFeederSubSystem;
 import frc.robot.subsystems.ShooterSubSystem;
 import frc.robot.util.TargetSupplier;
@@ -71,6 +72,7 @@ public class RobotContainer {
   private final HopperFeederSubSystem hopperFeeder = new HopperFeederSubSystem();
   private final HoodSubSystem hood = new HoodSubSystem();
   private final IntakeSubSystem intake = new IntakeSubSystem();
+  private final LEDSubsystem led = new LEDSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandPS5Controller driver = new CommandPS5Controller(Constants.DriverConstants.DRIVER_CONTROLLER_PORT);
@@ -232,6 +234,7 @@ public class RobotContainer {
             shooterFeeder,
             hopper, 
             intake,
+            led,
             () -> new Translation2d(
                     -driver.getLeftY() * MaxSpeed,
                     -driver.getLeftX() * MaxSpeed
@@ -299,7 +302,11 @@ public class RobotContainer {
         //driver.circle().onTrue(drivetrain.runOnce(() -> drivetrain.resetRotation(Rotation2d.fromDegrees(0))));
 
         driver.R1().onTrue(new IntakeCommand(intake, 6500))
-          .onFalse(new InstantCommand(()->{intake.setSpeed(0);}, intake) );
+          .onTrue(new InstantCommand(() -> led.setState(LEDSubsystem.LEDState.INTAKING)))
+          .onFalse(new InstantCommand(()->{intake.setSpeed(0);
+                  led.setState(LEDSubsystem.LEDState.IDLE);
+          }, intake, led) );
+
         driver.triangle().onTrue(new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position));
 
         driver.cross().onTrue(new HopperAgitateCommand(hopper));

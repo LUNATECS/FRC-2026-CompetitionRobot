@@ -21,6 +21,7 @@ import frc.robot.subsystems.HoodSubSystem;
 import frc.robot.subsystems.HopperFeederSubSystem;
 import frc.robot.subsystems.HopperSubSystem;
 import frc.robot.subsystems.IntakeSubSystem;
+import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ShooterFeederSubSystem;
 import frc.robot.subsystems.ShooterSubSystem;
 import frc.robot.util.AllianceFliputil;
@@ -40,7 +41,8 @@ public class RightDepotAuto {
         HopperFeederSubSystem hopperFeeder, 
         ShooterFeederSubSystem shooterFeeder,
         HopperSubSystem hopper,
-        IntakeSubSystem intake) 
+        IntakeSubSystem intake,
+        LEDSubsystem led) 
         {
         double directionGoing = AllianceFliputil.getFlipBasedOnAllianceForGoingToCenter();
         double directionComing = AllianceFliputil.getFlipbasedOnAllianceForComingBack();
@@ -64,7 +66,7 @@ public class RightDepotAuto {
             new DriveOverBumpCommand(drivetrain, headingComing, driveRequest, directionComing),
             AutoFactory.followPath("Left Shoot Path"),
             //wait for 5 seconds when we should
-            AutoFactory.makeShootOnTheMovePathCommand(drivetrain, "Depot SOTM Path", ()->TargetSupplier.getTargetBasedOnAlliance(drivetrain), driveRequest, shooter, shooterFeeder, hopperFeeder, hopper, hood, intake),
+            AutoFactory.makeShootOnTheMovePathCommand(drivetrain, "Depot SOTM Path", ()->TargetSupplier.getTargetBasedOnAlliance(drivetrain), driveRequest, shooter, shooterFeeder, hopperFeeder, hopper, hood, intake, led),
                     new ParallelCommandGroup(AutoFactory.followPath("Get To Depot Intaking"), 
                     new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position),
                     new InstantCommand(()->{shooter.setSpeed(0);}),
