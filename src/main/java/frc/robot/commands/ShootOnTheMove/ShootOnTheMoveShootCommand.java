@@ -69,23 +69,19 @@ public class ShootOnTheMoveShootCommand extends Command {
 
     boolean jamDetected = hopperCurrent > currentThreshold ||
                         shooterFeederCurrent > currentThreshold;
-    LEDState desiredState = LEDState.IDLE;
+    boolean readyToShoot = shooter.atSpeed() && hoodCommand.atSetpoint();
+    boolean firing = fireButton.getAsBoolean() && readyToShoot;
 
-   if (shooter.atSpeed() && hoodCommand.atSetpoint()) {
-    desiredState = LEDState.AIMED;
-    }
+    LEDState desiredState;
 
-    else if (fireButton.getAsBoolean() &&
-        shooter.atSpeed() &&
-        hoodCommand.atSetpoint()) {
+    if (firing) {
         desiredState = LEDState.SHOOTING;
+    } else if (readyToShoot) {
+        desiredState = LEDState.AIMED;
+    } else {
+        desiredState = LEDState.IDLE;
     }
-    else {
-    desiredState = LEDState.IDLE;
-    }
-    if (fireButton.getAsBoolean() &&
-                shooter.atSpeed() &&
-                hoodCommand.atSetpoint() 
+    if (firing
                 //&&drivetrainCommand.isAligned()
                 ) {
                   if (jamDetected && !isReversing) {
