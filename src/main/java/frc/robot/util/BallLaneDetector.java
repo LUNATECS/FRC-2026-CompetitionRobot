@@ -18,10 +18,10 @@ public class BallLaneDetector {
 
             double x = detection.txnc; // horizontal position of the ball
 
-            if (x < -7) {
+            if (x < -11) {
                 leftCount++;
             } 
-            else if (x > 7) {
+            else if (x > 11) {
                 rightCount++;
             } 
             else {

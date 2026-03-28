@@ -16,47 +16,47 @@
     },
     {
       "anchor": {
-        "x": 5.857,
-        "y": 4.028268419182729
+        "x": 6.301067615658363,
+        "y": 3.92202846975089
       },
       "prevControl": {
-        "x": 5.741163559138087,
-        "y": 4.249812814211005
+        "x": 6.18523117479645,
+        "y": 4.143572864779165
       },
       "nextControl": {
-        "x": 6.118767960738685,
-        "y": 3.5276209194138914
+        "x": 6.562835576397048,
+        "y": 3.421380969982052
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.261516750669145,
-        "y": 4.148887659822186
+        "x": 8.474424673784107,
+        "y": 4.029620403321471
       },
       "prevControl": {
-        "x": 7.886783213007821,
-        "y": 3.8579817085574
+        "x": 8.302481643286871,
+        "y": 3.5874811820428483
       },
       "nextControl": {
-        "x": 8.54064854908602,
-        "y": 4.365577902850553
+        "x": 8.56503623907284,
+        "y": 4.262621571206796
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.409586115266952,
+        "x": 8.635812574139978,
         "y": 5.990061185831641
       },
       "prevControl": {
-        "x": 8.548365374422701,
+        "x": 8.774591833295727,
         "y": 5.739589897369876
       },
       "nextControl": {
-        "x": 8.246419383084275,
+        "x": 8.4726458419573,
         "y": 6.284547421689299
       },
       "isLocked": false,
@@ -117,11 +117,11 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.8429360694554086,
-      "maxWaypointRelativePos": 4.093831117691532,
+      "minWaypointRelativePos": 1.9010123734533004,
+      "maxWaypointRelativePos": 3.543307086614178,
       "constraints": {
-        "maxVelocity": 2.5,
-        "maxAcceleration": 2.5,
+        "maxVelocity": 3.5,
+        "maxAcceleration": 3.5,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
