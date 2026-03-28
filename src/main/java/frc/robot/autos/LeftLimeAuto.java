@@ -68,7 +68,7 @@ public class LeftLimeAuto {
             new DriveOverBumpCommand(drivetrain, headingComing, driveRequest, directionComing),
             AutoFactory.followPath("Left Shoot Path V2"),
             //wait for 5 seconds when we should
-            new ParallelDeadlineGroup(new WaitCommand(3.375)
+            new ParallelDeadlineGroup(new WaitCommand(3.0)
                 , new FullShootAUTOSequence(drivetrain, shooter, hood, hopperFeeder, shooterFeeder, hopper, 
                     () -> TargetSupplier.getTargetBasedOnAlliance(drivetrain), driveRequest, 
                     ()->true, 
@@ -90,7 +90,7 @@ public class LeftLimeAuto {
             new DriveOverBumpCommand(drivetrain, headingComing, driveRequest, directionComing),
             AutoFactory.followPath("Left Shoot Path V2"),
             //Same wait for 5 seconds to shoot
-            new ParallelDeadlineGroup( new WaitCommand(4)
+            new ParallelDeadlineGroup( new WaitCommand(3.5)
                 , new FullShootAUTOSequence(drivetrain, shooter, hood, hopperFeeder, shooterFeeder, hopper, 
                     () -> TargetSupplier.getTargetBasedOnAlliance(drivetrain), driveRequest, 
                     ()->true, 
