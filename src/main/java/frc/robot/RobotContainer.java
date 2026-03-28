@@ -38,6 +38,7 @@ import frc.robot.autos.RightTwoCycleAuto;
 import frc.robot.autos.RightTwoCycleDynamicAuto;
 import frc.robot.autos.RightTwoCycleSweepAuto;
 import frc.robot.autos.RightTwoSweepDynamicAuto;
+import frc.robot.autos.SloverOverTheBensalemBump;
 import frc.robot.commands.AimAndShoot.FaceFieldPointCommand;
 import frc.robot.commands.HoodHoldCommand;
 import frc.robot.commands.HopperAgitateCommand;
@@ -451,11 +452,14 @@ public class RobotContainer {
   }));
 
   //shooter testing
-  tester.povUp().onTrue(new InstantCommand(()->{shooter.setSpeed(0.25);}, shooter))
-  .onFalse(new InstantCommand(()->{shooter.setSpeed(0);}, shooter));
+  //tester.povUp().onTrue(new InstantCommand(()->{shooter.setSpeed(0.25);}, shooter))
+  //.onFalse(new InstantCommand(()->{shooter.setSpeed(0);}, shooter));
 
-  tester.povLeft().onTrue(new InstantCommand(()->{shooter.setSpeed(1);}))
-  .onFalse(new InstantCommand(()->{shooter.setSpeed(0);}));
+  //tester.povLeft().onTrue(new InstantCommand(()->{shooter.setSpeed(1);}))
+  //.onFalse(new InstantCommand(()->{shooter.setSpeed(0);}));
+
+  tester.povUp().onTrue(new DriveOverBumpCommand(drivetrain, Rotation2d.fromDegrees(0), drive, 1));
+  tester.povDown().onTrue(new SloverOverTheBensalemBump(drivetrain, Rotation2d.fromDegrees(45), drive, -1));
 
 
   //Hood Testing
