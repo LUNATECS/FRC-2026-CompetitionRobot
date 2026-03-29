@@ -403,9 +403,14 @@ public class RobotContainer {
   //     intake.setSpeed(0);
   // }, hopperFeeder, shooterFeeder, intake));
 
-  operator.touchpad().onTrue(
-    new InstantCommand(()->{RobotContainer.AllianceDriveValue = RobotContainer.AllianceDriveValue*-1;})
-  );
+  operator.touchpad().onTrue(new InstantCommand(() -> {
+    //intake.setSpeed(1);
+    shooterFeeder.setSpeed(-1);
+    shooter.setSpeed(-1);
+  }, shooter))
+  .onFalse(new InstantCommand(()->{shooterFeeder.setSpeed(0);
+  shooter.setSpeed(0);}, shooterFeeder, shooter));
+;
 
   
 

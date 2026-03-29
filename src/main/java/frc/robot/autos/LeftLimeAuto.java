@@ -50,6 +50,8 @@ public class LeftLimeAuto {
         double directionComing = AllianceFliputil.getFlipbasedOnAllianceForComingBack();
         Rotation2d headingGoing = AllianceFliputil.getHeadingBasedOnAllianceForBumpLEFT();
         Rotation2d headingComing = AllianceFliputil.getHeadingBasedOnAllianceForBumpLEFTHeadingBack();
+        Rotation2d headingGoingFLAT = AllianceFliputil.getHeadingForGoingFLAT();
+
         
             return Commands.sequence(
             //     Commands.runOnce(() -> {
@@ -72,35 +74,43 @@ public class LeftLimeAuto {
                 , new FullShootAUTOSequence(drivetrain, shooter, hood, hopperFeeder, shooterFeeder, hopper, 
                     () -> TargetSupplier.getTargetBasedOnAlliance(drivetrain), driveRequest, 
                     ()->true, 
-                    () -> SOTMCalc.getInstance().getParameters(
-                      drivetrain.getPose().getTranslation()
-                          .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).rpm(),
+                    //()-> 2600.0,
+                     () -> SOTMCalc.getInstance().getParameters(
+                       drivetrain.getPose().getTranslation()
+                           .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).rpm(),
                           //hood angle supplier
-                           () -> SOTMCalc.getInstance().getParameters(
-                      drivetrain.getPose().getTranslation()
-                          .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).hoodAngle(), intake)),
+                            () -> SOTMCalc.getInstance().getParameters(
+                       drivetrain.getPose().getTranslation()
+                           .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).hoodAngle(), intake)),
+                    //()->7.0, intake)),
             //drive back over for second cycle.
             //resets the hopper while driving back over bump
-            new ParallelDeadlineGroup(new DriveOverBumpCommand(drivetrain, headingGoing, driveRequest, directionGoing), 
+            new ParallelDeadlineGroup(new DriveOverBumpCommand(drivetrain, headingGoingFLAT, driveRequest, directionGoing), 
             new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position),
             new InstantCommand(()->{shooter.setSpeed(0);}),
             new InstantCommand(()->{shooterFeeder.setSpeed(0);}),
             new InstantCommand(()->{hopperFeeder.setRPMHopper(0);})),
             AutoFactory.followPath("Left V2 Sweep 2"),
-            new DriveOverBumpCommand(drivetrain, headingComing, driveRequest, directionComing),
+            new ParallelDeadlineGroup(
+            new DriveOverBumpCommand(drivetrain, headingComing, driveRequest, directionComing)
+            , new InstantCommand(()->{hopperFeeder.setSpeed(-0.2);})),
             AutoFactory.followPath("Left Shoot Path V2"),
             //Same wait for 5 seconds to shoot
-            new ParallelDeadlineGroup( new WaitCommand(3.5)
+            new ParallelDeadlineGroup( new WaitCommand(3.0)
                 , new FullShootAUTOSequence(drivetrain, shooter, hood, hopperFeeder, shooterFeeder, hopper, 
                     () -> TargetSupplier.getTargetBasedOnAlliance(drivetrain), driveRequest, 
                     ()->true, 
-                    () -> SOTMCalc.getInstance().getParameters(
-                      drivetrain.getPose().getTranslation()
-                          .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).rpm(),
+                    //()-> 2600.0,
+                     () -> SOTMCalc.getInstance().getParameters(
+                       drivetrain.getPose().getTranslation()
+                           .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).rpm(),
                           //hood angle supplier
-                           () -> SOTMCalc.getInstance().getParameters(
-                      drivetrain.getPose().getTranslation()
-                          .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).hoodAngle(), intake)),
+                            () -> SOTMCalc.getInstance().getParameters(
+                       drivetrain.getPose().getTranslation()
+                           .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).hoodAngle(), intake)),
+                    //()->7.0, intake)),
+
+
             //reset hopper after shooting
             new ParallelCommandGroup(new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position),
             new InstantCommand(()->{shooter.setSpeed(0);}),

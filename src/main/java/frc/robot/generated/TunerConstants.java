@@ -80,7 +80,7 @@ public class TunerConstants {
             new CurrentLimitsConfigs()
             .withStatorCurrentLimit(30)
             .withStatorCurrentLimitEnable(true)
-            .withSupplyCurrentLimit(40)
+            .withSupplyCurrentLimit(30)
             .withSupplyCurrentLimitEnable(true)
         )
         .withOpenLoopRamps(new OpenLoopRampsConfigs().withDutyCycleOpenLoopRampPeriod(0.25))

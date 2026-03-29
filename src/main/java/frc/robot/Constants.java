@@ -61,7 +61,7 @@ public final class Constants {
   }
 
   public static class Current_Limit_Constants{
-    public static final double CurrentLimit = 40; //this is in amps btw
+    public static final double CurrentLimit = 32; //this is in amps btw
     public static final boolean PlotCurrentLimits = false;
   }
 }

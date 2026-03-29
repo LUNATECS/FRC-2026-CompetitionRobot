@@ -20,7 +20,7 @@ public class FaceFieldPointCommand extends Command {
     private final SwerveRequest.FieldCentric driveRequest;
 
     private final PIDController thetaController =
-        new PIDController(10.0, 0.0, 0.1);
+        new PIDController(9.0, 0.0, 0.1);
 
     public FaceFieldPointCommand(
         CommandSwerveDrivetrain drivetrain,

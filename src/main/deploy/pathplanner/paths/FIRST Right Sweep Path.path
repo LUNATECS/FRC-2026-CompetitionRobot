@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.1,
-        "y": 2.4511453450520833
+        "x": 6.010569395017794,
+        "y": 2.5
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.37677411114728,
-        "y": 1.912187626591435
+        "x": 7.287343506165074,
+        "y": 1.9610422815393518
       },
       "isLocked": false,
       "linkedName": "Middle Pose After Bump RIGHT"

@@ -88,4 +88,19 @@ public class AllianceFliputil {
             return Rotation2d.fromDegrees(0);
         }
     }
+
+    public static Rotation2d getHeadingForGoingFLAT() {
+        DriverStation.Alliance alliance =
+    DriverStation.getAlliance().get();
+        if (alliance == DriverStation.Alliance.Red && DriverStation.getAlliance().isPresent()) {
+            return Rotation2d.fromDegrees(0);
+        } else if (alliance == DriverStation.Alliance.Blue && DriverStation.getAlliance().isPresent()) {
+            return Rotation2d.fromDegrees(180);
+        }
+        else {
+            return Rotation2d.fromDegrees(0);
+        }
+    }
+
+
 }

@@ -50,8 +50,9 @@ public class HopperAutoAgitateCommand extends Command {
   @Override
   public void execute() {
       if(fireButton.getAsBoolean() &&
-                  shooter.atSpeed() &&
-                  hoodCommand.atSetpoint()){
+                  shooter.atSpeed() 
+                  //&&hoodCommand.atSetpoint()
+                  ){
           double position = hopper.getPosition();
 
           // If near zero, stop moving

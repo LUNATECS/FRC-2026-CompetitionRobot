@@ -55,9 +55,9 @@ public class ShooterSubSystem extends SubsystemBase {
     coastOutputShooterConfigs.NeutralMode = NeutralModeValue.Coast;
 
     var currentLimits = new CurrentLimitsConfigs();
-    currentLimits.SupplyCurrentLimit = 50;   //increase this current limit if necessary (increased from 40)
+    currentLimits.SupplyCurrentLimit = 35;   //increase this current limit if necessary (increased from 40)
     currentLimits.SupplyCurrentLimitEnable = true;
-    currentLimits.StatorCurrentLimit = 50;
+    currentLimits.StatorCurrentLimit = 35;
     currentLimits.StatorCurrentLimitEnable = true;
 
 

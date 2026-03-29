@@ -3,61 +3,61 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.126,
+        "x": 5.558683274021353,
         "y": 5.5
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.05282604259853,
-        "y": 5.194354592315538
-      },
-      "isLocked": false,
-      "linkedName": "Middle Pose After Bump LEFT"
-    },
-    {
-      "anchor": {
-        "x": 6.301067615658363,
-        "y": 3.92202846975089
-      },
-      "prevControl": {
-        "x": 6.18523117479645,
-        "y": 4.143572864779165
-      },
-      "nextControl": {
-        "x": 6.562835576397048,
-        "y": 3.421380969982052
+        "x": 5.537164887307239,
+        "y": 4.933392645314354
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.474424673784107,
-        "y": 4.029620403321471
+        "x": 5.6985527876631075,
+        "y": 3.782158956109134
       },
       "prevControl": {
-        "x": 8.302481643286871,
-        "y": 3.5874811820428483
+        "x": 5.472609727164888,
+        "y": 3.943546856465006
       },
       "nextControl": {
-        "x": 8.56503623907284,
-        "y": 4.262621571206796
+        "x": 6.009081822266269,
+        "y": 3.5603525028211602
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.635812574139978,
+        "x": 8.442,
+        "y": 4.072657176749703
+      },
+      "prevControl": {
+        "x": 7.46291340450771,
+        "y": 3.7498813760379592
+      },
+      "nextControl": {
+        "x": 8.988368138221121,
+        "y": 4.252778540998425
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.5,
         "y": 5.990061185831641
       },
       "prevControl": {
-        "x": 8.774591833295727,
-        "y": 5.739589897369876
+        "x": 8.618385437103214,
+        "y": 5.769868342437762
       },
       "nextControl": {
-        "x": 8.4726458419573,
-        "y": 6.284547421689299
+        "x": 8.201707907280673,
+        "y": 6.544874224199814
       },
       "isLocked": false,
       "linkedName": null
@@ -68,24 +68,24 @@
         "y": 5.990061185831641
       },
       "prevControl": {
-        "x": 7.722695760264502,
-        "y": 6.0577459754392
+        "x": 7.3472895254053165,
+        "y": 6.201972016964299
       },
       "nextControl": {
-        "x": 6.829994834597951,
-        "y": 5.96393277427915
+        "x": 6.796197696754934,
+        "y": 5.767293748374274
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.857,
+        "x": 5.8,
         "y": 5.5
       },
       "prevControl": {
-        "x": 6.080498530284964,
-        "y": 5.612019672202972
+        "x": 6.062127256955087,
+        "y": 5.651352258940303
       },
       "nextControl": null,
       "isLocked": false,
@@ -120,8 +120,8 @@
       "minWaypointRelativePos": 1.9010123734533004,
       "maxWaypointRelativePos": 3.543307086614178,
       "constraints": {
-        "maxVelocity": 3.5,
-        "maxAcceleration": 3.5,
+        "maxVelocity": 4.0,
+        "maxAcceleration": 4.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -170,7 +170,7 @@
   "folder": "V2 Left Auto",
   "idealStartingState": {
     "velocity": 2.0,
-    "rotation": 45.0
+    "rotation": 180.0
   },
   "useDefaultConstraints": false
 }
