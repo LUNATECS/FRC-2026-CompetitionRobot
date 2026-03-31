@@ -70,18 +70,18 @@ public class RightLimeAuto {
             new DriveOverBumpCommand(drivetrain, headingComing, driveRequest, directionComing),
             AutoFactory.followPath("Right Shoot Path V2"),
             //wait for 5 seconds when we should
-            new ParallelDeadlineGroup(new WaitCommand(3.0)
+            new ParallelDeadlineGroup(new WaitCommand(2.875)
                 , new FullShootAUTOSequence(drivetrain, shooter, hood, hopperFeeder, shooterFeeder, hopper, 
                     () -> TargetSupplier.getTargetBasedOnAlliance(drivetrain), driveRequest, 
                     ()->true, 
                     //()-> 2600.0,
                      () -> SOTMCalc.getInstance().getParameters(
                        drivetrain.getPose().getTranslation()
-                           .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).rpm(),
+                           .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).rpm()-100,
                           //hood angle supplier
                             () -> SOTMCalc.getInstance().getParameters(
                        drivetrain.getPose().getTranslation()
-                           .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).hoodAngle(), intake)),
+                           .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).hoodAngle() - 2, intake)),
                     //()->7.0, intake)), 
                     //heeyyyyy adiiiii slayyyyyyyyyyy yasssssss
 
@@ -105,11 +105,11 @@ public class RightLimeAuto {
 
                      () -> SOTMCalc.getInstance().getParameters(
                        drivetrain.getPose().getTranslation()
-                           .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).rpm(),
+                           .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).rpm() - 100,
                           //hood angle supplier
                             () -> SOTMCalc.getInstance().getParameters(
                        drivetrain.getPose().getTranslation()
-                           .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).hoodAngle(), intake)),
+                           .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).hoodAngle() - 2, intake)),
                     //()->7.0, intake)),
 
             //reset hopper after shooting

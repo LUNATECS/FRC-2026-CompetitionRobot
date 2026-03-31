@@ -39,7 +39,7 @@ public class HopperFeederSubSystem extends SubsystemBase {
     feederMotor1.getConfigurator().apply(hopperMotorOutputConfigs);
 
     var currentLimits = new CurrentLimitsConfigs();
-    currentLimits.SupplyCurrentLimit = Constants.Current_Limit_Constants.CurrentLimit;   //increase this current limit if necessary (increased from 40)
+    currentLimits.SupplyCurrentLimit = Constants.Current_Limit_Constants.CurrentLimit + 5;   //increase this current limit if necessary (increased from 40)
     currentLimits.SupplyCurrentLimitEnable = true;
 
     feederMotor1.getConfigurator().apply(currentLimits);

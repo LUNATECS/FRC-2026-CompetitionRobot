@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autos.DriveOverBumpCommand;
 import frc.robot.autos.LeftLimeAuto;
+import frc.robot.autos.LeftNemesisAuto;
 import frc.robot.autos.LeftSweepAuto;
 import frc.robot.autos.LeftTwoCycleAuto;
 import frc.robot.autos.LeftTwoCycleDynamicAuto;
@@ -33,6 +34,7 @@ import frc.robot.autos.LeftTwoCycleSweepAuto;
 import frc.robot.autos.LeftTwoSweepDynamicAuto;
 import frc.robot.autos.PracticeAuto;
 import frc.robot.autos.RightLimeAuto;
+import frc.robot.autos.RightNemesisAuto;
 import frc.robot.autos.RightSweepAuto;
 import frc.robot.autos.RightTwoCycleAuto;
 import frc.robot.autos.RightTwoCycleDynamicAuto;
@@ -124,6 +126,10 @@ public class RobotContainer {
         //double sweep auto
         autoChooser.addOption("Double Left Sweep Auto", LeftTwoCycleSweepAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
         autoChooser.addOption("Double Right Sweep Auto", RightTwoCycleSweepAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+
+        //Nemesis bensalem final autos
+        autoChooser.addOption("Right Nemesis Auto", RightNemesisAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        autoChooser.addOption("Left Nemesis Auto", LeftNemesisAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
 
         //depot autos
         //autoChooser.addOption("Left Depot Auto", LeftDepotAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));

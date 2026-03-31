@@ -19,7 +19,7 @@ public class HopperAutoAgitateCommand extends Command {
   // Tune these
   private final double inwardSpeed = -0.5;   // push balls inward
   private final double outwardSpeed = 0.2;   // slight retract
-  private final double inwardTime = 0.7;      // seconds
+  private final double inwardTime = 0.375;      // seconds
   private final double outwardTime = 0.25;     // seconds
 
   private final double stopThreshold = 5.0; //hopper position encoder value thing
