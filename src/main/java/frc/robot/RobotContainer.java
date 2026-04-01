@@ -41,6 +41,7 @@ import frc.robot.autos.RightTwoCycleDynamicAuto;
 import frc.robot.autos.RightTwoCycleSweepAuto;
 import frc.robot.autos.RightTwoSweepDynamicAuto;
 import frc.robot.autos.SloverOverTheBensalemBump;
+import frc.robot.autos.theTRENCH.LeftTrenchAuto;
 import frc.robot.commands.AimAndShoot.FaceFieldPointCommand;
 import frc.robot.commands.HoodHoldCommand;
 import frc.robot.commands.HopperAgitateCommand;
@@ -163,6 +164,9 @@ public class RobotContainer {
         //limey citrus circuits type autos
         autoChooser.addOption("Left Limey Auto", LeftLimeAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
         autoChooser.addOption("Right Limey Auto", RightLimeAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+
+        //TRENCH AUTOS
+        autoChooser.addOption("Left Trench Auto", LeftTrenchAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
 
         // Put the chooser on SmartDashboard
         SmartDashboard.putData("Autonomous Mode FINAL", autoChooser);
