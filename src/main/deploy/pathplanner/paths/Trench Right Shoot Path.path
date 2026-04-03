@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.3352524538393378,
+        "y": 2.3919738713017216
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.2188192770841284,
+        "y": 2.009550050094706
+      },
+      "isLocked": false,
+      "linkedName": "Trench Right Zone Bump"
+    },
+    {
+      "anchor": {
+        "x": 3.2135852853290605,
+        "y": 2.009163872807902
+      },
+      "prevControl": {
+        "x": 3.4030836415465937,
+        "y": 2.375090744720643
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Shoot Trench Right"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -129.38202007243123
+  },
+  "reversed": false,
+  "folder": "TRENCH Paths",
+  "idealStartingState": {
+    "velocity": 2.5,
+    "rotation": -135.37309093040096
+  },
+  "useDefaultConstraints": true
+}

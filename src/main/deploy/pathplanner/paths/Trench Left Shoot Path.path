@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.7886357810853784,
-        "y": 5.405003579009856
+        "x": 3.7431685557012235,
+        "y": 5.316956451536964
       },
       "isLocked": false,
       "linkedName": "Trench Left Zone Bump"
     },
     {
       "anchor": {
-        "x": 3.2831074078877767,
-        "y": 5.375
+        "x": 3.3281419123896847,
+        "y": 5.68619002674244
       },
       "prevControl": {
-        "x": 3.034094407824317,
-        "y": 5.35280707771844
+        "x": 3.0960575508933847,
+        "y": 5.779124676625327
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 134.65069120365771
+    "rotation": 130.90486292579476
   },
   "reversed": false,
   "folder": "TRENCH Paths",

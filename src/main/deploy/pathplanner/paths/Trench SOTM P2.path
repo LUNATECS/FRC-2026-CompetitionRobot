@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.2831074078877767,
-        "y": 5.375
+        "x": 3.3281419123896847,
+        "y": 5.68619002674244
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.2935608677637007,
-        "y": 6.330083859761556
+        "x": 3.3385953722656088,
+        "y": 6.641273886503996
       },
       "isLocked": false,
       "linkedName": "Shoot Trench Left"
@@ -135,7 +135,7 @@
     },
     {
       "waypointRelativePos": 5.650849213471284,
-      "rotationDegrees": 177.3469127103326
+      "rotationDegrees": 177.34691271033262
     }
   ],
   "constraintZones": [
@@ -231,7 +231,7 @@
   "folder": "TRENCH Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 134.65069120365771
+    "rotation": 130.90486292579476
   },
   "useDefaultConstraints": false
 }
