@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.5686904065167466,
-        "y": 4.0
+        "x": 5.108527555011567,
+        "y": 7.478525487354824
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.627414652223941,
-        "y": 3.5704283662018956
+        "x": 5.167251800718762,
+        "y": 7.0489538535567196
       },
       "isLocked": false,
       "linkedName": null
@@ -31,7 +31,14 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
@@ -48,7 +55,7 @@
   "folder": "Tuning",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 179.12816499943682
   },
   "useDefaultConstraints": true
 }
