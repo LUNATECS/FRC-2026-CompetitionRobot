@@ -113,7 +113,7 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 2.564685560252569,
+      "minWaypointRelativePos": 2.0782219873715766,
       "maxWaypointRelativePos": 4.9,
       "constraints": {
         "maxVelocity": 4.5,
