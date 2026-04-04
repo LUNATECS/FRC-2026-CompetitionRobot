@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
@@ -36,13 +37,17 @@ import frc.robot.autos.RightTwoCycleSweepAuto;
 import frc.robot.autos.RightTwoSweepDynamicAuto;
 import frc.robot.autos.SloverOverTheBensalemBump;
 import frc.robot.autos.theTRENCH.LeftTrenchAuto;
+import frc.robot.autos.theTRENCH.LeftTrenchSOTMAuto;
 import frc.robot.autos.theTRENCH.RightTrenchAuto;
+import frc.robot.autos.theTRENCH.RightTrenchSOTMAuto;
 import frc.robot.commands.AimAndShoot.FaceFieldPointCommand;
+import frc.robot.commands.HoodDynamicPointCommand;
 import frc.robot.commands.HoodHoldCommand;
 import frc.robot.commands.HopperAgitateCommand;
 import frc.robot.commands.HopperPositionCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootOnTheMove.FullShootOnTheMoveSequence;
+import frc.robot.commands.ShooterDynamicVelocityCommand;
 import frc.robot.commands.ShooterVelocityCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -53,6 +58,7 @@ import frc.robot.subsystems.IntakeSubSystem;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ShooterFeederSubSystem;
 import frc.robot.subsystems.ShooterSubSystem;
+import frc.robot.util.SOTMSuppliers;
 import frc.robot.util.TargetSupplier;
 
 /**
@@ -164,6 +170,10 @@ public class RobotContainer {
         autoChooser.addOption("Left Trench Auto", LeftTrenchAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
         autoChooser.addOption("Right Trench Auto", RightTrenchAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
 
+        //Trench SOTM Autos
+        autoChooser.addOption("Left Trench SOTM Auto", LeftTrenchSOTMAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        autoChooser.addOption("Right Trench SOTM Auto", RightTrenchSOTMAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+
         // Put the chooser on SmartDashboard
         SmartDashboard.putData("Autonomous Mode FINAL", autoChooser);
     }
@@ -180,6 +190,31 @@ public class RobotContainer {
     NamedCommands.registerCommand("Start Intake Command", new IntakeCommand(intake, 6500));
 
     NamedCommands.registerCommand("StopIntakeCommand", new InstantCommand(()->{intake.setSpeed(0);}, intake));
+
+    NamedCommands.registerCommand("StopShooting", 
+      new ParallelCommandGroup( 
+            new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position),
+            new InstantCommand(()->{shooter.setSpeed(0);}),
+            new InstantCommand(()->{shooterFeeder.setSpeed(0);}),
+            new InstantCommand(()->{hopperFeeder.setRPMHopper(0);}))
+    );
+
+    NamedCommands.registerCommand(
+        "SOTM",
+        new ParallelCommandGroup() {{
+            SOTMSuppliers suppliers = new SOTMSuppliers(
+                drivetrain,
+                shooter,
+                hood,
+                () -> TargetSupplier.getTargetBasedOnAlliance(drivetrain)
+            );
+
+            addCommands(
+                new ShooterDynamicVelocityCommand(shooter, suppliers.shooterRPMSupplier),
+                new HoodDynamicPointCommand(hood, suppliers.hoodAngleSupplier)
+            );
+        }}
+    );
 
     // Configure the trigger bindings
     //autoChooser = AutoBuilder.buildAutoChooser();
