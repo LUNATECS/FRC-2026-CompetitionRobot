@@ -39,6 +39,7 @@ import frc.robot.autos.theTRENCH.LeftTrenchAuto;
 import frc.robot.autos.theTRENCH.RightTrenchAuto;
 import frc.robot.commands.AimAndShoot.FaceFieldPointCommand;
 import frc.robot.commands.HoodHoldCommand;
+import frc.robot.commands.HoodTrenchCommand;
 import frc.robot.commands.HopperAgitateCommand;
 import frc.robot.commands.HopperPositionCommand;
 import frc.robot.commands.IntakeCommand;
@@ -54,6 +55,7 @@ import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ShooterFeederSubSystem;
 import frc.robot.subsystems.ShooterSubSystem;
 import frc.robot.util.TargetSupplier;
+import frc.robot.util.TrenchPositionSupplier;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -173,6 +175,7 @@ public class RobotContainer {
     SmartDashboard.putNumber("shooterRPMInput", 0);
     SmartDashboard.putNumber("hoodInputAngle", 0);
     SmartDashboard.putData(virtualTargetField);
+    SmartDashboard.putBoolean("trenchZone", TrenchPositionSupplier.getTrenchZone(drivetrain));
 
     NamedCommands.registerCommand("Drive Over Bump RIGHT", new DriveOverBumpCommand(drivetrain, Rotation2d.fromDegrees(-45), drive, 1.0));
     NamedCommands.registerCommand("Drive Over Bump LEFT", new DriveOverBumpCommand(drivetrain, Rotation2d.fromDegrees(-45), drive, -1.0));
@@ -213,6 +216,8 @@ public class RobotContainer {
                     .withRotationalRate(-driver.getRightX() * MaxAngularRate * 1.5) // Drive counterclockwise with negative X (left)
             )
         );
+
+      hood.setDefaultCommand(new HoodTrenchCommand(hood, drivetrain));
 
       shooter.setDefaultCommand(new ShooterVelocityCommand(shooter, ()->3000.0));
       //hood.setDefaultCommand(new HoodHoldCommand(hood, ()->1.5));
