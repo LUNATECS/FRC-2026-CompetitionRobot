@@ -11,6 +11,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import static edu.wpi.first.units.Units.Seconds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -88,6 +89,9 @@ public class Robot extends TimedRobot {
 
     // log final decision
     SmartDashboard.putString("Best Sweep Lane", lane);
+
+    SmartDashboard.putBoolean("Controller HID Connected", m_robotContainer.getController().getHID().isConnected());
+    m_robotContainer.getController().setRumble(GenericHID.RumbleType.kBothRumble, 1);
 
 
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
