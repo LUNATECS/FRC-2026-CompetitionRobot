@@ -26,22 +26,17 @@ import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autos.DriveOverBumpCommand;
 import frc.robot.autos.LeftLimeAuto;
-import frc.robot.autos.LeftNemesisAuto;
-import frc.robot.autos.LeftSweepAuto;
-import frc.robot.autos.LeftTwoCycleAuto;
 import frc.robot.autos.LeftTwoCycleDynamicAuto;
 import frc.robot.autos.LeftTwoCycleSweepAuto;
 import frc.robot.autos.LeftTwoSweepDynamicAuto;
 import frc.robot.autos.PracticeAuto;
 import frc.robot.autos.RightLimeAuto;
-import frc.robot.autos.RightNemesisAuto;
-import frc.robot.autos.RightSweepAuto;
-import frc.robot.autos.RightTwoCycleAuto;
 import frc.robot.autos.RightTwoCycleDynamicAuto;
 import frc.robot.autos.RightTwoCycleSweepAuto;
 import frc.robot.autos.RightTwoSweepDynamicAuto;
 import frc.robot.autos.SloverOverTheBensalemBump;
 import frc.robot.autos.theTRENCH.LeftTrenchAuto;
+import frc.robot.autos.theTRENCH.RightTrenchAuto;
 import frc.robot.commands.AimAndShoot.FaceFieldPointCommand;
 import frc.robot.commands.HoodHoldCommand;
 import frc.robot.commands.HopperAgitateCommand;
@@ -115,22 +110,22 @@ public class RobotContainer {
         autoChooser.setDefaultOption("DO NOTHING", PracticeAuto.build(drivetrain));
         //autoChooser.addOption("Right One Cycle Climb", RightOneCycleClimbAuto.build(drivetrain, drive, hopper));
         //two cycle autos
-        autoChooser.addOption("Right Two Cycle Auto", RightTwoCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
-        autoChooser.addOption("Left Two Cycle Auto", LeftTwoCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        //autoChooser.addOption("Right Two Cycle Auto", RightTwoCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        //autoChooser.addOption("Left Two Cycle Auto", LeftTwoCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
         //one cycle autos
         //autoChooser.addOption("Right One Cycle Auto", RightOneCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
         //autoChooser.addOption("Left One Cycle Auto", LeftOneCycleAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
         //sweep autos
-        autoChooser.addOption("Left Sweep Auto", LeftSweepAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
-        autoChooser.addOption("Right Sweep Auto", RightSweepAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        //autoChooser.addOption("Left Sweep Auto", LeftSweepAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        //autoChooser.addOption("Right Sweep Auto", RightSweepAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
 
         //double sweep auto
         autoChooser.addOption("Double Left Sweep Auto", LeftTwoCycleSweepAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
         autoChooser.addOption("Double Right Sweep Auto", RightTwoCycleSweepAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
 
         //Nemesis bensalem final autos
-        autoChooser.addOption("Right Nemesis Auto", RightNemesisAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
-        autoChooser.addOption("Left Nemesis Auto", LeftNemesisAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        //autoChooser.addOption("Right Nemesis Auto", RightNemesisAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        //autoChooser.addOption("Left Nemesis Auto", LeftNemesisAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
 
         //depot autos
         //autoChooser.addOption("Left Depot Auto", LeftDepotAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
@@ -167,6 +162,7 @@ public class RobotContainer {
 
         //TRENCH AUTOS
         autoChooser.addOption("Left Trench Auto", LeftTrenchAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        autoChooser.addOption("Right Trench Auto", RightTrenchAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
 
         // Put the chooser on SmartDashboard
         SmartDashboard.putData("Autonomous Mode FINAL", autoChooser);
