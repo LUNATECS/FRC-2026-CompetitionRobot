@@ -88,14 +88,12 @@ public class RobotContainer {
   //private final CommandPS5Controller tester = new CommandPS5Controller(2);
 
   private final double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-    private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
+    private final double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
 
     /* Setting up bindings for necessary control of the swerve drive platform */
     public final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
             .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
-    private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
-    private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
@@ -456,7 +454,7 @@ public class RobotContainer {
   }, shooter))
   .onFalse(new InstantCommand(()->{shooterFeeder.setSpeed(0);
   shooter.setSpeed(0);}, shooterFeeder, shooter));
-;
+
 
   
 
