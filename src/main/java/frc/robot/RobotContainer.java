@@ -15,6 +15,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -112,6 +113,17 @@ public class RobotContainer {
 
 
 
+    public enum AutoSide {
+    LEFT,
+    RIGHT
+    }
+
+    private AutoSide selectedSide = AutoSide.LEFT; // default
+
+    public AutoSide getSelectedSide() {
+        return selectedSide;
+    }
+    
   public void setupAutoChooser() {
         autoChooser.setDefaultOption("DO NOTHING", PracticeAuto.build(drivetrain));
         //autoChooser.addOption("Right One Cycle Climb", RightOneCycleClimbAuto.build(drivetrain, drive, hopper));
@@ -540,8 +552,28 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return autoChooser.getSelected();
+    Command selected = autoChooser.getSelected();
+    String name = autoChooser.getSelected().getName();
+    if (name.contains("Left")) {
+        selectedSide = AutoSide.LEFT;
+    } else if (name.contains("Right")) {
+        selectedSide = AutoSide.RIGHT;
+    }
+    return selected;
+
   }
+
+  public Rotation2d getAutoStartRotation(Alliance alliance) {
+    if (alliance == Alliance.Blue) {
+        return (selectedSide == AutoSide.LEFT)
+            ? Rotation2d.fromDegrees(-90)
+            : Rotation2d.fromDegrees(90);
+    } else { // Red
+        return (selectedSide == AutoSide.LEFT)
+            ? Rotation2d.fromDegrees(90)
+            : Rotation2d.fromDegrees(-90);
+    }
+}
 
   public CommandSwerveDrivetrain getSwerveDrivetrain(){
     return drivetrain;

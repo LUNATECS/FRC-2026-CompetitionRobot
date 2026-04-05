@@ -11,7 +11,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import static edu.wpi.first.units.Units.Seconds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -60,7 +59,7 @@ public class Robot extends TimedRobot {
   public void driverStationConnected() {
     m_robotContainer.setupAutoChooser();
     Alliance alliance = DriverStation.getAlliance().get();
-    Rotation2d startRotation = (alliance == Alliance.Red) ? Rotation2d.fromDegrees(180) : Rotation2d.fromDegrees(0);
+    Rotation2d startRotation = m_robotContainer.getAutoStartRotation(alliance);
     m_robotContainer.getSwerveDrivetrain().resetPose(new Pose2d(
         m_robotContainer.getSwerveDrivetrain().getPose().getTranslation(),
         startRotation
@@ -119,7 +118,7 @@ public class Robot extends TimedRobot {
   public void disabledInit() {
     if (!alreadySetForStartOfAuto && DriverStation.getAlliance().isPresent()){
     Alliance alliance = DriverStation.getAlliance().get();
-    Rotation2d startRotation = (alliance == Alliance.Red) ? Rotation2d.fromDegrees(180) : Rotation2d.fromDegrees(0);
+    Rotation2d startRotation = m_robotContainer.getAutoStartRotation(alliance);
     m_robotContainer.getSwerveDrivetrain().resetPose(new Pose2d(
         m_robotContainer.getSwerveDrivetrain().getPose().getTranslation(),
         startRotation
@@ -148,12 +147,11 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-        var alliance = DriverStation.getAlliance();
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-    Rotation2d autoRotation =
-        alliance.isPresent() && alliance.get() == Alliance.Red
-            ? Rotation2d.k180deg
-            : Rotation2d.kZero;
+        var alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
+
+    Rotation2d autoRotation = m_robotContainer.getAutoStartRotation(alliance);
 
     Pose2d startPose = new Pose2d(
         m_robotContainer.getSwerveDrivetrain().getPose().getTranslation(),
@@ -173,7 +171,6 @@ public class Robot extends TimedRobot {
         */
 
     //CommandScheduler.getInstance().schedule(new HoodHoldCommand(new HoodSubSystem(), ()->1.5));
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
