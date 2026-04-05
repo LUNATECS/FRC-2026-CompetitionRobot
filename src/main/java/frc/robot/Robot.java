@@ -21,6 +21,7 @@ import frc.robot.commands.HopperPositionCommand;
 import frc.robot.util.AllianceFliputil;
 import frc.robot.util.BallLaneDetector;
 import frc.robot.util.HubTracker;
+import frc.robot.util.TrenchPositionSupplier;
 
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
@@ -92,6 +93,8 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putBoolean("Controller HID Connected", m_robotContainer.getController().getHID().isConnected());
     m_robotContainer.getController().setRumble(GenericHID.RumbleType.kBothRumble, 1);
+
+    SmartDashboard.putBoolean("Under Trench?", TrenchPositionSupplier.getTrenchZone(m_robotContainer.getSwerveDrivetrain()));
 
 
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled

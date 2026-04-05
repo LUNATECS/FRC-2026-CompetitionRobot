@@ -33,7 +33,7 @@ public class HoodSubSystem extends SubsystemBase {
 
     var motorOutputConfigs = new MotorOutputConfigs();
     motorOutputConfigs.NeutralMode = NeutralModeValue.Brake;
-    motorOutputConfigs.Inverted = InvertedValue.CounterClockwise_Positive;
+    motorOutputConfigs.Inverted = InvertedValue.Clockwise_Positive;//changed from the first four=wide to trench
 
     var feedbackConfigs = new FeedbackConfigs();
     feedbackConfigs.SensorToMechanismRatio = motorGearRatio;

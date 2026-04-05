@@ -17,6 +17,7 @@ public class HoodTrenchCommand extends Command {
   private final HoodSubSystem hood;
   private final PIDController pid;
   private final CommandSwerveDrivetrain drivetrain;
+  private double LastKnownGoodSetpoint;
   /** Creates a new HoodTrenchCommand. */
   public HoodTrenchCommand(HoodSubSystem hood, CommandSwerveDrivetrain drivetrain) {
     this.hood = hood;
@@ -29,19 +30,28 @@ public class HoodTrenchCommand extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    LastKnownGoodSetpoint = 10;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    double setpoint = 0;
+
+
     if(TrenchPositionSupplier.getTrenchZone(drivetrain)){
-    pid.setSetpoint(0);
+      setpoint = 0;
+    }
+    else {
+      setpoint = LastKnownGoodSetpoint;
+    }
+    pid.setSetpoint(setpoint);
     double output = pid.calculate(hood.getHoodDegrees());
     //CLAMPING FOR NOW
     output = Math.max(-0.8, Math.min(0.8, output));
 
     hood.setSpeed(output);
-    }
 
   }
 
@@ -51,7 +61,7 @@ public class HoodTrenchCommand extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
+  public void end(boolean interrupted) {  
     hood.setSpeed(0);
   }
 
