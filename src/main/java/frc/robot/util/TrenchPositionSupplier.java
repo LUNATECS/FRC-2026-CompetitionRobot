@@ -20,7 +20,13 @@ public class TrenchPositionSupplier {
             robotPose = drivetrain.getPose();
            
                 if(robotPose.getX() < 5.25 && robotPose.getX() > 4){
-                      if(robotPose.getY() > 7 || robotPose.getY() < 1.25){
+                      if(robotPose.getY() > 7 || robotPose.getY() < 1.1){
+                          trenchZone = true;
+                      }
+                }
+
+                if(robotPose.getX() < 12.625 && robotPose.getX() > 11.25){
+                      if(robotPose.getY() > 7 || robotPose.getY() < 1.1){
                           trenchZone = true;
                       }
                 }

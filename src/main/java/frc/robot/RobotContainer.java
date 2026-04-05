@@ -512,11 +512,11 @@ public class RobotContainer {
 
 
   //Hood Testing
-  tester.R1().onTrue(new InstantCommand(()->{hood.setSpeed(0.15);}))
-    .onFalse(new InstantCommand(()->{hood.setSpeed(0);}));
+  tester.R1().onTrue(new InstantCommand(()->{hood.setSpeed(0.15);}, hood))
+    .onFalse(new InstantCommand(()->{hood.setSpeed(0);}, hood));
 
-  tester.L1().onTrue(new InstantCommand(()->{hood.setSpeed(-0.15);}))
-    .onFalse(new InstantCommand(()->{hood.setSpeed(0);}));
+  tester.L1().onTrue(new InstantCommand(()->{hood.setSpeed(-0.15);}, hood))
+    .onFalse(new InstantCommand(()->{hood.setSpeed(0);}, hood));
 
 
 
