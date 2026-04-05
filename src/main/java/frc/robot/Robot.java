@@ -92,7 +92,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putString("Best Sweep Lane", lane);
 
     SmartDashboard.putBoolean("Controller HID Connected", m_robotContainer.getController().getHID().isConnected());
-    m_robotContainer.getController().setRumble(GenericHID.RumbleType.kBothRumble, 1);
+    //m_robotContainer.getController().setRumble(GenericHID.RumbleType.kBothRumble, 1);
 
     SmartDashboard.putBoolean("Under Trench?", TrenchPositionSupplier.getTrenchZone(m_robotContainer.getSwerveDrivetrain()));
 
