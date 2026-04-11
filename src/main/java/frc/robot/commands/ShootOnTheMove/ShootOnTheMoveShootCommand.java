@@ -39,7 +39,6 @@ public class ShootOnTheMoveShootCommand extends Command {
         ShooterFeederSubSystem shooterFeeder,
         ShooterSubSystem shooter,
         HoodDynamicPointCommand hoodCommand,
-        ShootOnTheMoveCommand drivetrainCommand,
         IntakeSubSystem intake,
         LEDSubsystem led,
 
@@ -49,7 +48,6 @@ public class ShootOnTheMoveShootCommand extends Command {
     this.shooterFeeder = shooterFeeder;
     this.shooter = shooter;
     this.hoodCommand = hoodCommand;
-    this.drivetrainCommand = drivetrainCommand;
     this.fireButton = fireButton;
     this.intake = intake;
     this.led = led;

@@ -67,7 +67,9 @@ public class LeftTrenchAuto {
             // }),
 
             new ParallelDeadlineGroup(AutoFactory.followPath("Trench Left P1"), 
-            new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position)),
+            new HopperPositionCommand(hopper, 0
+            //Constants.Hopper_SubSystem_Constants.Hopper_Out_Position
+            )),
             new DriveOverBumpCommand(drivetrain, headingComing, driveRequest, directionComing),
             AutoFactory.followPath("Trench Left Shoot Path"),
             //wait for 5 seconds when we should
@@ -87,7 +89,9 @@ public class LeftTrenchAuto {
             //drive back over for second cycle.
             //resets the hopper while driving back over bump
             new ParallelDeadlineGroup(AutoFactory.followPath("Trench Left P2"), 
-            new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position),
+            new HopperPositionCommand(hopper, 0
+            //Constants.Hopper_SubSystem_Constants.Hopper_Out_Position
+            ),
             new InstantCommand(()->{shooter.setSpeed(0);}),
             new InstantCommand(()->{shooterFeeder.setSpeed(0);}),
             new InstantCommand(()->{hopperFeeder.setRPMHopper(0);})),
@@ -111,7 +115,9 @@ public class LeftTrenchAuto {
             
                            //third sweep
              new ParallelDeadlineGroup(AutoFactory.followPath("Trench Left P2"), 
-            new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position),
+            new HopperPositionCommand(hopper, 0
+            //Constants.Hopper_SubSystem_Constants.Hopper_Out_Position
+            ),
             new InstantCommand(()->{shooter.setSpeed(0);}),
             new InstantCommand(()->{shooterFeeder.setSpeed(0);}),
             new InstantCommand(()->{hopperFeeder.setRPMHopper(0);})),

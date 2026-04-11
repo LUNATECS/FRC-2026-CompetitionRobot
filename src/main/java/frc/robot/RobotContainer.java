@@ -47,6 +47,7 @@ import frc.robot.commands.HoodHoldCommand;
 import frc.robot.commands.HoodTrenchCommand;
 import frc.robot.commands.HopperAgitateCommand;
 import frc.robot.commands.HopperPositionCommand;
+import frc.robot.commands.IntakeAgitateCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootOnTheMove.FullShootOnTheMoveSequence;
 import frc.robot.commands.ShooterDynamicVelocityCommand;
@@ -183,8 +184,8 @@ public class RobotContainer {
         autoChooser.addOption("Right Trench Auto", RightTrenchAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
 
         //Trench SOTM Autos
-        autoChooser.addOption("Left Trench SOTM Auto", LeftTrenchSOTMAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
-        autoChooser.addOption("Right Trench SOTM Auto", RightTrenchSOTMAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        autoChooser.addOption("Left Trench SOTM Auto", LeftTrenchSOTMAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake, led));
+        autoChooser.addOption("Right Trench SOTM Auto", RightTrenchSOTMAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake, led));
 
         // Put the chooser on SmartDashboard
         SmartDashboard.putData("Autonomous Mode FINAL", autoChooser);
@@ -206,10 +207,17 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("StopShooting", 
       new ParallelCommandGroup( 
-            new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position),
-            new InstantCommand(()->{shooter.setSpeed(0);}),
-            new InstantCommand(()->{shooterFeeder.setSpeed(0);}),
-            new InstantCommand(()->{hopperFeeder.setRPMHopper(0);}))
+           // new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position),
+            new InstantCommand(()->{shooter.setSpeed(0);}, shooter),
+            new InstantCommand(()->{shooterFeeder.setSpeed(0);}, shooterFeeder),
+            new InstantCommand(()->{hopperFeeder.setRPMHopper(0);}, hopperFeeder))
+    );
+
+    NamedCommands.registerCommand("Start Feeding", 
+      new ParallelCommandGroup( 
+           // new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position),
+            new InstantCommand(()->{shooterFeeder.setRPMBasedOnShooter(shooter.getRPM());}),
+            new InstantCommand(()->{hopperFeeder.setSpeed(0.9);}))
     );
 
     NamedCommands.registerCommand(
@@ -501,16 +509,17 @@ public class RobotContainer {
 
   //}));
 
-  tester.triangle().onTrue(new InstantCommand(() -> {
-    hopperFeeder.setSpeed(-1.5);
-    //intake.setSpeed(-1);
-    shooterFeeder.setSpeed(-1);
-  }))
-    .onFalse(new InstantCommand(()->{
-      hopperFeeder.setSpeed(0);
-      //intake.setSpeed(0);
-      shooterFeeder.setSpeed(0);
-  }));
+  // tester.triangle().onTrue(new InstantCommand(() -> {
+  //   hopperFeeder.setSpeed(-1.5);
+  //   //intake.setSpeed(-1);
+  //   shooterFeeder.setSpeed(-1);
+  // }))
+  //   .onFalse(new InstantCommand(()->{
+  //     hopperFeeder.setSpeed(0);
+  //     //intake.setSpeed(0);
+  //     shooterFeeder.setSpeed(0);
+  // }));
+  tester.triangle().onTrue(new IntakeAgitateCommand(intake));
 
   //shooter testing
   //tester.povUp().onTrue(new InstantCommand(()->{shooter.setSpeed(0.25);}, shooter))

@@ -31,17 +31,17 @@ public class HoodTrenchCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    LastKnownGoodSetpoint = 10;
+    LastKnownGoodSetpoint = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double setpoint = 2;
+    double setpoint = 0;
 
 
     if(TrenchPositionSupplier.getTrenchZone(drivetrain)){
-      setpoint = 2;
+      setpoint = 0;
     }
     else {
       setpoint = LastKnownGoodSetpoint;

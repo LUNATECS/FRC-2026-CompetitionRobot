@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.5,
-        "y": 5.375
+        "x": 2.901162514827996,
+        "y": 6.676381969157769
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.252246063777379,
-        "y": 6.363723553248815
+        "x": 2.556868327402136,
+        "y": 7.128268090154211
       },
       "isLocked": false,
-      "linkedName": "Trench Left Zone Bump"
+      "linkedName": "End SOTM Left"
     },
     {
       "anchor": {
@@ -20,12 +20,12 @@
         "y": 7.3407369220824465
       },
       "prevControl": {
-        "x": 3.1826079319567238,
-        "y": 7.288023558919805
+        "x": 2.8512564102564113,
+        "y": 7.360666666666666
       },
       "nextControl": {
-        "x": 3.8086816936903363,
-        "y": 7.423069519220231
+        "x": 3.8172266918424484,
+        "y": 7.327228232904439
       },
       "isLocked": false,
       "linkedName": null
@@ -97,11 +97,11 @@
     {
       "anchor": {
         "x": 5.8,
-        "y": 5.375
+        "y": 5.5
       },
       "prevControl": {
         "x": 7.0610474959752505,
-        "y": 5.874387541087297
+        "y": 5.999387541087297
       },
       "nextControl": null,
       "isLocked": false,
@@ -164,48 +164,13 @@
         "nominalVoltage": 12.0,
         "unlimited": false
       }
-    },
-    {
-      "name": "Constraints Zone",
-      "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 0.9088893942636984,
-      "constraints": {
-        "maxVelocity": 1.0,
-        "maxAcceleration": 1.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0,
-        "nominalVoltage": 12.0,
-        "unlimited": false
-      }
     }
   ],
-  "pointTowardsZones": [
-    {
-      "fieldPosition": {
-        "x": 4.625,
-        "y": 4.025
-      },
-      "rotationOffset": -170.0,
-      "minWaypointRelativePos": 0.0,
-      "maxWaypointRelativePos": 0.7883879361087327,
-      "name": "Point Towards Zone"
-    }
-  ],
+  "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "Shoot On The Move Auto",
-      "waypointRelativePos": 0,
-      "endWaypointRelativePos": 0.6858970328553082,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "SOTM"
-        }
-      }
-    },
-    {
       "name": "Stop Shooting",
-      "waypointRelativePos": 0.826165855094178,
+      "waypointRelativePos": 0.0,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -252,7 +217,7 @@
   "reversed": false,
   "folder": "TRENCH Paths",
   "idealStartingState": {
-    "velocity": 0,
+    "velocity": 1.0,
     "rotation": 136.7788727796545
   },
   "useDefaultConstraints": false

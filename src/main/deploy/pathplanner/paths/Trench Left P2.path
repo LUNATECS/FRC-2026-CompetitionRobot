@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.83956047812204,
-        "y": 6.640658047827238
+        "x": 1.8744871794871802,
+        "y": 7.558346153846154
       },
       "isLocked": false,
       "linkedName": "Shoot Trench Left"
@@ -20,12 +20,12 @@
         "y": 7.3407369220824465
       },
       "prevControl": {
-        "x": 2.887754644127092,
-        "y": 7.103525587168438
+        "x": 2.847366548042706,
+        "y": 7.300415183867142
       },
       "nextControl": {
-        "x": 3.784405707053729,
-        "y": 7.4979671560086425
+        "x": 3.816519022964049,
+        "y": 7.367834972912063
       },
       "isLocked": false,
       "linkedName": null
@@ -49,31 +49,31 @@
     {
       "anchor": {
         "x": 5.8,
-        "y": 4.092059314818609
+        "y": 4.203114830198742
       },
       "prevControl": {
         "x": 5.419280404169163,
-        "y": 4.8845366568758575
+        "y": 4.99559217225599
       },
       "nextControl": {
         "x": 6.252182044055366,
-        "y": 3.1508311029715084
+        "y": 3.261886618351641
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.232335364023845,
-        "y": 4.203114830198742
+        "x": 8.456051282051282,
+        "y": 4.05825641025641
       },
       "prevControl": {
-        "x": 7.597503990923112,
-        "y": 3.6698485369816543
+        "x": 7.996157042786359,
+        "y": 3.368415051359025
       },
       "nextControl": {
-        "x": 8.852176244467856,
-        "y": 4.723788922098647
+        "x": 9.10723076923077,
+        "y": 5.035025641025641
       },
       "isLocked": false,
       "linkedName": null
@@ -97,11 +97,11 @@
     {
       "anchor": {
         "x": 5.8,
-        "y": 5.375
+        "y": 5.5
       },
       "prevControl": {
-        "x": 7.0610474959752505,
-        "y": 5.874387541087297
+        "x": 6.946619217081851,
+        "y": 6.3966429418742585
       },
       "nextControl": null,
       "isLocked": false,
@@ -159,6 +159,19 @@
       "constraints": {
         "maxVelocity": 4.5,
         "maxAcceleration": 4.5,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    },
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.35095613048367413,
+      "maxWaypointRelativePos": 0.8503937007874061,
+      "constraints": {
+        "maxVelocity": 1.0,
+        "maxAcceleration": 1.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,

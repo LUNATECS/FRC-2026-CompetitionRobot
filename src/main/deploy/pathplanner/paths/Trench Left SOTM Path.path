@@ -1,0 +1,79 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.5,
+        "y": 5.375
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.331530249110321,
+        "y": 5.761850533807828
+      },
+      "isLocked": false,
+      "linkedName": "Trench Left Zone Bump"
+    },
+    {
+      "anchor": {
+        "x": 2.901162514827996,
+        "y": 6.676381969157769
+      },
+      "prevControl": {
+        "x": 2.9334400948991703,
+        "y": 6.278291814946619
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "End SOTM Left"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0,
+      "maxWaypointRelativePos": 0.6456692913385781,
+      "constraints": {
+        "maxVelocity": 1.0,
+        "maxAcceleration": 1.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [
+    {
+      "fieldPosition": {
+        "x": 4.625,
+        "y": 4.025
+      },
+      "rotationOffset": -175.0,
+      "minWaypointRelativePos": 0.0,
+      "maxWaypointRelativePos": 0.7491563554555626,
+      "name": "Point Towards Zone"
+    }
+  ],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 5.0,
+    "maxAcceleration": 5.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": true
+  },
+  "goalEndState": {
+    "velocity": 1.0,
+    "rotation": 136.7788727796545
+  },
+  "reversed": false,
+  "folder": "TRENCH Paths",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 136.7788727796545
+  },
+  "useDefaultConstraints": false
+}

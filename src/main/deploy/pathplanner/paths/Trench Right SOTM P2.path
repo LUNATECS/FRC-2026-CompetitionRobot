@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.3352524538393378,
-        "y": 2.3919738713017216
+        "x": 2.858125741399763,
+        "y": 1.2967852906287078
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.1269136719476607,
-        "y": 1.7716106705438528
+        "x": 2.3847212336892056,
+        "y": 0.9955278766310788
       },
       "isLocked": false,
-      "linkedName": "Trench Right Zone Bump"
+      "linkedName": "End SOTM Right"
     },
     {
       "anchor": {
@@ -195,33 +195,11 @@
       }
     }
   ],
-  "pointTowardsZones": [
-    {
-      "fieldPosition": {
-        "x": 4.625,
-        "y": 4.0625
-      },
-      "rotationOffset": 175.0,
-      "minWaypointRelativePos": 0.0,
-      "maxWaypointRelativePos": 0.7379090191566783,
-      "name": "Point Towards Zone"
-    }
-  ],
+  "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "Shoot On The Move Auto",
-      "waypointRelativePos": 0.0,
-      "endWaypointRelativePos": 0.6787910356913529,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "SOTM"
-        }
-      }
-    },
-    {
       "name": "Stop Shooting",
-      "waypointRelativePos": 0.8083051289597601,
+      "waypointRelativePos": 0.0,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -268,8 +246,8 @@
   "reversed": false,
   "folder": "TRENCH Paths",
   "idealStartingState": {
-    "velocity": 0,
-    "rotation": -135.37309093040096
+    "velocity": 1.0,
+    "rotation": -122.00538320808334
   },
   "useDefaultConstraints": false
 }

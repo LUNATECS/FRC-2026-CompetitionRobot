@@ -18,14 +18,17 @@ import frc.robot.Constants;
 import frc.robot.autos.AutoFactory;
 import frc.robot.autos.DriveOverBumpCommand;
 import frc.robot.commands.HopperPositionCommand;
+import frc.robot.commands.ShootOnTheMove.SOTM_AUTOSequence;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.HoodSubSystem;
 import frc.robot.subsystems.HopperFeederSubSystem;
 import frc.robot.subsystems.HopperSubSystem;
 import frc.robot.subsystems.IntakeSubSystem;
+import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ShooterFeederSubSystem;
 import frc.robot.subsystems.ShooterSubSystem;
 import frc.robot.util.AllianceFliputil;
+import frc.robot.util.TargetSupplier;
 
 
 /** Add your docs here. */
@@ -41,7 +44,8 @@ public class RightTrenchSOTMAuto {
         HopperFeederSubSystem hopperFeeder, 
         ShooterFeederSubSystem shooterFeeder,
         HopperSubSystem hopper,
-        IntakeSubSystem intake) 
+        IntakeSubSystem intake,
+        LEDSubsystem led) 
         {
         return Commands.defer(()->{
         double directionGoing = AllianceFliputil.getFlipBasedOnAllianceForGoingToCenter();
@@ -65,10 +69,18 @@ public class RightTrenchSOTMAuto {
             new ParallelDeadlineGroup(AutoFactory.followPath("Trench Right P1"), 
             new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position)),
             new DriveOverBumpCommand(drivetrain, headingComing, driveRequest, directionComing),
+            new ParallelDeadlineGroup(
+                AutoFactory.followPath("Trench Right SOTM Path"),
+                new SOTM_AUTOSequence(drivetrain, shooter, hood, hopperFeeder, shooterFeeder, hopper, intake, led, ()->TargetSupplier.getTargetBasedOnAlliance(drivetrain), ()->true)
+            ),
             AutoFactory.followPath("Trench Right SOTM P2"),
             new ParallelDeadlineGroup(
             new DriveOverBumpCommand(drivetrain, headingComing, driveRequest, directionComing)
             , new InstantCommand(()->{hopperFeeder.setSpeed(-0.2);})),
+            new ParallelDeadlineGroup(
+                AutoFactory.followPath("Trench Right SOTM Path"),
+                new SOTM_AUTOSequence(drivetrain, shooter, hood, hopperFeeder, shooterFeeder, hopper, intake, led, ()->TargetSupplier.getTargetBasedOnAlliance(drivetrain), ()->true)
+            ),
             AutoFactory.followPath("Trench Right SOTM P2"),
             new ParallelDeadlineGroup(
             new DriveOverBumpCommand(drivetrain, headingComing, driveRequest, directionComing)
