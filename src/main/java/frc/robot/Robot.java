@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.commands.HoodHoldCommand;
+import frc.robot.commands.HoodTrenchCommand;
 import frc.robot.commands.HopperPositionCommand;
 import frc.robot.commands.ShooterDynamicVelocityCommand;
 import frc.robot.util.AllianceFliputil;
@@ -86,7 +86,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Alliance Flip util Going rotation", AllianceFliputil.getHeadingBasedOnAllianceForBumpRIGHT().getDegrees());
 
     SmartDashboard.putNumber("SOTMSupplier HOOD", new SOTMSuppliers(m_robotContainer.getSwerveDrivetrain(), m_robotContainer.getShooter(), m_robotContainer.getHood(), ()->TargetSupplier.getTargetBasedOnAlliance(m_robotContainer.getSwerveDrivetrain())).hoodAngleSupplier.get());
-        SmartDashboard.putNumber("SOTMSupplier RPM", new SOTMSuppliers(m_robotContainer.getSwerveDrivetrain(), m_robotContainer.getShooter(), m_robotContainer.getHood(), ()->TargetSupplier.getTargetBasedOnAlliance(m_robotContainer.getSwerveDrivetrain())).shooterRPMSupplier.get());
+    SmartDashboard.putNumber("SOTMSupplier RPM", new SOTMSuppliers(m_robotContainer.getSwerveDrivetrain(), m_robotContainer.getShooter(), m_robotContainer.getHood(), ()->TargetSupplier.getTargetBasedOnAlliance(m_robotContainer.getSwerveDrivetrain())).shooterRPMSupplier.get());
 
 
 
@@ -201,7 +201,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     m_robotContainer.getShooter().setDefaultCommand(new ShooterDynamicVelocityCommand(m_robotContainer.getShooter(), ()->3000.0));
-    CommandScheduler.getInstance().schedule(new HoodHoldCommand(m_robotContainer.getHood(), ()->0));
+    m_robotContainer.getHood().setDefaultCommand(new HoodTrenchCommand(m_robotContainer.getHood(), m_robotContainer.getSwerveDrivetrain()));
     m_robotContainer.getSwerveDrivetrain().resetRotation(Rotation2d.fromDegrees(degreesOutOfAuto));
     m_robotContainer.getSwerveDrivetrain().resetGyro(degreesOutOfAuto);
     Pose2d endAutoPose = new Pose2d(

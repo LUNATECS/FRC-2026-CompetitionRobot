@@ -1,0 +1,43 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Trench Left P1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Trench Left SOTM Path"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Trench Left SOTM P2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Trench Left SOTM Path"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Trench Left SOTM P2"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}
