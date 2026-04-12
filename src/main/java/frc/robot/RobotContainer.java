@@ -486,7 +486,7 @@ public class RobotContainer {
       new InstantCommand(()->{
         hopperFeeder.setSpeed(0);
         shooterFeeder.setSpeed(0);
-      })
+      }, shooterFeeder)
     );
 
 
