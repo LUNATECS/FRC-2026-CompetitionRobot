@@ -22,6 +22,7 @@ import frc.robot.commands.ShooterDynamicVelocityCommand;
 import frc.robot.util.AllianceFliputil;
 import frc.robot.util.BallLaneDetector;
 import frc.robot.util.HubTracker;
+import frc.robot.util.SOTMCalc;
 import frc.robot.util.SOTMSuppliers;
 import frc.robot.util.TargetSupplier;
 import frc.robot.util.TrenchPositionSupplier;
@@ -87,6 +88,13 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putNumber("SOTMSupplier HOOD", new SOTMSuppliers(m_robotContainer.getSwerveDrivetrain(), m_robotContainer.getShooter(), m_robotContainer.getHood(), ()->TargetSupplier.getTargetBasedOnAlliance(m_robotContainer.getSwerveDrivetrain())).hoodAngleSupplier.get());
     SmartDashboard.putNumber("SOTMSupplier RPM", new SOTMSuppliers(m_robotContainer.getSwerveDrivetrain(), m_robotContainer.getShooter(), m_robotContainer.getHood(), ()->TargetSupplier.getTargetBasedOnAlliance(m_robotContainer.getSwerveDrivetrain())).shooterRPMSupplier.get());
+
+    SmartDashboard.putNumber("Interpolation Hood", SOTMCalc.getInstance().getParameters(
+      m_robotContainer.getSwerveDrivetrain().getPose().getTranslation()
+          .getDistance(TargetSupplier.getTargetBasedOnAlliance(m_robotContainer.getSwerveDrivetrain()))).hoodAngle());
+    SmartDashboard.putNumber("Interpolation RPM", SOTMCalc.getInstance().getParameters(
+      m_robotContainer.getSwerveDrivetrain().getPose().getTranslation()
+          .getDistance(TargetSupplier.getTargetBasedOnAlliance(m_robotContainer.getSwerveDrivetrain()))).rpm());
 
 
 
