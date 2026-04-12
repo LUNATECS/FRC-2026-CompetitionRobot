@@ -22,7 +22,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
@@ -43,16 +42,13 @@ import frc.robot.autos.theTRENCH.LeftTrenchSOTMAuto;
 import frc.robot.autos.theTRENCH.RightTrenchAuto;
 import frc.robot.autos.theTRENCH.RightTrenchSOTMAuto;
 import frc.robot.commands.AimAndShoot.FaceFieldPointCommand;
-import frc.robot.commands.HoodDynamicPointCommand;
 import frc.robot.commands.HoodHoldCommand;
-import frc.robot.commands.HoodTrenchCommand;
 import frc.robot.commands.HopperAgitateCommand;
 import frc.robot.commands.HopperPositionCommand;
 import frc.robot.commands.IntakeAgitateCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootOnTheMove.FullShootOnTheMoveSequence;
 import frc.robot.commands.ShootOnTheMove.SOTM_AUTOSequence;
-import frc.robot.commands.ShooterDynamicVelocityCommand;
 import frc.robot.commands.ShooterVelocityCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -63,7 +59,6 @@ import frc.robot.subsystems.IntakeSubSystem;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ShooterFeederSubSystem;
 import frc.robot.subsystems.ShooterSubSystem;
-import frc.robot.util.SOTMSuppliers;
 import frc.robot.util.TargetSupplier;
 import frc.robot.util.TrenchPositionSupplier;
 
@@ -260,7 +255,9 @@ public class RobotContainer {
             )
         );
       //hood.setDefaultCommand(new HoodTrenchCommand(hood, drivetrain));
-      shooter.setDefaultCommand(new ShooterVelocityCommand(shooter, ()->3000.0));
+      //if (DriverStation.isTeleop()) {
+      //  shooter.setDefaultCommand(new ShooterVelocityCommand(shooter, ()->3000.0));
+      //}
       //hood.setDefaultCommand(new HoodHoldCommand(hood, ()->1.5));
 
         // Idle while the robot is disabled. This ensures the configured
@@ -296,7 +293,7 @@ public class RobotContainer {
             drive,
             () -> driver.R2().getAsBoolean() 
             )
-        );//
+        ).onFalse(new HoodHoldCommand(hood, ()->0));//
         //.onFalse(new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position));
         //after command is over, then reset hoppery back to position)
 
