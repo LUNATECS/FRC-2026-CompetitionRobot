@@ -20,6 +20,8 @@ import frc.robot.autos.AutoFactory;
 import frc.robot.autos.DriveOverBumpCommand;
 import frc.robot.commands.AimAndShoot.FullShootAUTOSequence;
 import frc.robot.commands.ShootOnTheMove.SOTM_AUTOSequence;
+import frc.robot.commands.HoodDynamicPointCommand;
+import frc.robot.commands.HoodHoldCommand;
 import frc.robot.commands.HopperPositionCommand;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.HoodSubSystem;
@@ -70,32 +72,30 @@ public class LeftTrenchSOTMAuto {
             // }),
 
             new ParallelDeadlineGroup(AutoFactory.followPath("Trench Left P1"), 
-            new HopperPositionCommand(hopper, 0
-            //Constants.Hopper_SubSystem_Constants.Hopper_Out_Position
+            new HopperPositionCommand(hopper,
+            Constants.Hopper_SubSystem_Constants.Hopper_Out_Position
             )),
             new DriveOverBumpCommand(drivetrain, headingComing, driveRequest, directionComing),
-            new ParallelDeadlineGroup(
                 AutoFactory.followPath("Trench Left SOTM Path"),
-                new SOTM_AUTOSequence(drivetrain, shooter, hood, hopperFeeder, shooterFeeder, hopper, intake, led, ()->TargetSupplier.getTargetBasedOnAlliance(drivetrain), ()->true)
+            new ParallelDeadlineGroup(AutoFactory.followPath("Trench Left SOTM P2"),
+            new HoodHoldCommand(hood, ()->0)
             ),
-            AutoFactory.followPath("Trench Left SOTM P2"),
             new ParallelDeadlineGroup(
             new DriveOverBumpCommand(drivetrain, headingComing, driveRequest, directionComing)
             , new InstantCommand(()->{hopperFeeder.setSpeed(-0.2);})),
-             new ParallelDeadlineGroup(
                 AutoFactory.followPath("Trench Left SOTM Path"),
-                new SOTM_AUTOSequence(drivetrain, shooter, hood, hopperFeeder, shooterFeeder, hopper, intake, led, ()->TargetSupplier.getTargetBasedOnAlliance(drivetrain), ()->true)
-            ),
-            AutoFactory.followPath("Trench Left SOTM P2"),
-            new ParallelDeadlineGroup(
+            new ParallelDeadlineGroup(AutoFactory.followPath("Trench Left SOTM P2"),
+            new HoodHoldCommand(hood, ()->0)
+            ),           
+             new ParallelDeadlineGroup(
             new DriveOverBumpCommand(drivetrain, headingComing, driveRequest, directionComing)
             , new InstantCommand(()->{hopperFeeder.setSpeed(-0.2);})),
                     //()->7.0, intake)),
 
 
             //reset hopper after shooting
-            new ParallelCommandGroup(new HopperPositionCommand(hopper, 0
-            //Constants.Hopper_SubSystem_Constants.Hopper_Out_Position
+            new ParallelCommandGroup(new HopperPositionCommand(hopper, 
+            Constants.Hopper_SubSystem_Constants.Hopper_Out_Position
             ),
             new InstantCommand(()->{shooter.setSpeed(0);}),
             new InstantCommand(()->{shooterFeeder.setSpeed(0);}),

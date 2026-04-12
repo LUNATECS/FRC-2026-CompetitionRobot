@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
@@ -50,6 +51,7 @@ import frc.robot.commands.HopperPositionCommand;
 import frc.robot.commands.IntakeAgitateCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootOnTheMove.FullShootOnTheMoveSequence;
+import frc.robot.commands.ShootOnTheMove.SOTM_AUTOSequence;
 import frc.robot.commands.ShooterDynamicVelocityCommand;
 import frc.robot.commands.ShooterVelocityCommand;
 import frc.robot.generated.TunerConstants;
@@ -216,25 +218,13 @@ public class RobotContainer {
     NamedCommands.registerCommand("Start Feeding", 
       new ParallelCommandGroup( 
            // new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position),
-            new InstantCommand(()->{shooterFeeder.setRPMBasedOnShooter(shooter.getRPM());}),
-            new InstantCommand(()->{hopperFeeder.setSpeed(0.9);}))
+            new InstantCommand(()->{shooterFeeder.setRPMBasedOnShooter(shooter.getRPM());},shooterFeeder),
+            new InstantCommand(()->{hopperFeeder.setSpeed(0.9);},hopperFeeder))
     );
 
     NamedCommands.registerCommand(
         "SOTM",
-        new ParallelCommandGroup() {{
-            SOTMSuppliers suppliers = new SOTMSuppliers(
-                drivetrain,
-                shooter,
-                hood,
-                () -> TargetSupplier.getTargetBasedOnAlliance(drivetrain)
-            );
-
-            addCommands(
-                new ShooterDynamicVelocityCommand(shooter, suppliers.shooterRPMSupplier),
-                new HoodDynamicPointCommand(hood, suppliers.hoodAngleSupplier)
-            );
-        }}
+        new SOTM_AUTOSequence(drivetrain, shooter, hood, hopperFeeder, shooterFeeder, hopper, intake, led, ()->TargetSupplier.getTargetBasedOnAlliance(drivetrain), ()->true)
     );
 
     // Configure the trigger bindings
@@ -266,12 +256,10 @@ public class RobotContainer {
             drivetrain.applyRequest(() ->
                 drive.withVelocityX(-driver.getLeftY() * MaxSpeed * AllianceDriveValue) // Drive forward with negative Y (forward)
                     .withVelocityY(-driver.getLeftX() * MaxSpeed * AllianceDriveValue) // Drive left with negative X (left)
-                    .withRotationalRate(-driver.getRightX() * MaxAngularRate * 1.5) // Drive counterclockwise with negative X (left)
+                    .withRotationalRate(-driver.getRightX() * MaxAngularRate * 2.5) // Drive counterclockwise with negative X (left)
             )
         );
-
-      hood.setDefaultCommand(new HoodTrenchCommand(hood, drivetrain));
-
+      //hood.setDefaultCommand(new HoodTrenchCommand(hood, drivetrain));
       shooter.setDefaultCommand(new ShooterVelocityCommand(shooter, ()->3000.0));
       //hood.setDefaultCommand(new HoodHoldCommand(hood, ()->1.5));
 
@@ -595,5 +583,11 @@ public class RobotContainer {
   }
   public HopperFeederSubSystem getHopperFeeder(){
     return hopperFeeder;
+  }
+  public ShooterSubSystem getShooter(){
+    return shooter;
+  }
+  public HoodSubSystem getHood(){
+    return hood;
   }
 }

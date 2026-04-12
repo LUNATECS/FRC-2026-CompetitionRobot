@@ -56,7 +56,30 @@
       "name": "Point Towards Zone"
     }
   ],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "SOTM",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": 0.6479190101237293,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "SOTM"
+        }
+      }
+    },
+    {
+      "name": "Start Feeding",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Start Feeding"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 5.0,
     "maxAcceleration": 5.0,
@@ -67,7 +90,7 @@
   },
   "goalEndState": {
     "velocity": 1.0,
-    "rotation": 136.7788727796545
+    "rotation": 92.81555668421127
   },
   "reversed": false,
   "folder": "TRENCH Paths",

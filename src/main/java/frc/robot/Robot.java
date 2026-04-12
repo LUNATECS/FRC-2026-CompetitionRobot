@@ -20,6 +20,8 @@ import frc.robot.commands.HopperPositionCommand;
 import frc.robot.util.AllianceFliputil;
 import frc.robot.util.BallLaneDetector;
 import frc.robot.util.HubTracker;
+import frc.robot.util.SOTMSuppliers;
+import frc.robot.util.TargetSupplier;
 import frc.robot.util.TrenchPositionSupplier;
 
 /**
@@ -80,6 +82,10 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putNumber("Alliance Flip util Forward Backward", AllianceFliputil.getFlipBasedOnAllianceForGoingToCenter());
     SmartDashboard.putNumber("Alliance Flip util Going rotation", AllianceFliputil.getHeadingBasedOnAllianceForBumpRIGHT().getDegrees());
+
+    SmartDashboard.putNumber("SOTMSupplier HOOD", new SOTMSuppliers(m_robotContainer.getSwerveDrivetrain(), m_robotContainer.getShooter(), m_robotContainer.getHood(), ()->TargetSupplier.getTargetBasedOnAlliance(m_robotContainer.getSwerveDrivetrain())).hoodAngleSupplier.get());
+        SmartDashboard.putNumber("SOTMSupplier RPM", new SOTMSuppliers(m_robotContainer.getSwerveDrivetrain(), m_robotContainer.getShooter(), m_robotContainer.getHood(), ()->TargetSupplier.getTargetBasedOnAlliance(m_robotContainer.getSwerveDrivetrain())).shooterRPMSupplier.get());
+
 
 
     //SmartDashboard.putString("best sweep lane", BallLaneDetector.getBestLane("limelight-hopper"));

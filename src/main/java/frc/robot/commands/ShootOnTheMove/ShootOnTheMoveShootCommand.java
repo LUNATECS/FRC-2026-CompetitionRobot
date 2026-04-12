@@ -67,7 +67,7 @@ public class ShootOnTheMoveShootCommand extends Command {
 
     boolean jamDetected = hopperCurrent > currentThreshold ||
                         shooterFeederCurrent > currentThreshold;
-    boolean readyToShoot = shooter.atSpeed() && hoodCommand.atSetpoint();
+    boolean readyToShoot = shooter.atSpeed(); //&& hoodCommand.atSetpoint();
     boolean firing = fireButton.getAsBoolean() && readyToShoot;
 
     LEDState desiredState;
