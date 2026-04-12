@@ -47,6 +47,7 @@ import frc.robot.commands.HopperAgitateCommand;
 import frc.robot.commands.HopperPositionCommand;
 import frc.robot.commands.IntakeAgitateCommand;
 import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.KickerShootCommand;
 import frc.robot.commands.ShootOnTheMove.FullShootOnTheMoveSequence;
 import frc.robot.commands.ShootOnTheMove.SOTM_AUTOSequence;
 import frc.robot.commands.ShooterVelocityCommand;
@@ -424,7 +425,7 @@ public class RobotContainer {
     operator.square().onTrue(new InstantCommand(() -> {
     hopperFeeder.setSpeed(1);
     //intake.setSpeed(1);
-    shooterFeeder.setRPMBasedOnShooter(shooter.getRPM());
+    //shooterFeeder.setRPMBasedOnShooter(shooter.getRPM());
   }));
 
     operator.circle().onTrue(
@@ -536,7 +537,7 @@ public class RobotContainer {
 
   //shooter commands testing
   tester.cross().onTrue(new ShooterVelocityCommand(shooter, ()->SmartDashboard.getNumber("shooterRPMInput", 0)));
-
+  tester.cross().onTrue(new KickerShootCommand(shooterFeeder, shooter));
   tester.touchpad().onTrue(new HoodHoldCommand(hood,()->SmartDashboard.getNumber("hoodInputAngle", 0)));
   
 

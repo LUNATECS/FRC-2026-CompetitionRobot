@@ -104,12 +104,12 @@ public class ShootOnTheMoveShootCommand extends Command {
                       //hopperFeeder.setTopRollerSpeed(1);
                       //setting everything with rpm's now
                       intake.setRPM(2000);
-                      shooterFeeder.setRPMBasedOnShooter(shooter.getRPM());
+                      //shooterFeeder.setRPMBasedOnShooter(shooter.getRPM());
                   }
               } else {
                 hopperFeeder.setSpeed(0);
                 //hopperFeeder.setTopRollerSpeed(0);
-                shooterFeeder.setSpeed(0);
+                //shooterFeeder.setSpeed(0);
                 intake.setSpeed(0);
                 isReversing = false;
                 reverseTimer.stop();
