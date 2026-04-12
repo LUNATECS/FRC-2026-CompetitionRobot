@@ -52,7 +52,7 @@ public class ShootOnTheMoveShootCommand extends Command {
     this.intake = intake;
     this.led = led;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(shooterFeeder, hopperFeeder, led);
+    addRequirements(hopperFeeder, led);
   }
 
   // Called when the command is initially scheduled.
