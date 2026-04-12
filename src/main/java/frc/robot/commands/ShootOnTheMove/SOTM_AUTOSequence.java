@@ -13,6 +13,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.HoodDynamicPointCommand;
+import frc.robot.commands.KickerShootCommand;
 import frc.robot.commands.ShooterDynamicVelocityCommand;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.HoodSubSystem;
@@ -57,7 +58,8 @@ public class SOTM_AUTOSequence extends ParallelCommandGroup {
     addCommands(
       shooterCommand,
       hoodCommand,
-      new ShootOnTheMoveShootCommand(hopperFeeder, shooterFeeder, shooter, hoodCommand, intake, led, fireButton)
+      new ShootOnTheMoveShootCommand(hopperFeeder, shooterFeeder, shooter, hoodCommand, intake, led, fireButton),
+      new KickerShootCommand(shooterFeeder, shooter)
       //new HopperAgitateTrigerredCommand(hopper, fireButton, shooter, hoodCommand)
     );
   }

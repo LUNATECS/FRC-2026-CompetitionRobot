@@ -36,12 +36,12 @@
         "y": 7.4
       },
       "prevControl": {
-        "x": 4.332260191787063,
-        "y": 7.40378862688287
+        "x": 4.333315715989038,
+        "y": 7.45578269751329
       },
       "nextControl": {
-        "x": 7.024063165735316,
-        "y": 7.396840367352521
+        "x": 6.697838983989897,
+        "y": 7.365852309862773
       },
       "isLocked": false,
       "linkedName": null
@@ -52,12 +52,12 @@
         "y": 4.203114830198742
       },
       "prevControl": {
-        "x": 5.36358411009004,
-        "y": 4.966337549565645
+        "x": 5.419280404169163,
+        "y": 4.99559217225599
       },
       "nextControl": {
-        "x": 6.173417487250434,
-        "y": 3.5500664039894385
+        "x": 6.252182044055366,
+        "y": 3.261886618351641
       },
       "isLocked": false,
       "linkedName": null
@@ -68,12 +68,12 @@
         "y": 4.05825641025641
       },
       "prevControl": {
-        "x": 8.200639415599682,
-        "y": 3.571854226571542
+        "x": 7.984359123147863,
+        "y": 3.376427752173247
       },
       "nextControl": {
-        "x": 8.95158566151677,
-        "y": 5.001943982848553
+        "x": 9.117354900218823,
+        "y": 5.014167484989873
       },
       "isLocked": false,
       "linkedName": null
@@ -97,11 +97,11 @@
     {
       "anchor": {
         "x": 5.8,
-        "y": 5.5
+        "y": 5.55
       },
       "prevControl": {
         "x": 6.946619217081851,
-        "y": 6.3966429418742585
+        "y": 6.446642941874258
       },
       "nextControl": null,
       "isLocked": false,
@@ -139,6 +139,19 @@
     }
   ],
   "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 1.072933834546233,
+      "maxWaypointRelativePos": 2.120864993578768,
+      "constraints": {
+        "maxVelocity": 3.0,
+        "maxAcceleration": 4.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    },
     {
       "name": "Constraints Zone",
       "minWaypointRelativePos": 2.6797289704623273,

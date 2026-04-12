@@ -19,6 +19,7 @@ import frc.robot.Constants;
 import frc.robot.autos.AutoFactory;
 import frc.robot.autos.DriveOverBumpCommand;
 import frc.robot.commands.AimAndShoot.FullShootAUTOSequence;
+import frc.robot.commands.HoodHoldCommand;
 import frc.robot.commands.HopperPositionCommand;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.HoodSubSystem;
@@ -78,16 +79,17 @@ public class RightTrenchAuto {
                     //()-> 2600.0,
                      () -> SOTMCalc.getInstance().getParameters(
                        drivetrain.getPose().getTranslation()
-                           .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).rpm() - 100,
+                           .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).rpm(),
                           //hood angle supplier
                             () -> SOTMCalc.getInstance().getParameters(
                        drivetrain.getPose().getTranslation()
-                           .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).hoodAngle() - 2, intake)),
+                           .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).hoodAngle(), intake)),
                     //()->7.0, intake)),
             //drive back over for second cycle.
             //resets the hopper while driving back over bump
             new ParallelDeadlineGroup(AutoFactory.followPath("Trench Right P2"), 
             new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position),
+            new HoodHoldCommand(hood, ()->0),
             new InstantCommand(()->{shooter.setSpeed(0);}),
             new InstantCommand(()->{shooterFeeder.setSpeed(0);}),
             new InstantCommand(()->{hopperFeeder.setRPMHopper(0);})),
@@ -103,15 +105,16 @@ public class RightTrenchAuto {
                     //()-> 2600.0,
                      () -> SOTMCalc.getInstance().getParameters(
                        drivetrain.getPose().getTranslation()
-                           .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).rpm() - 100,
+                           .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).rpm(),
                           //hood angle supplier
                             () -> SOTMCalc.getInstance().getParameters(
                        drivetrain.getPose().getTranslation()
-                           .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).hoodAngle() - 2, intake)),
+                           .getDistance(TargetSupplier.getTargetBasedOnAlliance(drivetrain))).hoodAngle(), intake)),
             
                            //third sweep
              new ParallelDeadlineGroup(AutoFactory.followPath("Trench Right P2"), 
             new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position),
+            new HoodHoldCommand(hood, ()->0),
             new InstantCommand(()->{shooter.setSpeed(0);}),
             new InstantCommand(()->{shooterFeeder.setSpeed(0);}),
             new InstantCommand(()->{hopperFeeder.setRPMHopper(0);})),

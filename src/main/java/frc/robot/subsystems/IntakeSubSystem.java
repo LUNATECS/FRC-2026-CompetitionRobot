@@ -43,7 +43,7 @@ public class IntakeSubSystem extends SubsystemBase {
     slot0Configs.kD = 0;
 
     var currentLimits = new CurrentLimitsConfigs();
-    currentLimits.SupplyCurrentLimit = Constants.Current_Limit_Constants.CurrentLimit;   //increase this current limit if necessary (increased from 40)
+    currentLimits.SupplyCurrentLimit = Constants.Current_Limit_Constants.CurrentLimit + 20;   //increase this current limit if necessary (increased from 40)
     currentLimits.SupplyCurrentLimitEnable = true;
 
     intakeLeadRightMotor.getConfigurator().apply(leadMotorOutputConfigs);

@@ -199,7 +199,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("Drive Over Bump RIGHT", new DriveOverBumpCommand(drivetrain, Rotation2d.fromDegrees(-45), drive, 1.0));
     NamedCommands.registerCommand("Drive Over Bump LEFT", new DriveOverBumpCommand(drivetrain, Rotation2d.fromDegrees(-45), drive, -1.0));
 
-    NamedCommands.registerCommand("Start Intake Command", new IntakeCommand(intake, 6500));
+    NamedCommands.registerCommand("Start Intake Command", new IntakeCommand(intake, 7000));
 
     NamedCommands.registerCommand("StopIntakeCommand", new InstantCommand(()->{intake.setSpeed(0);}, intake));
 
@@ -561,6 +561,7 @@ public class RobotContainer {
   }
 
   public Rotation2d getAutoStartRotation(Alliance alliance) {
+    getAutonomousCommand();
     if (alliance == Alliance.Blue) {
         return (selectedSide == AutoSide.LEFT)
             ? Rotation2d.fromDegrees(-90)
