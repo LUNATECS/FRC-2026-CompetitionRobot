@@ -548,20 +548,29 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    updateSelectedSide();  
     // An example command will be run in autonomous
     Command selected = autoChooser.getSelected();
-    String name = autoChooser.getSelected().getName();
-    if (name.contains("Left")) {
-        selectedSide = AutoSide.LEFT;
-    } else if (name.contains("Right")) {
-        selectedSide = AutoSide.RIGHT;
-    }
     return selected;
 
   }
 
+  public void updateSelectedSide() {
+    
+    Command selected = autoChooser.getSelected();
+
+    if (selected != null) {
+        String name = selected.getName();
+
+        if (name.contains("Left")) {
+            selectedSide = AutoSide.LEFT;
+        } else if (name.contains("Right")) {
+            selectedSide = AutoSide.RIGHT;
+        }
+    }
+}
+
   public Rotation2d getAutoStartRotation(Alliance alliance) {
-    getAutonomousCommand();
     if (alliance == Alliance.Blue) {
         return (selectedSide == AutoSide.LEFT)
             ? Rotation2d.fromDegrees(-90)
