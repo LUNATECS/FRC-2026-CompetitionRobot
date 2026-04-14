@@ -187,10 +187,12 @@ public class RobotContainer {
 
         // Put the chooser on SmartDashboard
         SmartDashboard.putData("Autonomous Mode FINAL", autoChooser);
+        SmartDashboard.putString("Selected Auto Name", autoChooser.getSelected().getName());
     }
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    SmartDashboard.putBoolean("ALLOW AUTO POSE UPDATE", true);
     SmartDashboard.putNumber("shooterRPMInput", 0);
     SmartDashboard.putNumber("hoodInputAngle", 0);
     SmartDashboard.putData(virtualTargetField);
@@ -561,10 +563,11 @@ public class RobotContainer {
 
     if (selected != null) {
         String name = selected.getName();
+        SmartDashboard.putString("DEBUG Auto Name", name);
 
-        if (name.contains("Left")) {
+        if (name.toLowerCase().contains("left")) {
             selectedSide = AutoSide.LEFT;
-        } else if (name.contains("Right")) {
+        } else if (name.toLowerCase().contains("right")) {
             selectedSide = AutoSide.RIGHT;
         }
     }

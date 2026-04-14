@@ -149,6 +149,21 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
     m_robotContainer.updateSelectedSide(); 
+    boolean allowUpdate = SmartDashboard.getBoolean("ALLOW AUTO POSE UPDATE", true);
+
+    if (allowUpdate && DriverStation.getAlliance().isPresent()) {
+        var alliance = DriverStation.getAlliance().get();
+        Rotation2d startRotation = m_robotContainer.getAutoStartRotation(alliance);
+
+        m_robotContainer.getSwerveDrivetrain().resetPose(
+            new Pose2d(
+                m_robotContainer.getSwerveDrivetrain().getPose().getTranslation(),
+                startRotation
+            )
+        );
+
+        m_robotContainer.getSwerveDrivetrain().resetGyro(startRotation.getDegrees());
+    }
     if (DriverStation.getAlliance().get() == Alliance.Red){
       RobotContainer.AllianceDriveValue = 1;
     }
@@ -166,10 +181,11 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+    SmartDashboard.putBoolean("ALLOW AUTO POSE UPDATE", false);
     m_robotContainer.updateSelectedSide(); 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-        var alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
+        var alliance = DriverStation.getAlliance().get();
 
     Rotation2d autoRotation = m_robotContainer.getAutoStartRotation(alliance);
 
