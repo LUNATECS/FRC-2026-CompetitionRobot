@@ -477,7 +477,7 @@ public class RobotContainer {
     //TESTING SUBSYSTEMS WITH TESTER CONTROLLER
      
     tester.square().onTrue(new InstantCommand(() -> {
-    hopperFeeder.setSpeed(1);
+    hopperFeeder.setSpeed(1.5);
     //intake.setSpeed(1);
     shooterFeeder.setRPMBasedOnShooter(shooter.getRPM());
   }));
