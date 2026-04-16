@@ -182,8 +182,12 @@ public class RobotContainer {
         autoChooser.addOption("Right Trench Auto", RightTrenchAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
 
         //Trench SOTM Autos
-        autoChooser.addOption("Left Trench SOTM Auto", LeftTrenchSOTMAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake, led));
-        autoChooser.addOption("Right Trench SOTM Auto", RightTrenchSOTMAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake, led));
+        Command leftTrenchSOTMAuto = LeftTrenchSOTMAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake, led);
+        leftTrenchSOTMAuto.setName("Left Trench SOTM Auto");
+        autoChooser.addOption("Left Trench SOTM Auto", leftTrenchSOTMAuto);
+        Command rightTrenchSOTMAuto = RightTrenchSOTMAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake, led);
+        rightTrenchSOTMAuto.setName("Right Trench SOTM Auto");
+        autoChooser.addOption("Right Trench SOTM Auto", rightTrenchSOTMAuto);
 
         // Put the chooser on SmartDashboard
         SmartDashboard.putData("Autonomous Mode FINAL", autoChooser);
@@ -574,6 +578,7 @@ public class RobotContainer {
 }
 
   public Rotation2d getAutoStartRotation(Alliance alliance) {
+    updateSelectedSide();
     if (alliance == Alliance.Blue) {
         return (selectedSide == AutoSide.LEFT)
             ? Rotation2d.fromDegrees(-90)
