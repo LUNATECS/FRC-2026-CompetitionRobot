@@ -111,6 +111,8 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putBoolean("Under Trench?", TrenchPositionSupplier.getTrenchZone(m_robotContainer.getSwerveDrivetrain()));
 
+    SmartDashboard.putNumber("Auto Starting Rotation", m_robotContainer.getAutoStartRotation(DriverStation.getAlliance().get()).getDegrees());
+
 
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
