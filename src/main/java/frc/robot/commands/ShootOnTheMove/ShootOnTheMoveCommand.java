@@ -84,8 +84,8 @@ public void execute() {
 
     RobotContainer.virtualTargetField.setRobotPose(new Pose2d(virtualTarget, Rotation2d.fromDegrees(0))); 
 
-    double translationXClamping = MathUtil.clamp(translation.getX(), -1.75, 1.75);
-    double translationYClamping = MathUtil.clamp(translation.getY(), -1.75, 1.75);
+    double translationXClamping = MathUtil.clamp(translation.getX(), -1.0, 1.0);
+    double translationYClamping = MathUtil.clamp(translation.getY(), -1.0, 1.0);
 
     drivetrain.setControl(
             driveRequest.withVelocityX(translationXClamping)

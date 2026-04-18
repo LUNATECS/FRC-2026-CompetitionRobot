@@ -124,7 +124,7 @@ public class ShooterSubSystem extends SubsystemBase {
 
 
   public boolean atSpeed() {
-  return Math.abs(getRPM() - shooterTargetRPM) < 300
+  return Math.abs(getRPM() - shooterTargetRPM) < 800
        && shooterTargetRPM > 0;
   // TO ADD FOR LATER: Check Recovery time/Consistentcy
   }

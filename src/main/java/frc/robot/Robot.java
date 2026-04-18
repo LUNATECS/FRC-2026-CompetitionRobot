@@ -183,21 +183,21 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    SmartDashboard.putBoolean("ALLOW AUTO POSE UPDATE", false);
-    m_robotContainer.updateSelectedSide(); 
+    //SmartDashboard.putBoolean("ALLOW AUTO POSE UPDATE", false);
+    //m_robotContainer.updateSelectedSide(); 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-        var alliance = DriverStation.getAlliance().get();
+    //    var alliance = DriverStation.getAlliance().get();
 
-    Rotation2d autoRotation = m_robotContainer.getAutoStartRotation(alliance);
+    //Rotation2d autoRotation = m_robotContainer.getAutoStartRotation(alliance);
 
-    Pose2d startPose = new Pose2d(
-        m_robotContainer.getSwerveDrivetrain().getPose().getTranslation(),
-        autoRotation
-    );
+    //Pose2d startPose = new Pose2d(
+    //    m_robotContainer.getSwerveDrivetrain().getPose().getTranslation(),
+    //    autoRotation
+    //);
 
-    m_robotContainer.getSwerveDrivetrain().resetPose(startPose);
-    m_robotContainer.getSwerveDrivetrain().resetGyro(autoRotation.getDegrees());
+    //m_robotContainer.getSwerveDrivetrain().resetPose(startPose);
+    //m_robotContainer.getSwerveDrivetrain().resetGyro(autoRotation.getDegrees());
     
     /*var alliance = DriverStation.getAlliance();
 
@@ -238,7 +238,10 @@ public class Robot extends TimedRobot {
         m_robotContainer.getSwerveDrivetrain().getPose().getTranslation(),
         Rotation2d.fromDegrees(degreesOutOfAuto)
     );
+    
     m_robotContainer.getSwerveDrivetrain().resetPose(endAutoPose);
+    m_robotContainer.getSwerveDrivetrain().resetGyro(degreesOutOfAuto);
+
 
 
     //puts the hopper out at the beginning of teleop.

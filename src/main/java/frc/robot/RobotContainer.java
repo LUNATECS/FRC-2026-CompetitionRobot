@@ -137,8 +137,8 @@ public class RobotContainer {
         //autoChooser.addOption("Right Sweep Auto", RightSweepAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
 
         //double sweep auto
-        autoChooser.addOption("Double Left Sweep Auto", LeftTwoCycleSweepAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
-        autoChooser.addOption("Double Right Sweep Auto", RightTwoCycleSweepAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        //autoChooser.addOption("Double Left Sweep Auto", LeftTwoCycleSweepAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        //autoChooser.addOption("Double Right Sweep Auto", RightTwoCycleSweepAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
 
         //Nemesis bensalem final autos
         //autoChooser.addOption("Right Nemesis Auto", RightNemesisAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
@@ -166,20 +166,20 @@ public class RobotContainer {
         //practice object detection 
         //autoChooser.addOption("Fuel Loop Auto Obj.Detec", DriveToFuelLoopAuto.build(drivetrain, intake));
         //Dynamic Sweep Autos
-        autoChooser.addOption("Right Two Sweep Dynamic Auto", RightTwoSweepDynamicAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
-        autoChooser.addOption("Left Two Sweep Dynamic Auto", LeftTwoSweepDynamicAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        //autoChooser.addOption("Right Two Sweep Dynamic Auto", RightTwoSweepDynamicAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        //autoChooser.addOption("Left Two Sweep Dynamic Auto", LeftTwoSweepDynamicAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
 
         //Dynamic two cycle autos
-        autoChooser.addOption("Right Two Cycle Dynamic Auto", RightTwoCycleDynamicAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
-        autoChooser.addOption("Left Two Cycle Dynamic Auto", LeftTwoCycleDynamicAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        //autoChooser.addOption("Right Two Cycle Dynamic Auto", RightTwoCycleDynamicAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        //autoChooser.addOption("Left Two Cycle Dynamic Auto", LeftTwoCycleDynamicAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
 
         //limey citrus circuits type autos
-        autoChooser.addOption("Left Limey Auto", LeftLimeAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
-        autoChooser.addOption("Right Limey Auto", RightLimeAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        //autoChooser.addOption("Left Limey Auto", LeftLimeAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        //autoChooser.addOption("Right Limey Auto", RightLimeAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
 
         //TRENCH AUTOS
-        autoChooser.addOption("Left Trench Auto", LeftTrenchAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
-        autoChooser.addOption("Right Trench Auto", RightTrenchAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        //autoChooser.addOption("Left Trench Auto", LeftTrenchAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
+        //autoChooser.addOption("Right Trench Auto", RightTrenchAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake));
 
         //Trench SOTM Autos
         Command leftTrenchSOTMAuto = LeftTrenchSOTMAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake, led);

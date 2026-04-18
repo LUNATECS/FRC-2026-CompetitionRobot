@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 2.7612930011862398,
-        "y": 1.1031198102016606
+        "y": 0.8126215895610915
       },
       "prevControl": null,
       "nextControl": {
         "x": 2.2878884934756822,
-        "y": 0.8018623962040315
+        "y": 0.5113641755634625
       },
       "isLocked": false,
       "linkedName": "End SOTM Right"
@@ -17,15 +17,15 @@
     {
       "anchor": {
         "x": 3.2135852853290605,
-        "y": 0.6124645080566404
+        "y": 0.6
       },
       "prevControl": {
         "x": 2.9637266070185406,
-        "y": 0.6208693205423668
+        "y": 0.6084048124857263
       },
       "nextControl": {
         "x": 4.284244080214779,
-        "y": 0.576449403566154
+        "y": 0.5639848955095136
       },
       "isLocked": false,
       "linkedName": null
@@ -33,15 +33,15 @@
     {
       "anchor": {
         "x": 5.684267389368128,
-        "y": 0.6124645080566404
+        "y": 0.6
       },
       "prevControl": {
         "x": 4.338543598881475,
-        "y": 0.5528132572880496
+        "y": 0.5403487492314092
       },
       "nextControl": {
         "x": 6.707972630694653,
-        "y": 0.6578417975830492
+        "y": 0.6453772895264087
       },
       "isLocked": false,
       "linkedName": null
@@ -112,12 +112,12 @@
     },
     {
       "anchor": {
-        "x": 5.808122134173358,
-        "y": 2.575
+        "x": 5.808,
+        "y": 2.625
       },
       "prevControl": {
-        "x": 6.903582443653619,
-        "y": 3.2907176749703435
+        "x": 6.903460309480261,
+        "y": 3.3407176749703433
       },
       "nextControl": null,
       "isLocked": false,
@@ -160,8 +160,8 @@
       "minWaypointRelativePos": 2.6797289704623273,
       "maxWaypointRelativePos": 6.299212598425172,
       "constraints": {
-        "maxVelocity": 3.0,
-        "maxAcceleration": 4.0,
+        "maxVelocity": 3.25,
+        "maxAcceleration": 3.25,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -173,8 +173,8 @@
       "minWaypointRelativePos": 0,
       "maxWaypointRelativePos": 0.7233370010166958,
       "constraints": {
-        "maxVelocity": 3.0,
-        "maxAcceleration": 4.0,
+        "maxVelocity": 1.0,
+        "maxAcceleration": 1.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -186,7 +186,7 @@
       "minWaypointRelativePos": 6.834645669291385,
       "maxWaypointRelativePos": 7.0,
       "constraints": {
-        "maxVelocity": 4.0,
+        "maxVelocity": 2.0,
         "maxAcceleration": 2.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
