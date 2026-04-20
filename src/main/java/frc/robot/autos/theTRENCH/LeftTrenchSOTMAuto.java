@@ -4,11 +4,8 @@
 
 package frc.robot.autos.theTRENCH;
 
-import java.util.Set;
-
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -48,12 +45,11 @@ public class LeftTrenchSOTMAuto {
         IntakeSubSystem intake,
         LEDSubsystem led) 
         {
-        return Commands.defer(()->{
-        double directionGoing = AllianceFliputil.getFlipBasedOnAllianceForGoingToCenter();
-        double directionComing = AllianceFliputil.getFlipbasedOnAllianceForComingBack();
-        Rotation2d headingGoing = AllianceFliputil.getHeadingBasedOnAllianceForBumpLEFT();
-        Rotation2d headingComing = AllianceFliputil.getHeadingBasedOnAllianceForBumpLEFTHeadingBack();
-        Rotation2d headingGoingFLAT = AllianceFliputil.getHeadingForGoingFLAT();
+        // double directionGoing = AllianceFliputil.getFlipBasedOnAllianceForGoingToCenter();
+        // double directionComing = AllianceFliputil.getFlipbasedOnAllianceForComingBack();
+        // Rotation2d headingGoing = AllianceFliputil.getHeadingBasedOnAllianceForBumpLEFT();
+        // Rotation2d headingComing = AllianceFliputil.getHeadingBasedOnAllianceForBumpLEFTHeadingBack();
+        // Rotation2d headingGoingFLAT = AllianceFliputil.getHeadingForGoingFLAT();
 
         
             return Commands.sequence(
@@ -71,21 +67,34 @@ public class LeftTrenchSOTMAuto {
             new HopperPositionCommand(hopper,
             Constants.Hopper_SubSystem_Constants.Hopper_Out_Position
             )),
-            new DriveOverBumpCommand(drivetrain, headingComing, driveRequest, directionComing),
+            new DriveOverBumpCommand(
+                drivetrain, 
+                AllianceFliputil.getHeadingBasedOnAllianceForBumpLEFTHeadingBack(), 
+                driveRequest, 
+                AllianceFliputil.getFlipbasedOnAllianceForComingBack()),
             new ParallelDeadlineGroup(AutoFactory.followPath("Trench Left SOTM Path"),
             new SOTM_AUTOSequence(drivetrain, shooter, hood, hopperFeeder, shooterFeeder, hopper, intake, led, ()->TargetSupplier.getTargetBasedOnAlliance(drivetrain), ()->true)),
             new ParallelDeadlineGroup(AutoFactory.followPath("Trench Left SOTM P2"),
             new HoodHoldCommand(hood, ()->0)
             ),
             new ParallelDeadlineGroup(
-            new DriveOverBumpCommand(drivetrain, headingComing, driveRequest, directionComing)
+            new DriveOverBumpCommand(
+                drivetrain, 
+                AllianceFliputil.getHeadingBasedOnAllianceForBumpLEFTHeadingBack(), 
+                driveRequest, 
+                AllianceFliputil.getFlipbasedOnAllianceForComingBack())
             , new InstantCommand(()->{hopperFeeder.setSpeed(-0.2);})),
             new ParallelDeadlineGroup(AutoFactory.followPath("Trench Left SOTM Path"),
-            new SOTM_AUTOSequence(drivetrain, shooter, hood, hopperFeeder, shooterFeeder, hopper, intake, led, ()->TargetSupplier.getTargetBasedOnAlliance(drivetrain), ()->true)),            new ParallelDeadlineGroup(AutoFactory.followPath("Trench Left SOTM P2"),
+            new SOTM_AUTOSequence(drivetrain, shooter, hood, hopperFeeder, shooterFeeder, hopper, intake, led, ()->TargetSupplier.getTargetBasedOnAlliance(drivetrain), ()->true)),            
+            new ParallelDeadlineGroup(AutoFactory.followPath("Trench Left SOTM P2"),
             new HoodHoldCommand(hood, ()->0)
             ),           
              new ParallelDeadlineGroup(
-            new DriveOverBumpCommand(drivetrain, headingComing, driveRequest, directionComing)
+            new DriveOverBumpCommand(
+                drivetrain, 
+                AllianceFliputil.getHeadingBasedOnAllianceForBumpLEFTHeadingBack(), 
+                driveRequest, 
+                AllianceFliputil.getFlipbasedOnAllianceForComingBack())
             , new InstantCommand(()->{hopperFeeder.setSpeed(-0.2);})),
                     //()->7.0, intake)),
 
@@ -100,7 +109,5 @@ public class LeftTrenchSOTMAuto {
 
             
         );
-         }, Set.of(drivetrain));
-
     }
 }

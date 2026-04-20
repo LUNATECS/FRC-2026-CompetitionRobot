@@ -4,9 +4,7 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathfindingCommand;
-import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -18,18 +16,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.RobotContainer.AutoSide;
 import frc.robot.autos.AutoFactory;
-import frc.robot.autos.theTRENCH.LeftTrenchSOTMAuto;
 import frc.robot.commands.HoodTrenchCommand;
 import frc.robot.commands.HopperPositionCommand;
 import frc.robot.commands.ShooterDynamicVelocityCommand;
 import frc.robot.util.AllianceFliputil;
-import frc.robot.util.BallLaneDetector;
 import frc.robot.util.HubTracker;
-import frc.robot.util.SOTMCalc;
-import frc.robot.util.SOTMSuppliers;
-import frc.robot.util.TargetSupplier;
 import frc.robot.util.TrenchPositionSupplier;
 
 /**
@@ -44,6 +36,8 @@ public class Robot extends TimedRobot {
 
   private double degreesOutOfAuto;
   private boolean alreadySetForStartOfAuto;
+  private Command builtAuto = null;
+  private Command lastSelected = null;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -86,33 +80,12 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Time left in Current Shift", HubTracker.timeRemainingInCurrentShift().orElse(Seconds.zero()).in(Seconds));
     SmartDashboard.putString("Alliance", DriverStation.getAlliance().get().toString());
 
-        SmartDashboard.putNumber("Alliance drive value", RobotContainer.AllianceDriveValue);
+    SmartDashboard.putNumber("Alliance drive value", RobotContainer.AllianceDriveValue);
 
     SmartDashboard.putNumber("Alliance Flip util Forward Backward", AllianceFliputil.getFlipBasedOnAllianceForGoingToCenter());
     SmartDashboard.putNumber("Alliance Flip util Going rotation", AllianceFliputil.getHeadingBasedOnAllianceForBumpRIGHT().getDegrees());
 
-    SmartDashboard.putNumber("SOTMSupplier HOOD", new SOTMSuppliers(m_robotContainer.getSwerveDrivetrain(), m_robotContainer.getShooter(), m_robotContainer.getHood(), ()->TargetSupplier.getTargetBasedOnAlliance(m_robotContainer.getSwerveDrivetrain())).hoodAngleSupplier.get());
-    SmartDashboard.putNumber("SOTMSupplier RPM", new SOTMSuppliers(m_robotContainer.getSwerveDrivetrain(), m_robotContainer.getShooter(), m_robotContainer.getHood(), ()->TargetSupplier.getTargetBasedOnAlliance(m_robotContainer.getSwerveDrivetrain())).shooterRPMSupplier.get());
-
-    SmartDashboard.putNumber("Interpolation Hood", SOTMCalc.getInstance().getParameters(
-      m_robotContainer.getSwerveDrivetrain().getPose().getTranslation()
-          .getDistance(TargetSupplier.getTargetBasedOnAlliance(m_robotContainer.getSwerveDrivetrain()))).hoodAngle());
-    SmartDashboard.putNumber("Interpolation RPM", SOTMCalc.getInstance().getParameters(
-      m_robotContainer.getSwerveDrivetrain().getPose().getTranslation()
-          .getDistance(TargetSupplier.getTargetBasedOnAlliance(m_robotContainer.getSwerveDrivetrain()))).rpm());
-
-
-
-    //SmartDashboard.putString("best sweep lane", BallLaneDetector.getBestLane("limelight-hopper"));
-    //m_robotContainer.getSwerveDrivetrain().setHopperLimelightPipeline(1); // force neural
-    //ONLY UNCOMMENT THAT LINE WHEN WE ARE TESTING THE LIMELIGHT PIPELINE
-    String lane = BallLaneDetector.getBestLane("limelight-hopper");
-
-    // log final decision
-    SmartDashboard.putString("Best Sweep Lane", lane);
-
-    SmartDashboard.putBoolean("Controller HID Connected", m_robotContainer.getController().getHID().isConnected());
-    //m_robotContainer.getController().setRumble(GenericHID.RumbleType.kBothRumble, 1);
+  
 
     SmartDashboard.putBoolean("Under Trench?", TrenchPositionSupplier.getTrenchZone(m_robotContainer.getSwerveDrivetrain()));
 
@@ -172,7 +145,12 @@ public class Robot extends TimedRobot {
 
         m_robotContainer.getSwerveDrivetrain().resetGyro(startRotation.getDegrees());
 
+        Command selected = m_robotContainer.getAutoChooser().getSelected();
 
+        if (selected != lastSelected) {
+            lastSelected = selected;
+            builtAuto = selected; // if already concrete
+        }
         //adding lazy load of paths
         //Command selected = m_robotContainer.getAutoChooser().getSelected();
         //if (selected != m_autonomousCommand){
@@ -208,7 +186,7 @@ public class Robot extends TimedRobot {
     //m_robotContainer.updateSelectedSide(); 
     
     //CSA commented out this line
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     //    var alliance = DriverStation.getAlliance().get();
 
@@ -234,6 +212,7 @@ public class Robot extends TimedRobot {
     //CommandScheduler.getInstance().schedule(new HoodHoldCommand(new HoodSubSystem(), ()->1.5));
 
     // schedule the autonomous command (example)
+    m_autonomousCommand = builtAuto;
     if (m_autonomousCommand != null) {
       CommandScheduler.getInstance().schedule(m_autonomousCommand);
     }

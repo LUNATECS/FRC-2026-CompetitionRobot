@@ -4,11 +4,8 @@
 
 package frc.robot.autos.theTRENCH;
 
-import java.util.Set;
-
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -48,12 +45,11 @@ public class RightTrenchSOTMAuto {
         IntakeSubSystem intake,
         LEDSubsystem led) 
         {
-        return Commands.defer(()->{
-        double directionGoing = AllianceFliputil.getFlipBasedOnAllianceForGoingToCenter();
-        double directionComing = AllianceFliputil.getFlipbasedOnAllianceForComingBack();
-        Rotation2d headingGoing = AllianceFliputil.getHeadingBasedOnAllianceForBumpRIGHT();
-        Rotation2d headingComing = AllianceFliputil.getHeadingBasedOnAllianceForBumpRIGHTHeadingBack();
-        Rotation2d headingGoingFLAT = AllianceFliputil.getHeadingForGoingFLAT();
+        // double directionGoing = AllianceFliputil.getFlipBasedOnAllianceForGoingToCenter();
+        // double directionComing = AllianceFliputil.getFlipbasedOnAllianceForComingBack();
+        // Rotation2d headingGoing = AllianceFliputil.getHeadingBasedOnAllianceForBumpRIGHT();
+        // Rotation2d headingComing = AllianceFliputil.getHeadingBasedOnAllianceForBumpRIGHTHeadingBack();
+        // Rotation2d headingGoingFLAT = AllianceFliputil.getHeadingForGoingFLAT();
 
         
             return Commands.sequence(
@@ -69,7 +65,11 @@ public class RightTrenchSOTMAuto {
 
             new ParallelDeadlineGroup(AutoFactory.followPath("Trench Right P1"), 
             new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position)),
-            new DriveOverBumpCommand(drivetrain, headingComing, driveRequest, directionComing),
+            new DriveOverBumpCommand(
+                drivetrain, 
+                AllianceFliputil.getHeadingBasedOnAllianceForBumpRIGHTHeadingBack(), 
+                driveRequest, 
+                AllianceFliputil.getFlipbasedOnAllianceForComingBack()),
             new ParallelDeadlineGroup(
                 AutoFactory.followPath("Trench Right SOTM Path"),
                 new SOTM_AUTOSequence(drivetrain, shooter, hood, hopperFeeder, shooterFeeder, hopper, intake, led, ()->TargetSupplier.getTargetBasedOnAlliance(drivetrain), ()->true)
@@ -77,7 +77,11 @@ public class RightTrenchSOTMAuto {
             new ParallelDeadlineGroup(AutoFactory.followPath("Trench Right SOTM P2"),
             new HoodHoldCommand(hood, ()->0)),
             new ParallelDeadlineGroup(
-            new DriveOverBumpCommand(drivetrain, headingComing, driveRequest, directionComing)
+            new DriveOverBumpCommand(
+                drivetrain, 
+                AllianceFliputil.getHeadingBasedOnAllianceForBumpRIGHTHeadingBack(), 
+                driveRequest, 
+                AllianceFliputil.getFlipbasedOnAllianceForComingBack())
             , new InstantCommand(()->{hopperFeeder.setSpeed(-0.2);})),
             new ParallelDeadlineGroup(
                 AutoFactory.followPath("Trench Right SOTM Path"),
@@ -86,7 +90,10 @@ public class RightTrenchSOTMAuto {
             new ParallelDeadlineGroup(AutoFactory.followPath("Trench Right SOTM P2"),
             new HoodHoldCommand(hood, ()->0)),
             new ParallelDeadlineGroup(
-            new DriveOverBumpCommand(drivetrain, headingComing, driveRequest, directionComing)
+            new DriveOverBumpCommand(drivetrain, 
+                AllianceFliputil.getHeadingBasedOnAllianceForBumpRIGHTHeadingBack(), 
+                driveRequest, 
+                AllianceFliputil.getFlipbasedOnAllianceForComingBack())
             , new InstantCommand(()->{hopperFeeder.setSpeed(-0.2);})),
                     //()->7.0, intake)),
 
@@ -99,7 +106,5 @@ public class RightTrenchSOTMAuto {
 
             
         );
-         }, Set.of(drivetrain));
-
     }
 }
