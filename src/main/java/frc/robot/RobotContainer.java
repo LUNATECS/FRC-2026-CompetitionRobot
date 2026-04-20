@@ -7,11 +7,14 @@ package frc.robot;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.util.sendable.Sendable;
+
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
@@ -39,6 +42,7 @@ import frc.robot.autos.RightTwoSweepDynamicAuto;
 import frc.robot.autos.SloverOverTheBensalemBump;
 import frc.robot.autos.theTRENCH.LeftTrenchAuto;
 import frc.robot.autos.theTRENCH.LeftTrenchSOTMAuto;
+import frc.robot.autos.theTRENCH.LeftTrenchSOTMAutoFAST;
 import frc.robot.autos.theTRENCH.RightTrenchAuto;
 import frc.robot.autos.theTRENCH.RightTrenchSOTMAuto;
 import frc.robot.commands.AimAndShoot.FaceFieldPointCommand;
@@ -100,6 +104,8 @@ public class RobotContainer {
 
     //autochooser
     private final SendableChooser<Command> autoChooser = new SendableChooser<>();
+    //private final SendableChooser<Command> autoChooser;
+
 
     //private final SendableChooser<Command> autoChooser;
 
@@ -192,6 +198,7 @@ public class RobotContainer {
         // Put the chooser on SmartDashboard
         SmartDashboard.putData("Autonomous Mode FINAL", autoChooser);
         SmartDashboard.putString("Selected Auto Name", autoChooser.getSelected().getName());
+
     }
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -224,14 +231,20 @@ public class RobotContainer {
             new InstantCommand(()->{hopperFeeder.setSpeed(0.9);},hopperFeeder))
     );
 
+    NamedCommands.registerCommand("HopperOutCommand", new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position));
+
     NamedCommands.registerCommand(
         "SOTM",
         new SOTM_AUTOSequence(drivetrain, shooter, hood, hopperFeeder, shooterFeeder, hopper, intake, led, ()->TargetSupplier.getTargetBasedOnAlliance(drivetrain), ()->true)
     );
 
+    NamedCommands.registerCommand("RestOfLeftTrenchAuto", LeftTrenchSOTMAutoFAST.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake, led));
+
     // Configure the trigger bindings
     //autoChooser = AutoBuilder.buildAutoChooser();
     //SmartDashboard.putData("Auto Mode FInal", autoChooser);
+     //autoChooser = AutoBuilder.buildAutoChooser();
+     // SmartDashboard.putData("Autonomous Mode FINAL", autoChooser);
     configureBindings();
     //setupAutoChooser();
 
@@ -607,5 +620,8 @@ public class RobotContainer {
   }
   public HoodSubSystem getHood(){
     return hood;
+  }
+  public SendableChooser<Command> getAutoChooser(){
+    return autoChooser;
   }
 }

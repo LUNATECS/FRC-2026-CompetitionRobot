@@ -52,7 +52,7 @@ public class SOTMCalc {
         rpmMap.put(5.0, 4600.0);
         rpmMap.put(6.0, 4200.0);
         rpmMap.put(7.0, 4400.0);
-        rpmMap.put(15.0, 7700.0);
+        rpmMap.put(15.0, 8000.0);
 
         // Distance to hood angle
         hoodMap.put(1.5, 4.5);
@@ -66,7 +66,7 @@ public class SOTMCalc {
         hoodMap.put(5.0, 28.0);
         hoodMap.put(6.0, 35.0);
         hoodMap.put(7.0, 35.0);
-        hoodMap.put(15.0, 25.0);
+        hoodMap.put(15.0, 27.0);
 
 
         // distance to TOF

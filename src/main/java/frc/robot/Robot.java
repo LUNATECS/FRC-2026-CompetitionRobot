@@ -4,7 +4,9 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathfindingCommand;
+import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -16,6 +18,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.RobotContainer.AutoSide;
+import frc.robot.autos.AutoFactory;
+import frc.robot.autos.theTRENCH.LeftTrenchSOTMAuto;
 import frc.robot.commands.HoodTrenchCommand;
 import frc.robot.commands.HopperPositionCommand;
 import frc.robot.commands.ShooterDynamicVelocityCommand;
@@ -125,6 +130,7 @@ public class Robot extends TimedRobot {
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void robotInit() {
+    AutoFactory.preloadPaths();
     //Pathfinding.setPathfinder(new CustomPathfinder());
     //ONLY ENABLE THE CUSTOM PATHFINDER WHEN WE ARE READY TO, DON'T DO IT BEFORE DCMP
     //MAKE SURE TO CHANGE THIS ON STARTUP IF WE CHANGE THE AUTO STARTING ORIENTATION
@@ -165,7 +171,20 @@ public class Robot extends TimedRobot {
         );
 
         m_robotContainer.getSwerveDrivetrain().resetGyro(startRotation.getDegrees());
-    }
+
+
+        //adding lazy load of paths
+        //Command selected = m_robotContainer.getAutoChooser().getSelected();
+        //if (selected != m_autonomousCommand){
+        //  m_autonomousCommand = selected;
+        //  if(m_robotContainer.getSelectedSide() == AutoSide.LEFT){
+        //  }
+
+       // }
+        
+
+
+      }
     if (DriverStation.getAlliance().get() == Alliance.Red){
       RobotContainer.AllianceDriveValue = 1;
     }
@@ -178,6 +197,8 @@ public class Robot extends TimedRobot {
       //m_robotContainer.getSwerveDrivetrain().resetPose(new Pose2d(m_robotContainer.getSwerveDrivetrain().getPose().getX(), m_robotContainer.getSwerveDrivetrain().getPose().getY(), Rotation2d.k180deg));
     //}
     
+
+
   }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
@@ -185,6 +206,8 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     //SmartDashboard.putBoolean("ALLOW AUTO POSE UPDATE", false);
     //m_robotContainer.updateSelectedSide(); 
+    
+    //CSA commented out this line
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     //    var alliance = DriverStation.getAlliance().get();

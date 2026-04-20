@@ -4,6 +4,8 @@
 
 package frc.robot.autos;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Supplier;
 
 import com.ctre.phoenix6.swerve.SwerveRequest;
@@ -33,6 +35,41 @@ import frc.robot.subsystems.ShooterSubSystem;
 /** Add your docs here. */
 public class AutoFactory {
 
+    private static final Map<String, PathPlannerPath> pathCache = new HashMap<>();
+
+    private static PathPlannerPath getPath(String name) {
+        return pathCache.computeIfAbsent(name, n -> {
+            try {
+                System.out.println("Loading path: " + n);
+                return PathPlannerPath.fromPathFile(n);
+            } catch (Exception e) {  // catches ALL 3 exceptions
+                System.err.println("FAILED to load path: " + n);
+                e.printStackTrace();
+                return null;
+            }
+        });
+    }
+
+
+    public static void preloadPaths(String... names) {
+    for (String name : names) {
+        getPath(name); // this will cache it
+        }
+    }
+
+    public static void preloadPaths() {
+    preloadPaths(
+        "Trench Left P1",
+        "Trench Left SOTM Path",
+        "Trench Left SOTM P2",
+        "Trench Right P1",
+        "Trench Right SOTM Path",
+        "Trench Right SOTM P2"
+
+        // add ALL paths used in autos here
+    );
+}
+
 
 
     //EVERYTING HAS TO BE TUNED
@@ -56,7 +93,7 @@ public class AutoFactory {
 
         public static Command followPath(String name) {
             try {
-                PathPlannerPath path = PathPlannerPath.fromPathFile(name);
+                PathPlannerPath path = getPath(name);
                 return AutoBuilder.followPath(path);
             }
             catch(Exception e) {
