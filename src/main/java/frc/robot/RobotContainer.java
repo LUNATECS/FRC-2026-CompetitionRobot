@@ -120,7 +120,8 @@ public class RobotContainer {
 
     public enum AutoSide {
     LEFT,
-    RIGHT
+    RIGHT,
+    CENTER
     }
 
     private AutoSide selectedSide = AutoSide.LEFT; // default
@@ -587,19 +588,42 @@ public class RobotContainer {
         } else if (name.toLowerCase().contains("right")) {
             selectedSide = AutoSide.RIGHT;
         }
+        else if (name.toLowerCase().contains("center")){
+          selectedSide = AutoSide.CENTER;
+        }
     }
 }
 
   public Rotation2d getAutoStartRotation(Alliance alliance) {
     updateSelectedSide();
     if (alliance == Alliance.Blue) {
-        return (selectedSide == AutoSide.LEFT)
-            ? Rotation2d.fromDegrees(-90)
-            : Rotation2d.fromDegrees(90);
+      if(selectedSide == AutoSide.LEFT){
+        return Rotation2d.fromDegrees(-90);
+      }
+      else if (selectedSide == AutoSide.RIGHT){
+        return Rotation2d.fromDegrees(90);
+      }
+      else{
+        //center auto
+        return Rotation2d.fromDegrees(180);
+      }
+        // return (selectedSide == AutoSide.LEFT)
+        //     ? Rotation2d.fromDegrees(-90)
+        //     : Rotation2d.fromDegrees(90);
     } else { // Red
-        return (selectedSide == AutoSide.LEFT)
-            ? Rotation2d.fromDegrees(90)
-            : Rotation2d.fromDegrees(-90);
+      if(selectedSide == AutoSide.LEFT){
+        return Rotation2d.fromDegrees(90);
+      }
+      else if (selectedSide == AutoSide.RIGHT){
+        return Rotation2d.fromDegrees(-90);
+      }
+      else{
+        //center auto
+        return Rotation2d.fromDegrees(0);
+      }
+        // return (selectedSide == AutoSide.LEFT)
+        //     ? Rotation2d.fromDegrees(90)
+        //     : Rotation2d.fromDegrees(-90);
     }
 }
 
