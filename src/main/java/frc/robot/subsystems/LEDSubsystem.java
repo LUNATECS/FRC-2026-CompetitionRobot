@@ -5,6 +5,7 @@ import com.ctre.phoenix6.configs.CANdleConfiguration;
 import com.ctre.phoenix6.controls.ColorFlowAnimation;
 import com.ctre.phoenix6.controls.EmptyAnimation;
 import com.ctre.phoenix6.controls.FireAnimation;
+import com.ctre.phoenix6.controls.RgbFadeAnimation;
 import com.ctre.phoenix6.controls.SingleFadeAnimation;
 import com.ctre.phoenix6.controls.SolidColor;
 import com.ctre.phoenix6.controls.StrobeAnimation;
@@ -22,7 +23,7 @@ public class LEDSubsystem extends SubsystemBase {
   private final CANdle candle;
 
   private static final int START_IDX = 0;
-  private static final int END_IDX = 80;
+  private static final int END_IDX = 90;
   private LEDState currentState = LEDState.IDLE;
   private LEDState lastState = null;
 
@@ -98,7 +99,8 @@ public class LEDSubsystem extends SubsystemBase {
 
 
   public void setDefaultAnimation() {
-    setStrobe(neonGreen.Red, neonGreen.Green, neonGreen.Blue, 20);
+    //setStrobe(neonGreen.Red, neonGreen.Green, neonGreen.Blue, 20);
+    candle.setControl(new RgbFadeAnimation(START_IDX, END_IDX));
   }
 
   @Override

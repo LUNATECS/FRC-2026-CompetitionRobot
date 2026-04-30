@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.2878884934756822,
-        "y": 0.5113641755634625
+        "x": 2.560551282051284,
+        "y": 0.48839743589743534
       },
       "isLocked": false,
       "linkedName": "End SOTM Right"
@@ -116,8 +116,8 @@
         "y": 2.625
       },
       "prevControl": {
-        "x": 6.903460309480261,
-        "y": 3.3407176749703433
+        "x": 6.246692307692309,
+        "y": 2.65124358974359
       },
       "nextControl": null,
       "isLocked": false,

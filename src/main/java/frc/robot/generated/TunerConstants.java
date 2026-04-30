@@ -192,9 +192,10 @@ public class TunerConstants {
     private static final int kBackRightDriveMotorId = 7;
     private static final int kBackRightSteerMotorId = 8;
     private static final int kBackRightEncoderId = 23;
-    private static final Angle kBackRightEncoderOffset = Rotations.of(-0.484130859375);
+    private static final Angle kBackRightEncoderOffset = Rotations.of(-0.521130859375);
     private static final boolean kBackRightSteerMotorInverted = false;
     private static final boolean kBackRightEncoderInverted = false;
+    private static final boolean kBackRightDRIVEInverted = false;
 
     private static final Distance kBackRightXPos = Inches.of(-10.875);
     private static final Distance kBackRightYPos = Inches.of(-10.875);
@@ -218,7 +219,7 @@ public class TunerConstants {
     public static final SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> BackRight =
         ConstantCreator.createModuleConstants(
             kBackRightSteerMotorId, kBackRightDriveMotorId, kBackRightEncoderId, kBackRightEncoderOffset,
-            kBackRightXPos, kBackRightYPos, kInvertRightSide, kBackRightSteerMotorInverted, kBackRightEncoderInverted
+            kBackRightXPos, kBackRightYPos, kBackRightDRIVEInverted, kBackRightSteerMotorInverted, kBackRightEncoderInverted
         );
 
     /**
