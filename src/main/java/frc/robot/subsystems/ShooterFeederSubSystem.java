@@ -23,7 +23,7 @@ public class ShooterFeederSubSystem extends SubsystemBase {
   /** Creates a new ShooterFeederSubSystem. */
     private final VelocityVoltage motorVelocity = new VelocityVoltage(0).withEnableFOC(true);
 
-    private double feederMotortoShooterMotorRatio = 2.496;
+    private double feederMotortoShooterMotorRatio =  2.496; //1.05; //pre worlds ratio 2.496;
 
   public ShooterFeederSubSystem() {
     shooterFeeder = new TalonFX(Constants.Shooter_Feeder_SubSystem_Constants.CAN_ID_SHOOTER_FEEDER, Constants.CANBUS_Constants.CANIVORE);

@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.5,
-        "y": 5.375
+        "x": 3.3853262158956117,
+        "y": 5.428315539739027
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.7431685557012235,
-        "y": 5.316956451536964
+        "x": 3.628494771596835,
+        "y": 5.370271991275991
       },
       "isLocked": false,
       "linkedName": "Trench Left Zone Bump"

@@ -43,8 +43,10 @@ import frc.robot.autos.SloverOverTheBensalemBump;
 import frc.robot.autos.theTRENCH.LeftTrenchAuto;
 import frc.robot.autos.theTRENCH.LeftTrenchSOTMAuto;
 import frc.robot.autos.theTRENCH.LeftTrenchSOTMAutoFAST;
+import frc.robot.autos.theTRENCH.LeftTrenchSOTMAutoWIDE;
 import frc.robot.autos.theTRENCH.RightTrenchAuto;
 import frc.robot.autos.theTRENCH.RightTrenchSOTMAuto;
+import frc.robot.autos.theTRENCH.RightTrenchSOTMAutoWIDE;
 import frc.robot.commands.AimAndShoot.FaceFieldPointCommand;
 import frc.robot.commands.HoodHoldCommand;
 import frc.robot.commands.HopperAgitateCommand;
@@ -195,6 +197,13 @@ public class RobotContainer {
         Command rightTrenchSOTMAuto = RightTrenchSOTMAuto.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake, led);
         rightTrenchSOTMAuto.setName("Right Trench SOTM Auto");
         autoChooser.addOption("Right Trench SOTM Auto", rightTrenchSOTMAuto);
+
+        Command leftTrenchSOTMAutoWIDE = LeftTrenchSOTMAutoWIDE.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake, led);
+        leftTrenchSOTMAutoWIDE.setName("Left Trench SOTM Auto Wide");
+        autoChooser.addOption("Left Trench SOTM Auto Wide", leftTrenchSOTMAutoWIDE);
+        Command rightTrenchSOTMAutoWIDE = RightTrenchSOTMAutoWIDE.build(drivetrain, drive, hood, shooter, hopperFeeder, shooterFeeder, hopper, intake, led);
+        rightTrenchSOTMAutoWIDE.setName("Right Trench SOTM Auto Wide");
+        autoChooser.addOption("Right Trench SOTM Auto Wide", rightTrenchSOTMAutoWIDE);
 
         // Put the chooser on SmartDashboard
         SmartDashboard.putData("Autonomous Mode FINAL", autoChooser);

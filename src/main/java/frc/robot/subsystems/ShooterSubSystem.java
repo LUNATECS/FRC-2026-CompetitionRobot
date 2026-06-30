@@ -119,12 +119,12 @@ public class ShooterSubSystem extends SubsystemBase {
   }
 
   public void setVoltage (double volts){
-    shooterMotor1.setVoltage(volts);
+    shooterMotor1.setVoltage(volts);  
   }
 
 
   public boolean atSpeed() {
-  return Math.abs(getRPM() - shooterTargetRPM) < 1000
+  return Math.abs(getRPM() - shooterTargetRPM) < 200
        && shooterTargetRPM > 0;
   // TO ADD FOR LATER: Check Recovery time/Consistentcy
   }

@@ -163,10 +163,10 @@ public class Robot extends TimedRobot {
 
 
       }
-    if (DriverStation.getAlliance().get() == Alliance.Red){
+    if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Red){
       RobotContainer.AllianceDriveValue = 1;
     }
-    else if (DriverStation.getAlliance().get() == Alliance.Blue){
+    else if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Blue){
       RobotContainer.AllianceDriveValue = 1;
     }
     //SmartDashboard.putNumber("Alliance drive value", RobotContainer.AllianceDriveValue);
@@ -234,15 +234,15 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     m_robotContainer.getShooter().setDefaultCommand(new ShooterDynamicVelocityCommand(m_robotContainer.getShooter(), ()->3000.0));
     m_robotContainer.getHood().setDefaultCommand(new HoodTrenchCommand(m_robotContainer.getHood(), m_robotContainer.getSwerveDrivetrain()));
-    m_robotContainer.getSwerveDrivetrain().resetRotation(Rotation2d.fromDegrees(degreesOutOfAuto));
-    m_robotContainer.getSwerveDrivetrain().resetGyro(degreesOutOfAuto);
-    Pose2d endAutoPose = new Pose2d(
-        m_robotContainer.getSwerveDrivetrain().getPose().getTranslation(),
-        Rotation2d.fromDegrees(degreesOutOfAuto)
-    );
+    //m_robotContainer.getSwerveDrivetrain().resetRotation(Rotation2d.fromDegrees(degreesOutOfAuto));
+    //m_robotContainer.getSwerveDrivetrain().resetGyro(degreesOutOfAuto);
+    //Pose2d endAutoPose = new Pose2d(
+    //    m_robotContainer.getSwerveDrivetrain().getPose().getTranslation(),
+    //    Rotation2d.fromDegrees(degreesOutOfAuto)
+    //);
     
-    m_robotContainer.getSwerveDrivetrain().resetPose(endAutoPose);
-    m_robotContainer.getSwerveDrivetrain().resetGyro(degreesOutOfAuto);
+    //m_robotContainer.getSwerveDrivetrain().resetPose(endAutoPose);
+    //m_robotContainer.getSwerveDrivetrain().resetGyro(degreesOutOfAuto);
 
 
 

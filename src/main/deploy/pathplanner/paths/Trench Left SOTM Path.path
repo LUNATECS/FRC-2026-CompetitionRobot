@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.5,
-        "y": 5.375
+        "x": 3.3853262158956117,
+        "y": 5.428315539739027
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.331530249110321,
-        "y": 5.761850533807828
+        "x": 3.216856465005933,
+        "y": 5.815166073546855
       },
       "isLocked": false,
       "linkedName": "Trench Left Zone Bump"
@@ -33,7 +33,7 @@
     {
       "name": "Constraints Zone",
       "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 0.7919010123734627,
+      "maxWaypointRelativePos": 0.7581552305961695,
       "constraints": {
         "maxVelocity": 0.36,
         "maxAcceleration": 0.36,

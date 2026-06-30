@@ -86,7 +86,7 @@ public class LeftTrenchSOTMAuto {
             , new InstantCommand(()->{hopperFeeder.setSpeed(-0.2);})),
             new ParallelDeadlineGroup(AutoFactory.followPath("Trench Left SOTM Path"),
             new SOTM_AUTOSequence(drivetrain, shooter, hood, hopperFeeder, shooterFeeder, hopper, intake, led, ()->TargetSupplier.getTargetBasedOnAlliance(drivetrain), ()->true)),            
-            new ParallelDeadlineGroup(AutoFactory.followPath("Trench Left SOTM P2"),
+            new ParallelDeadlineGroup(AutoFactory.followPath("Trench Left SOTM P2 WIDE"),
             new HoodHoldCommand(hood, ()->0)
             ),           
              new ParallelDeadlineGroup(

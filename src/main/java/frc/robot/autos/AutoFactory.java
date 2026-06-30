@@ -64,8 +64,9 @@ public class AutoFactory {
         "Trench Left SOTM P2",
         "Trench Right P1",
         "Trench Right SOTM Path",
-        "Trench Right SOTM P2"
-
+        "Trench Right SOTM P2",
+        "Trench Right SOTM P2 WIDE",
+        "Trench Left SOTM P2 WIDE"
         // add ALL paths used in autos here
     );
 }

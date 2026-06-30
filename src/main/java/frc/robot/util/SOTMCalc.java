@@ -60,8 +60,8 @@ public class SOTMCalc {
         hoodMap.put(2.0, 12.0);
         hoodMap.put(2.5, 15.5);
         hoodMap.put(3.0, 21.0);
-        hoodMap.put(3.5, 22.5);
-        hoodMap.put(4.0, 24.0);
+        hoodMap.put(3.5, 23.25);
+        hoodMap.put(4.0, 25.0);
         hoodMap.put(4.5, 27.0);
         hoodMap.put(5.0, 28.0);
         hoodMap.put(6.0, 35.0);

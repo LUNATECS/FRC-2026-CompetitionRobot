@@ -87,7 +87,7 @@ public class RightTrenchSOTMAuto {
                 AutoFactory.followPath("Trench Right SOTM Path"),
                 new SOTM_AUTOSequence(drivetrain, shooter, hood, hopperFeeder, shooterFeeder, hopper, intake, led, ()->TargetSupplier.getTargetBasedOnAlliance(drivetrain), ()->true)
             ),
-            new ParallelDeadlineGroup(AutoFactory.followPath("Trench Right SOTM P2"),
+            new ParallelDeadlineGroup(AutoFactory.followPath("Trench Right SOTM P2 WIDE"),
             new HoodHoldCommand(hood, ()->0)),
             new ParallelDeadlineGroup(
             new DriveOverBumpCommand(drivetrain, 
