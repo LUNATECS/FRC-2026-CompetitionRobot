@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.858125741399763,
-        "y": 7.117508896797153
+        "x": 3.0,
+        "y": 7.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.490782051282053,
-        "y": 7.546717948717948
+        "x": 2.63265630988229,
+        "y": 7.429209051920795
       },
       "isLocked": false,
       "linkedName": "End SOTM Left"

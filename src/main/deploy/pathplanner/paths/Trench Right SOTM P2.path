@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.7612930011862398,
-        "y": 0.8126215895610915
+        "x": 3.0,
+        "y": 0.9
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.560551282051284,
-        "y": 0.48839743589743534
+        "x": 2.858006054348416,
+        "y": 0.6737467956542968
       },
       "isLocked": false,
       "linkedName": "End SOTM Right"
@@ -72,8 +72,8 @@
         "y": 4.372217948717949
       },
       "nextControl": {
-        "x": 8.427968952215332,
-        "y": 3.7746943013954946
+        "x": 8.427968952215336,
+        "y": 3.7746943013954923
       },
       "isLocked": false,
       "linkedName": null
@@ -126,7 +126,7 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.1749927417652029,
+      "waypointRelativePos": 1.0887624640213818,
       "rotationDegrees": 0.0
     },
     {
