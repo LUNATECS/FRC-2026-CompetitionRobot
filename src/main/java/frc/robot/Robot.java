@@ -232,7 +232,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    m_robotContainer.getShooter().setDefaultCommand(new ShooterDynamicVelocityCommand(m_robotContainer.getShooter(), ()->3000.0));
+
+    //CHANGE SPEED OF IDLE SHOOTER HERE
+    m_robotContainer.getShooter().setDefaultCommand(new ShooterDynamicVelocityCommand(m_robotContainer.getShooter(), ()->1000.0));
     m_robotContainer.getHood().setDefaultCommand(new HoodTrenchCommand(m_robotContainer.getHood(), m_robotContainer.getSwerveDrivetrain()));
     //m_robotContainer.getSwerveDrivetrain().resetRotation(Rotation2d.fromDegrees(degreesOutOfAuto));
     //m_robotContainer.getSwerveDrivetrain().resetGyro(degreesOutOfAuto);
