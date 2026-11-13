@@ -7,14 +7,11 @@ package frc.robot;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
-import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.util.sendable.Sendable;
-
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
@@ -30,21 +27,11 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autos.DriveOverBumpCommand;
-import frc.robot.autos.LeftLimeAuto;
-import frc.robot.autos.LeftTwoCycleDynamicAuto;
-import frc.robot.autos.LeftTwoCycleSweepAuto;
-import frc.robot.autos.LeftTwoSweepDynamicAuto;
 import frc.robot.autos.PracticeAuto;
-import frc.robot.autos.RightLimeAuto;
-import frc.robot.autos.RightTwoCycleDynamicAuto;
-import frc.robot.autos.RightTwoCycleSweepAuto;
-import frc.robot.autos.RightTwoSweepDynamicAuto;
 import frc.robot.autos.SloverOverTheBensalemBump;
-import frc.robot.autos.theTRENCH.LeftTrenchAuto;
 import frc.robot.autos.theTRENCH.LeftTrenchSOTMAuto;
 import frc.robot.autos.theTRENCH.LeftTrenchSOTMAutoFAST;
 import frc.robot.autos.theTRENCH.LeftTrenchSOTMAutoWIDE;
-import frc.robot.autos.theTRENCH.RightTrenchAuto;
 import frc.robot.autos.theTRENCH.RightTrenchSOTMAuto;
 import frc.robot.autos.theTRENCH.RightTrenchSOTMAutoWIDE;
 import frc.robot.commands.AimAndShoot.FaceFieldPointCommand;
@@ -91,6 +78,7 @@ public class RobotContainer {
   private final CommandPS5Controller driver = new CommandPS5Controller(Constants.DriverConstants.DRIVER_CONTROLLER_PORT);
   private final CommandPS5Controller operator = new CommandPS5Controller(1);
   private final CommandPS5Controller tester = new CommandPS5Controller(2);
+  private final CommandPS5Controller demoController = new CommandPS5Controller(3);
   //private final CommandPS5Controller tester = new CommandPS5Controller(2);
 
   private final double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -279,8 +267,8 @@ public class RobotContainer {
     drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(-driver.getLeftY() * MaxSpeed * AllianceDriveValue) // Drive forward with negative Y (forward)
-                    .withVelocityY(-driver.getLeftX() * MaxSpeed * AllianceDriveValue) // Drive left with negative X (left)
+                drive.withVelocityX(-driver.getLeftY() * MaxSpeed * AllianceDriveValue * 0.3) // Drive forward with negative Y (forward)
+                    .withVelocityY(-driver.getLeftX() * MaxSpeed * AllianceDriveValue * 0.3) // Drive left with negative X (left)
                     .withRotationalRate(-driver.getRightX() * MaxAngularRate * 2.5) // Drive counterclockwise with negative X (left)
             )
         );
@@ -392,6 +380,17 @@ public class RobotContainer {
         driver.triangle().onTrue(new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position));
 
         driver.cross().onTrue(new HopperAgitateCommand(hopper));
+
+        driver.square().onTrue(new InstantCommand(() -> {
+    hopperFeeder.setSpeed(1.5);
+    //intake.setSpeed(1);
+    shooterFeeder.setRPMBasedOnShooter(shooter.getRPM());
+  })).onFalse(
+      new InstantCommand(()->{
+        hopperFeeder.setSpeed(0);
+        shooterFeeder.setSpeed(0);
+      }, shooterFeeder)
+    );
 
 
         driver.circle().onTrue(
