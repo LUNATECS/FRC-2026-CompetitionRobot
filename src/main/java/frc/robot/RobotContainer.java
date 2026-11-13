@@ -329,11 +329,11 @@ public class RobotContainer {
         //.onFalse(new HopperPositionCommand(hopper, Constants.Hopper_SubSystem_Constants.Hopper_Out_Position));
         //after command is over, then reset hoppery back to position)
 
-        driver.L2().onTrue(new InstantCommand(()->{hopperFeeder.setSpeed(-0.5);}))
+        driver.R1().onTrue(new InstantCommand(()->{hopperFeeder.setSpeed(-0.5);}))
           .onFalse(new InstantCommand(()->{hopperFeeder.setSpeed(0);}));
 
 
-        driver.L2().onTrue(new InstantCommand(()->{shooterFeeder.setSpeed(-0.5);}))
+        driver.R1().onTrue(new InstantCommand(()->{shooterFeeder.setSpeed(-0.5);}))
           .onFalse(new InstantCommand(()->{shooterFeeder.setSpeed(0);}));
 
         /*driver.R1().whileTrue(
@@ -383,7 +383,7 @@ public class RobotContainer {
         // Reset the field-centric heading on left bumper press.
         //driver.circle().onTrue(drivetrain.runOnce(() -> drivetrain.resetRotation(Rotation2d.fromDegrees(0))));
 
-        driver.R1().onTrue(new IntakeCommand(intake, 6500))
+        driver.L2().onTrue(new IntakeCommand(intake, 6500))
           .onTrue(new InstantCommand(() -> led.setState(LEDSubsystem.LEDState.INTAKING)))
           .onFalse(new InstantCommand(()->{intake.setSpeed(0);
                   led.setState(LEDSubsystem.LEDState.IDLE);
